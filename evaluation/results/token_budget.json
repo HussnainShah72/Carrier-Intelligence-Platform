@@ -1,0 +1,66 @@
+{
+  "note": "Input prompt sizes for one live interview turn, measured by instrumenting LLMClient.stream during a real text-mode interview against the deterministic offline engine. No API calls were made. Token figures use the ~4 characters/token approximation.",
+  "chars_per_token_assumed": 4.0,
+  "turns": [
+    {
+      "turn": 1,
+      "system_chars": 5078,
+      "user_chars": 1136,
+      "total_chars": 6214,
+      "max_tokens_requested": 320
+    },
+    {
+      "turn": 2,
+      "system_chars": 5287,
+      "user_chars": 1655,
+      "total_chars": 6942,
+      "max_tokens_requested": 320
+    },
+    {
+      "turn": 3,
+      "system_chars": 5287,
+      "user_chars": 2048,
+      "total_chars": 7335,
+      "max_tokens_requested": 320
+    },
+    {
+      "turn": 4,
+      "system_chars": 5287,
+      "user_chars": 2300,
+      "total_chars": 7587,
+      "max_tokens_requested": 320
+    },
+    {
+      "turn": 5,
+      "system_chars": 5452,
+      "user_chars": 2390,
+      "total_chars": 7842,
+      "max_tokens_requested": 320
+    },
+    {
+      "turn": 6,
+      "system_chars": 5452,
+      "user_chars": 2705,
+      "total_chars": 8157,
+      "max_tokens_requested": 320
+    }
+  ],
+  "input_chars": {
+    "first_turn": 6214,
+    "last_turn": 8157,
+    "mean": 7346.2
+  },
+  "approx_input_tokens": {
+    "first_turn": 1554,
+    "last_turn": 2039,
+    "mean": 1837
+  },
+  "max_output_tokens_requested": 320,
+  "groq_free_tier_tokens_per_minute": 8000,
+  "groq_output_ceiling_tokens": 512,
+  "groq_output_ceiling_note": "Raised from the requested max_tokens because gpt-oss reasoning tokens count against it; see LLMClient.MIN_REASONING_MAX_TOKENS.",
+  "approx_total_tokens_per_turn": 2349,
+  "sustainable_turns_per_minute_on_groq_free_tier": 3.41,
+  "seconds_between_turns_to_stay_under_the_cap": 17.6,
+  "caveat": "This is a worst case: max_tokens is a ceiling, not a charge, so a turn whose reply is short costs less. It is the right figure for deciding whether a back-to-back run will be throttled, which it was: a measured 16-turn run on the free tier returned 21 HTTP 429s and the retry backoff stretched one first-token time to 18 seconds."
+}

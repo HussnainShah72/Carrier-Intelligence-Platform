@@ -1,0 +1,232 @@
+{
+  "generated_at": "2026-11-20T13:10:51+00:00",
+  "roles_evaluated": [
+    "Data Analyst"
+  ],
+  "runs": 1,
+  "environment": {
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:3b-instruct-q4_K_M",
+    "llm_degraded": false,
+    "stt_engine": "faster-whisper (CTranslate2)",
+    "stt_model": "base.en",
+    "tts_engine": "piper",
+    "python": "3.12.10",
+    "platform": "Windows 11",
+    "taxonomy": {
+      "canonical_skills": 175,
+      "alias_entries": 849,
+      "categories": 14,
+      "implication_edges": 60
+    }
+  },
+  "cv_parsing": {
+    "runs": 1,
+    "all_names_found": true,
+    "all_emails_found": true,
+    "mean_skills_extracted": 13,
+    "total_rejected_claims": 0,
+    "mean_parse_ms": 16859.7
+  },
+  "role_analysis": {
+    "mean_skills": 239,
+    "mean_postings": 24,
+    "mean_agreement_rate": 0.075,
+    "mean_llm_precision_vs_postings": 0.692,
+    "mean_elapsed_ms": 49365.3
+  },
+  "gap_analysis": {
+    "match_percent_by_role": {
+      "Data Analyst": 29.9
+    },
+    "mean_match_percent": 29.9,
+    "spread_match_percent": 0.0
+  },
+  "cv_improvement": {
+    "total_requested": 6,
+    "total_accepted": 5,
+    "total_blocked": 1,
+    "blocked_by_reason": {
+      "empty_rewrite": 1
+    }
+  },
+  "interview": {
+    "mean_questions": 5,
+    "total_follow_ups": 1,
+    "completed_naturally": 0,
+    "stages_reached_by_role": {
+      "Data Analyst": [
+        "background",
+        "introduction",
+        "technical"
+      ]
+    },
+    "difficulty_adaptations_by_role": {
+      "Data Analyst": [
+        "medium"
+      ]
+    }
+  },
+  "scoring": {
+    "overall_score_by_role": {
+      "Data Analyst": 3.0
+    },
+    "mean_overall_score": 3.0,
+    "spread_overall_score": 0.0
+  },
+  "performance": {
+    "total_turns": 5,
+    "total_interviews": 1,
+    "roles_tested": 1,
+    "aggregates": {
+      "stt_ms": {
+        "samples": 0,
+        "mean_ms": null,
+        "median_ms": null,
+        "p90_ms": null,
+        "min_ms": null,
+        "max_ms": null
+      },
+      "llm_ttft_ms": {
+        "samples": 5,
+        "mean_ms": 2422.3,
+        "median_ms": 1456.9,
+        "p90_ms": 6361.3,
+        "min_ms": 1219.8,
+        "max_ms": 6361.3
+      },
+      "llm_total_ms": {
+        "samples": 5,
+        "mean_ms": 3891.1,
+        "median_ms": 3061.6,
+        "p90_ms": 7957.7,
+        "min_ms": 2341.5,
+        "max_ms": 7957.7
+      },
+      "tts_first_ms": {
+        "samples": 0,
+        "mean_ms": null,
+        "median_ms": null,
+        "p90_ms": null,
+        "min_ms": null,
+        "max_ms": null
+      },
+      "tts_total_ms": {
+        "samples": 0,
+        "mean_ms": null,
+        "median_ms": null,
+        "p90_ms": null,
+        "min_ms": null,
+        "max_ms": null
+      },
+      "e2e_first_audio_ms": {
+        "samples": 0,
+        "mean_ms": null,
+        "median_ms": null,
+        "p90_ms": null,
+        "min_ms": null,
+        "max_ms": null
+      },
+      "total_ms": {
+        "samples": 5,
+        "mean_ms": 3917.8,
+        "median_ms": 3092.1,
+        "p90_ms": 7961.0,
+        "min_ms": 2376.8,
+        "max_ms": 7961.0
+      }
+    },
+    "by_role": [
+      {
+        "role_title": "Data Analyst",
+        "turns": 5,
+        "interviews": 1,
+        "aggregates": {
+          "stt_ms": {
+            "samples": 0,
+            "mean_ms": null,
+            "median_ms": null,
+            "p90_ms": null,
+            "min_ms": null,
+            "max_ms": null
+          },
+          "llm_ttft_ms": {
+            "samples": 5,
+            "mean_ms": 2422.3,
+            "median_ms": 1456.9,
+            "p90_ms": 6361.3,
+            "min_ms": 1219.8,
+            "max_ms": 6361.3
+          },
+          "llm_total_ms": {
+            "samples": 5,
+            "mean_ms": 3891.1,
+            "median_ms": 3061.6,
+            "p90_ms": 7957.7,
+            "min_ms": 2341.5,
+            "max_ms": 7957.7
+          },
+          "tts_first_ms": {
+            "samples": 0,
+            "mean_ms": null,
+            "median_ms": null,
+            "p90_ms": null,
+            "min_ms": null,
+            "max_ms": null
+          },
+          "tts_total_ms": {
+            "samples": 0,
+            "mean_ms": null,
+            "median_ms": null,
+            "p90_ms": null,
+            "min_ms": null,
+            "max_ms": null
+          },
+          "e2e_first_audio_ms": {
+            "samples": 0,
+            "mean_ms": null,
+            "median_ms": null,
+            "p90_ms": null,
+            "min_ms": null,
+            "max_ms": null
+          },
+          "total_ms": {
+            "samples": 5,
+            "mean_ms": 3917.8,
+            "median_ms": 3092.1,
+            "p90_ms": 7961.0,
+            "min_ms": 2376.8,
+            "max_ms": 7961.0
+          }
+        }
+      }
+    ],
+    "engines": {
+      "stt": [],
+      "tts": [],
+      "llm_providers": [
+        "ollama"
+      ],
+      "llm_models": [
+        "llama3.2:3b"
+      ]
+    },
+    "metric_labels": {
+      "stt_ms": "Speech recognition (local Whisper)",
+      "llm_ttft_ms": "End of speech to first text token",
+      "llm_total_ms": "LLM generation (total)",
+      "tts_first_ms": "First sentence synthesis (local Piper)",
+      "tts_total_ms": "Speech synthesis (total)",
+      "e2e_first_audio_ms": "End of speech to first audio (headline)",
+      "total_ms": "End of speech to turn complete"
+    },
+    "headline_metric": "e2e_first_audio_ms",
+    "meets_three_role_requirement": false,
+    "notes": [
+      "All timings are measured with time.perf_counter() inside the real request path.",
+      "The reference point for every end-to-end figure is the moment the candidate's audio reached the server, i.e. the end of their speech.",
+      "Speech recognition and speech synthesis both run locally on this machine; no audio is sent to any external service."
+    ]
+  },
+  "issues": {}
+}

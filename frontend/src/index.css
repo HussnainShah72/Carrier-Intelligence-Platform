@@ -1,0 +1,303 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   Design tokens
+   ---------------------------------------------------------------------------
+   One palette, defined once as RGB triplets so Tailwind can apply opacity to
+   every token. Light is the default; dark mode redefines the same names, so no
+   component ever needs a `dark:` variant for colour.
+   =========================================================================== */
+
+:root {
+  --surface: 255 255 255;
+  --surface-muted: 248 250 252;
+  --surface-raised: 255 255 255;
+
+  --ink: 15 23 42;
+  --ink-muted: 71 85 105;
+  --ink-faint: 148 163 184;
+
+  --line: 226 232 240;
+
+  --brand-50: 238 242 255;
+  --brand-100: 224 231 255;
+  --brand-300: 165 180 252;
+  --brand-500: 99 102 241;
+  --brand-600: 79 70 229;
+  --brand-700: 67 56 202;
+
+  --ok: 16 185 129;
+  --warn: 245 158 11;
+  --danger: 239 68 68;
+  --info: 14 165 233;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --surface: 9 12 20;
+  --surface-muted: 15 20 32;
+  --surface-raised: 20 26 40;
+
+  --ink: 241 245 249;
+  --ink-muted: 161 175 193;
+  --ink-faint: 110 124 143;
+
+  --line: 36 46 64;
+
+  --brand-50: 30 32 68;
+  --brand-100: 40 44 92;
+  --brand-300: 129 140 248;
+  --brand-500: 129 140 248;
+  --brand-600: 139 148 250;
+  --brand-700: 165 180 252;
+
+  --ok: 52 211 153;
+  --warn: 251 191 36;
+  --danger: 248 113 113;
+  --info: 56 189 248;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: rgb(var(--line));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-surface-muted text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink;
+    letter-spacing: -0.015em;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+    --tw-ring-offset-color: rgb(var(--surface-muted));
+  }
+
+  ::selection {
+    background: rgb(var(--brand-500) / 0.24);
+  }
+
+  /* Slim, theme-aware scrollbars. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--ink-faint) / 0.4) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--ink-faint) / 0.35);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--ink-faint) / 0.55);
+  }
+}
+
+@layer components {
+  /* ---------------------------------------------------------------- cards */
+  .card {
+    @apply rounded-2xl border border-line bg-surface-raised shadow-card;
+  }
+
+  .card-pad {
+    @apply p-5 sm:p-6;
+  }
+
+  .card-header {
+    @apply flex items-start justify-between gap-4 border-b border-line px-5 py-4 sm:px-6;
+  }
+
+  /* -------------------------------------------------------------- buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition-all duration-150 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 active:scale-[0.985];
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-surface text-ink hover:bg-surface-muted active:scale-[0.985];
+  }
+
+  .btn-ghost {
+    @apply btn text-ink-muted hover:bg-surface-muted hover:text-ink;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger text-white hover:brightness-95 active:scale-[0.985];
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  /* --------------------------------------------------------------- inputs */
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-ink-faint focus:border-brand-500 focus:outline-none
+           focus:ring-2 focus:ring-brand-500/25;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-muted;
+  }
+
+  /* --------------------------------------------------------------- badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .badge-neutral {
+    @apply badge bg-surface-muted text-ink-muted ring-1 ring-inset ring-line;
+  }
+
+  .badge-brand {
+    @apply badge bg-brand-500/12 text-brand-700 ring-1 ring-inset ring-brand-500/25;
+  }
+
+  .badge-ok {
+    @apply badge text-[rgb(var(--ok))] ring-1 ring-inset;
+    background-color: rgb(var(--ok) / 0.12);
+    --tw-ring-color: rgb(var(--ok) / 0.28);
+  }
+
+  .badge-warn {
+    @apply badge text-[rgb(var(--warn))] ring-1 ring-inset;
+    background-color: rgb(var(--warn) / 0.14);
+    --tw-ring-color: rgb(var(--warn) / 0.3);
+  }
+
+  .badge-danger {
+    @apply badge text-[rgb(var(--danger))] ring-1 ring-inset;
+    background-color: rgb(var(--danger) / 0.12);
+    --tw-ring-color: rgb(var(--danger) / 0.28);
+  }
+
+  .badge-info {
+    @apply badge text-[rgb(var(--info))] ring-1 ring-inset;
+    background-color: rgb(var(--info) / 0.12);
+    --tw-ring-color: rgb(var(--info) / 0.28);
+  }
+
+  /* ----------------------------------------------------------------- misc */
+  .divider {
+    @apply h-px w-full bg-line;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-surface-muted;
+  }
+
+  .skeleton::after {
+    @apply absolute inset-0 -translate-x-full animate-shimmer;
+    content: '';
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--ink) / 0.06),
+      transparent
+    );
+  }
+
+  .mono {
+    @apply font-mono text-[0.8125rem];
+  }
+
+  .link {
+    @apply font-medium text-brand-600 underline decoration-brand-300 decoration-2 underline-offset-2
+           hover:text-brand-700;
+  }
+
+  .scroll-area {
+    @apply overflow-y-auto overscroll-contain;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Respect a user's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Recharts: inherit our theme instead of its defaults. */
+.recharts-cartesian-axis-tick-value,
+.recharts-legend-item-text,
+.recharts-label {
+  fill: rgb(var(--ink-muted)) !important;
+  font-size: 11px;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgb(var(--line)) !important;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-polar-grid-angle line,
+.recharts-polar-grid-concentric-polygon {
+  stroke: rgb(var(--line)) !important;
+}
+
+.recharts-polar-angle-axis-tick-value {
+  fill: rgb(var(--ink-muted)) !important;
+  font-size: 10px;
+}

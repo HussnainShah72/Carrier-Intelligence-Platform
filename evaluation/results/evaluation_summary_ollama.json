@@ -1,0 +1,464 @@
+{
+  "generated_at": "2026-11-20T22:08:49+00:00",
+  "roles_evaluated": [
+    "Cybersecurity Analyst",
+    "Data Analyst",
+    "Software Engineer"
+  ],
+  "runs": 6,
+  "environment": {
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:3b-instruct-q4_K_M",
+    "llm_degraded": false,
+    "stt_engine": "faster-whisper (CTranslate2)",
+    "stt_model": "base.en",
+    "tts_engine": "piper",
+    "python": "3.12.10",
+    "platform": "Windows 11",
+    "taxonomy": {
+      "canonical_skills": 176,
+      "alias_entries": 851,
+      "categories": 14,
+      "implication_edges": 61
+    }
+  },
+  "cv_parsing": {
+    "runs": 6,
+    "all_names_found": true,
+    "all_emails_found": true,
+    "mean_skills_extracted": 18,
+    "total_rejected_claims": 0,
+    "mean_parse_ms": 14135.2
+  },
+  "role_analysis": {
+    "mean_skills": 60.8,
+    "mean_postings": 22.3,
+    "mean_agreement_rate": 0.269,
+    "mean_llm_precision_vs_postings": 0.799,
+    "mean_elapsed_ms": 35497.3
+  },
+  "gap_analysis": {
+    "match_percent_by_run": {
+      "Software Engineer (trial 1)": 44.9,
+      "Data Analyst (trial 1)": 41.3,
+      "Cybersecurity Analyst (trial 1)": 32.1,
+      "Software Engineer (trial 2)": 40.0,
+      "Data Analyst (trial 2)": 39.4,
+      "Cybersecurity Analyst (trial 2)": 30.1
+    },
+    "match_percent_by_role": {
+      "Software Engineer": {
+        "values": [
+          44.9,
+          40.0
+        ],
+        "trials": 2,
+        "mean": 42.45,
+        "spread": 4.9
+      },
+      "Data Analyst": {
+        "values": [
+          41.3,
+          39.4
+        ],
+        "trials": 2,
+        "mean": 40.35,
+        "spread": 1.9
+      },
+      "Cybersecurity Analyst": {
+        "values": [
+          32.1,
+          30.1
+        ],
+        "trials": 2,
+        "mean": 31.1,
+        "spread": 2.0
+      }
+    },
+    "mean_match_percent": 38.0,
+    "spread_match_percent": 14.8
+  },
+  "cv_improvement": {
+    "total_requested": 36,
+    "total_accepted": 33,
+    "total_blocked": 3,
+    "blocked_by_reason": {
+      "empty_rewrite": 3
+    }
+  },
+  "interview": {
+    "mean_questions": 15,
+    "total_follow_ups": 38,
+    "completed_naturally": 6,
+    "stages_reached_by_role": {
+      "Software Engineer": [
+        "background",
+        "behavioural",
+        "candidate_questions",
+        "closing",
+        "complete",
+        "introduction",
+        "technical"
+      ],
+      "Data Analyst": [
+        "background",
+        "behavioural",
+        "candidate_questions",
+        "closing",
+        "complete",
+        "introduction",
+        "technical"
+      ],
+      "Cybersecurity Analyst": [
+        "background",
+        "behavioural",
+        "candidate_questions",
+        "closing",
+        "complete",
+        "introduction",
+        "technical"
+      ]
+    },
+    "difficulty_adaptations_by_role": {
+      "Software Engineer": [
+        "easy",
+        "hard",
+        "medium"
+      ],
+      "Data Analyst": [
+        "easy",
+        "medium"
+      ],
+      "Cybersecurity Analyst": [
+        "easy",
+        "medium"
+      ]
+    }
+  },
+  "scoring": {
+    "overall_score_by_run": {
+      "Software Engineer (trial 1)": 3.8,
+      "Data Analyst (trial 1)": 3.0,
+      "Cybersecurity Analyst (trial 1)": 3.2,
+      "Software Engineer (trial 2)": 3.6,
+      "Data Analyst (trial 2)": 3.0,
+      "Cybersecurity Analyst (trial 2)": 3.2
+    },
+    "overall_score_by_role": {
+      "Software Engineer": {
+        "values": [
+          3.8,
+          3.6
+        ],
+        "trials": 2,
+        "mean": 3.7,
+        "spread": 0.2
+      },
+      "Data Analyst": {
+        "values": [
+          3.0,
+          3.0
+        ],
+        "trials": 2,
+        "mean": 3.0,
+        "spread": 0.0
+      },
+      "Cybersecurity Analyst": {
+        "values": [
+          3.2,
+          3.2
+        ],
+        "trials": 2,
+        "mean": 3.2,
+        "spread": 0.0
+      }
+    },
+    "mean_overall_score": 3.3,
+    "spread_overall_score": 0.8
+  },
+  "performance": {
+    "total_turns": 90,
+    "total_interviews": 6,
+    "roles_tested": 3,
+    "aggregates": {
+      "stt_ms": {
+        "samples": 84,
+        "mean_ms": 845.8,
+        "median_ms": 766.1,
+        "p90_ms": 1244.6,
+        "min_ms": 523.3,
+        "max_ms": 1757.0
+      },
+      "llm_ttft_ms": {
+        "samples": 90,
+        "mean_ms": 1897.3,
+        "median_ms": 1854.6,
+        "p90_ms": 2489.5,
+        "min_ms": 600.9,
+        "max_ms": 3009.2
+      },
+      "llm_total_ms": {
+        "samples": 90,
+        "mean_ms": 2359.2,
+        "median_ms": 2299.3,
+        "p90_ms": 2830.7,
+        "min_ms": 1567.4,
+        "max_ms": 3998.3
+      },
+      "tts_first_ms": {
+        "samples": 90,
+        "mean_ms": 168.9,
+        "median_ms": 163.0,
+        "p90_ms": 224.9,
+        "min_ms": 67.0,
+        "max_ms": 428.9
+      },
+      "tts_total_ms": {
+        "samples": 90,
+        "mean_ms": 676.0,
+        "median_ms": 656.9,
+        "p90_ms": 919.8,
+        "min_ms": 300.3,
+        "max_ms": 1317.9
+      },
+      "e2e_first_audio_ms": {
+        "samples": 90,
+        "mean_ms": 2381.8,
+        "median_ms": 2351.4,
+        "p90_ms": 3007.8,
+        "min_ms": 861.4,
+        "max_ms": 3817.6
+      },
+      "total_ms": {
+        "samples": 90,
+        "mean_ms": 3346.6,
+        "median_ms": 3276.5,
+        "p90_ms": 4054.7,
+        "min_ms": 1744.0,
+        "max_ms": 4833.0
+      }
+    },
+    "by_role": [
+      {
+        "role_title": "Cybersecurity Analyst",
+        "turns": 30,
+        "interviews": 2,
+        "aggregates": {
+          "stt_ms": {
+            "samples": 28,
+            "mean_ms": 873.5,
+            "median_ms": 787.7,
+            "p90_ms": 1174.0,
+            "min_ms": 578.4,
+            "max_ms": 1348.1
+          },
+          "llm_ttft_ms": {
+            "samples": 30,
+            "mean_ms": 1942.1,
+            "median_ms": 1931.7,
+            "p90_ms": 2489.5,
+            "min_ms": 600.9,
+            "max_ms": 3009.2
+          },
+          "llm_total_ms": {
+            "samples": 30,
+            "mean_ms": 2427.1,
+            "median_ms": 2439.1,
+            "p90_ms": 2799.4,
+            "min_ms": 1567.4,
+            "max_ms": 3282.9
+          },
+          "tts_first_ms": {
+            "samples": 30,
+            "mean_ms": 183.7,
+            "median_ms": 182.0,
+            "p90_ms": 239.5,
+            "min_ms": 72.7,
+            "max_ms": 428.9
+          },
+          "tts_total_ms": {
+            "samples": 30,
+            "mean_ms": 715.8,
+            "median_ms": 687.3,
+            "p90_ms": 891.7,
+            "min_ms": 453.6,
+            "max_ms": 1317.9
+          },
+          "e2e_first_audio_ms": {
+            "samples": 30,
+            "mean_ms": 2458.9,
+            "median_ms": 2413.4,
+            "p90_ms": 3138.8,
+            "min_ms": 861.4,
+            "max_ms": 3817.6
+          },
+          "total_ms": {
+            "samples": 30,
+            "mean_ms": 3423.2,
+            "median_ms": 3452.2,
+            "p90_ms": 3896.4,
+            "min_ms": 1744.0,
+            "max_ms": 4833.0
+          }
+        }
+      },
+      {
+        "role_title": "Data Analyst",
+        "turns": 30,
+        "interviews": 2,
+        "aggregates": {
+          "stt_ms": {
+            "samples": 28,
+            "mean_ms": 722.3,
+            "median_ms": 730.9,
+            "p90_ms": 802.8,
+            "min_ms": 546.3,
+            "max_ms": 848.3
+          },
+          "llm_ttft_ms": {
+            "samples": 30,
+            "mean_ms": 1683.0,
+            "median_ms": 1743.9,
+            "p90_ms": 1909.5,
+            "min_ms": 609.6,
+            "max_ms": 2143.0
+          },
+          "llm_total_ms": {
+            "samples": 30,
+            "mean_ms": 2280.0,
+            "median_ms": 2217.0,
+            "p90_ms": 2815.6,
+            "min_ms": 1576.7,
+            "max_ms": 3023.4
+          },
+          "tts_first_ms": {
+            "samples": 30,
+            "mean_ms": 153.9,
+            "median_ms": 147.8,
+            "p90_ms": 203.9,
+            "min_ms": 86.9,
+            "max_ms": 262.0
+          },
+          "tts_total_ms": {
+            "samples": 30,
+            "mean_ms": 679.5,
+            "median_ms": 663.0,
+            "p90_ms": 949.5,
+            "min_ms": 300.3,
+            "max_ms": 1308.7
+          },
+          "e2e_first_audio_ms": {
+            "samples": 30,
+            "mean_ms": 2120.1,
+            "median_ms": 2179.9,
+            "p90_ms": 2370.0,
+            "min_ms": 883.2,
+            "max_ms": 2770.4
+          },
+          "total_ms": {
+            "samples": 30,
+            "mean_ms": 3148.1,
+            "median_ms": 3033.0,
+            "p90_ms": 3814.2,
+            "min_ms": 2423.1,
+            "max_ms": 4007.4
+          }
+        }
+      },
+      {
+        "role_title": "Software Engineer",
+        "turns": 30,
+        "interviews": 2,
+        "aggregates": {
+          "stt_ms": {
+            "samples": 28,
+            "mean_ms": 941.7,
+            "median_ms": 806.8,
+            "p90_ms": 1339.8,
+            "min_ms": 523.3,
+            "max_ms": 1757.0
+          },
+          "llm_ttft_ms": {
+            "samples": 30,
+            "mean_ms": 2066.9,
+            "median_ms": 2060.5,
+            "p90_ms": 2625.7,
+            "min_ms": 635.2,
+            "max_ms": 2984.1
+          },
+          "llm_total_ms": {
+            "samples": 30,
+            "mean_ms": 2370.6,
+            "median_ms": 2172.6,
+            "p90_ms": 2994.0,
+            "min_ms": 1633.1,
+            "max_ms": 3998.3
+          },
+          "tts_first_ms": {
+            "samples": 30,
+            "mean_ms": 169.0,
+            "median_ms": 165.4,
+            "p90_ms": 224.9,
+            "min_ms": 67.0,
+            "max_ms": 299.4
+          },
+          "tts_total_ms": {
+            "samples": 30,
+            "mean_ms": 632.8,
+            "median_ms": 590.5,
+            "p90_ms": 910.2,
+            "min_ms": 371.4,
+            "max_ms": 948.2
+          },
+          "e2e_first_audio_ms": {
+            "samples": 30,
+            "mean_ms": 2566.5,
+            "median_ms": 2603.1,
+            "p90_ms": 3068.7,
+            "min_ms": 949.4,
+            "max_ms": 3458.3
+          },
+          "total_ms": {
+            "samples": 30,
+            "mean_ms": 3468.6,
+            "median_ms": 3445.4,
+            "p90_ms": 4235.0,
+            "min_ms": 2076.0,
+            "max_ms": 4540.1
+          }
+        }
+      }
+    ],
+    "engines": {
+      "stt": [
+        "faster-whisper:base.en"
+      ],
+      "tts": [
+        "piper"
+      ],
+      "llm_providers": [
+        "ollama"
+      ],
+      "llm_models": [
+        "llama3.2:3b"
+      ]
+    },
+    "metric_labels": {
+      "stt_ms": "Speech recognition (local Whisper)",
+      "llm_ttft_ms": "End of speech to first text token",
+      "llm_total_ms": "LLM generation (total)",
+      "tts_first_ms": "First sentence synthesis (local Piper)",
+      "tts_total_ms": "Speech synthesis (total)",
+      "e2e_first_audio_ms": "End of speech to first audio (headline)",
+      "total_ms": "End of speech to turn complete"
+    },
+    "headline_metric": "e2e_first_audio_ms",
+    "meets_three_role_requirement": true,
+    "notes": [
+      "All timings are measured with time.perf_counter() inside the real request path.",
+      "The reference point for every end-to-end figure is the moment the candidate's audio reached the server, i.e. the end of their speech.",
+      "Speech recognition and speech synthesis both run locally on this machine; no audio is sent to any external service."
+    ]
+  },
+  "issues": {}
+}

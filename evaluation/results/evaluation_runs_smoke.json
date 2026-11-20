@@ -1,0 +1,1312 @@
+[
+  {
+    "role": "Data Analyst",
+    "trial": 1,
+    "mode": "text",
+    "started_at": "2026-11-20T13:08:13+00:00",
+    "issues": [],
+    "cv": {
+      "filename": "synthetic_data_analyst.docx",
+      "cv_id": "cv_82baa62331e049da",
+      "extractor": "python-docx",
+      "parse_mode": "hybrid (heuristic + LLM, grounded)",
+      "char_count": 1969,
+      "parse_ms": 16859.7,
+      "name_found": true,
+      "email_found": true,
+      "phone_found": true,
+      "skills_extracted": 13,
+      "experience_entries": 2,
+      "education_entries": 2,
+      "project_entries": 3,
+      "certification_entries": 1,
+      "bullets_found": 11,
+      "rejected_claims": [],
+      "warnings": [],
+      "skills": [
+        "Data Cleaning",
+        "Data Visualisation",
+        "Excel",
+        "Google Analytics",
+        "Pandas",
+        "Power BI",
+        "Statistics",
+        "Tableau",
+        "SQL",
+        "scikit-learn",
+        "Presentation Skills",
+        "Stakeholder Management",
+        "Python"
+      ]
+    },
+    "role_analysis": {
+      "role_analysis_id": "role_b8766a0f19ed4330",
+      "elapsed_ms": 49365.3,
+      "normalised_title": "Data Analyst",
+      "stats": {
+        "total_skills": 239,
+        "from_scraping_only": 213,
+        "from_llm_only": 8,
+        "confirmed_by_both": 18,
+        "essential_skills": 19,
+        "postings_collected": 24,
+        "sources_attempted": 6,
+        "sources_succeeded": 6,
+        "agreement_rate": 0.075
+      },
+      "timings": {
+        "scrape_ms": 3611.1,
+        "posting_skill_extraction_ms": 35580.5,
+        "llm_role_ms": 8697.0,
+        "fusion_ms": 1376.6
+      },
+      "warnings": [],
+      "source_reports": [
+        {
+          "name": "Arbeitnow",
+          "source_type": "json_api",
+          "url": "https://www.arbeitnow.com/api/job-board-api",
+          "status": "ok",
+          "postings_found": 300,
+          "postings_kept": 10,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data from Arbeitnow (arbeitnow.com) public job-board API."
+        },
+        {
+          "name": "Jobicy",
+          "source_type": "json_api",
+          "url": "https://jobicy.com/api/v2/remote-jobs?count=40&tag=Data+Analyst",
+          "status": "ok",
+          "postings_found": 40,
+          "postings_kept": 10,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data from Jobicy (jobicy.com) public API v2."
+        },
+        {
+          "name": "Remote OK",
+          "source_type": "json_api",
+          "url": "https://remoteok.com/api",
+          "status": "ok",
+          "postings_found": 98,
+          "postings_kept": 4,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data from Remote OK (remoteok.com). Remote OK requires attribution and a link back."
+        },
+        {
+          "name": "WeWorkRemotely (RSS)",
+          "source_type": "rss_scrape",
+          "url": "https://weworkremotely.com/categories/remote-programming-jobs.rss",
+          "status": "ok",
+          "postings_found": 25,
+          "postings_kept": 2,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data scraped from WeWorkRemotely public RSS feeds (weworkremotely.com)."
+        },
+        {
+          "name": "Himalayas",
+          "source_type": "json_api",
+          "url": "https://himalayas.app/jobs/api?limit=50",
+          "status": "ok",
+          "postings_found": 20,
+          "postings_kept": 1,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data from Himalayas (himalayas.app) public jobs API."
+        },
+        {
+          "name": "Remotive",
+          "source_type": "json_api",
+          "url": "https://remotive.com/api/remote-jobs?search=Data+Analyst&limit=40",
+          "status": "ok",
+          "postings_found": 15,
+          "postings_kept": 1,
+          "elapsed_ms": 0.0,
+          "from_cache": true,
+          "detail": "served from cache (33 min old)",
+          "attribution": "Job data from Remotive (remotive.com) public API."
+        }
+      ],
+      "llm_degraded": false,
+      "top_skills": [
+        {
+          "canonical": "Python",
+          "provenance": "both",
+          "importance": 0.927,
+          "posting_count": 13,
+          "essential": true
+        },
+        {
+          "canonical": "SQL",
+          "provenance": "both",
+          "importance": 0.89,
+          "posting_count": 12,
+          "essential": true
+        },
+        {
+          "canonical": "Data Visualisation",
+          "provenance": "both",
+          "importance": 0.703,
+          "posting_count": 11,
+          "essential": true
+        },
+        {
+          "canonical": "Excel",
+          "provenance": "both",
+          "importance": 0.633,
+          "posting_count": 5,
+          "essential": true
+        },
+        {
+          "canonical": "Data Warehousing",
+          "provenance": "both",
+          "importance": 0.608,
+          "posting_count": 8,
+          "essential": true
+        },
+        {
+          "canonical": "Tableau",
+          "provenance": "both",
+          "importance": 0.597,
+          "posting_count": 4,
+          "essential": true
+        },
+        {
+          "canonical": "AWS",
+          "provenance": "both",
+          "importance": 0.56,
+          "posting_count": 3,
+          "essential": true
+        },
+        {
+          "canonical": "Communication",
+          "provenance": "both",
+          "importance": 0.557,
+          "posting_count": 7,
+          "essential": true
+        },
+        {
+          "canonical": "Git",
+          "provenance": "both",
+          "importance": 0.523,
+          "posting_count": 2,
+          "essential": true
+        },
+        {
+          "canonical": "Data Structures & Algorithms",
+          "provenance": "both",
+          "importance": 0.52,
+          "posting_count": 6,
+          "essential": true
+        },
+        {
+          "canonical": "Big Data",
+          "provenance": "both",
+          "importance": 0.492,
+          "posting_count": 4,
+          "essential": false
+        },
+        {
+          "canonical": "Statistics",
+          "provenance": "both",
+          "importance": 0.485,
+          "posting_count": 3,
+          "essential": false
+        },
+        {
+          "canonical": "Power BI",
+          "provenance": "both",
+          "importance": 0.425,
+          "posting_count": 3,
+          "essential": false
+        },
+        {
+          "canonical": "CI/CD",
+          "provenance": "both",
+          "importance": 0.418,
+          "posting_count": 2,
+          "essential": false
+        },
+        {
+          "canonical": "Kubernetes",
+          "provenance": "both",
+          "importance": 0.418,
+          "posting_count": 2,
+          "essential": false
+        },
+        {
+          "canonical": "Presentation Skills",
+          "provenance": "both",
+          "importance": 0.41,
+          "posting_count": 3,
+          "essential": false
+        },
+        {
+          "canonical": "Docker",
+          "provenance": "both",
+          "importance": 0.382,
+          "posting_count": 1,
+          "essential": false
+        },
+        {
+          "canonical": "Project Management",
+          "provenance": "both",
+          "importance": 0.373,
+          "posting_count": 2,
+          "essential": false
+        },
+        {
+          "canonical": "Data Cleaning",
+          "provenance": "scraped",
+          "importance": 0.367,
+          "posting_count": 10,
+          "essential": true
+        },
+        {
+          "canonical": "ETL",
+          "provenance": "scraped",
+          "importance": 0.367,
+          "posting_count": 10,
+          "essential": true
+        },
+        {
+          "canonical": "Linux",
+          "provenance": "llm",
+          "importance": 0.3,
+          "posting_count": 0,
+          "essential": true
+        },
+        {
+          "canonical": "Teamwork",
+          "provenance": "scraped",
+          "importance": 0.293,
+          "posting_count": 8,
+          "essential": true
+        },
+        {
+          "canonical": "Data Science & Analytics",
+          "provenance": "scraped",
+          "importance": 0.257,
+          "posting_count": 7,
+          "essential": true
+        },
+        {
+          "canonical": "Documentation",
+          "provenance": "scraped",
+          "importance": 0.257,
+          "posting_count": 7,
+          "essential": true
+        },
+        {
+          "canonical": "Machine Learning",
+          "provenance": "scraped",
+          "importance": 0.257,
+          "posting_count": 7,
+          "essential": true
+        }
+      ],
+      "merge_evidence": [
+        {
+          "canonical": "Data Visualisation",
+          "variants": [
+            "Data Visualisation",
+            "Data visualization"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 11
+        },
+        {
+          "canonical": "Data Warehousing",
+          "variants": [
+            "BigQuery",
+            "Data Warehousing"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 8
+        },
+        {
+          "canonical": "Git",
+          "variants": [
+            "Git",
+            "GitLab"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 2
+        },
+        {
+          "canonical": "Data Structures & Algorithms",
+          "variants": [
+            "Data Structures & Algorithms",
+            "Problem Solving",
+            "Problem-solving"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 6
+        },
+        {
+          "canonical": "Big Data",
+          "variants": [
+            "Big Data",
+            "Hadoop",
+            "Hive",
+            "Spark"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 4
+        },
+        {
+          "canonical": "Statistics",
+          "variants": [
+            "Bachelor's degree in Statistics, Mathematics, or related field",
+            "Statistics"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 3
+        },
+        {
+          "canonical": "CI/CD",
+          "variants": [
+            "CI/CD",
+            "Jenkins"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 2
+        },
+        {
+          "canonical": "Presentation Skills",
+          "variants": [
+            "Data storytelling",
+            "Presentation Skills"
+          ],
+          "stage": "fuzzy-token",
+          "provenance": "both",
+          "posting_count": 3
+        },
+        {
+          "canonical": "Project Management",
+          "variants": [
+            "Project Management",
+            "Project management"
+          ],
+          "stage": "exact-alias",
+          "provenance": "both",
+          "posting_count": 2
+        }
+      ]
+    },
+    "source_comparison": {
+      "scraped_only": 213,
+      "llm_only": 8,
+      "both": 18,
+      "llm_precision_vs_postings": 0.692,
+      "posting_recall_by_llm": 0.078,
+      "note": "Precision here means: of the skills the LLM proposed, what share were also asked for by at least one collected advert. It is a measure of agreement, not of ground truth -- the adverts are themselves an incomplete sample."
+    },
+    "gap_analysis": {
+      "gap_analysis_id": "gap_c489b9fe7d574b4d",
+      "elapsed_ms": 19501.1,
+      "match_percent": 29.9,
+      "unweighted_percent": 9.8,
+      "readiness_label": "Covers few of the collected requirements",
+      "stats": {
+        "requirements_total": 239,
+        "matched": 11,
+        "partial": 25,
+        "missing": 203,
+        "extra_skills": 0
+      },
+      "essential_coverage": {
+        "total": 19,
+        "matched": 6,
+        "partial": 3,
+        "missing": 10,
+        "coverage_percent": 39.5,
+        "missing_names": [
+          "Data Warehousing",
+          "AWS",
+          "Communication",
+          "Git",
+          "ETL",
+          "Linux",
+          "Teamwork",
+          "Documentation",
+          "Business Intelligence",
+          "Financial Analysis"
+        ]
+      },
+      "category_breakdown": [
+        {
+          "category": "Other",
+          "matched": 1,
+          "partial": 14,
+          "missing": 120,
+          "total": 135,
+          "coverage_percent": 8.9
+        },
+        {
+          "category": "Data & Analytics",
+          "matched": 7,
+          "partial": 4,
+          "missing": 4,
+          "total": 15,
+          "coverage_percent": 67.9
+        },
+        {
+          "category": "Programming Language",
+          "matched": 1,
+          "partial": 1,
+          "missing": 11,
+          "total": 13,
+          "coverage_percent": 60.0
+        },
+        {
+          "category": "Frontend",
+          "matched": 0,
+          "partial": 0,
+          "missing": 11,
+          "total": 11,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Security",
+          "matched": 0,
+          "partial": 0,
+          "missing": 11,
+          "total": 11,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Professional Skill",
+          "matched": 1,
+          "partial": 1,
+          "missing": 7,
+          "total": 9,
+          "coverage_percent": 20.3
+        },
+        {
+          "category": "Cloud & DevOps",
+          "matched": 0,
+          "partial": 0,
+          "missing": 7,
+          "total": 7,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Domain Knowledge",
+          "matched": 0,
+          "partial": 0,
+          "missing": 7,
+          "total": 7,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Engineering Practice",
+          "matched": 0,
+          "partial": 1,
+          "missing": 6,
+          "total": 7,
+          "coverage_percent": 22.7
+        },
+        {
+          "category": "Backend",
+          "matched": 0,
+          "partial": 0,
+          "missing": 6,
+          "total": 6,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Database",
+          "matched": 1,
+          "partial": 2,
+          "missing": 3,
+          "total": 6,
+          "coverage_percent": 68.5
+        },
+        {
+          "category": "Qualification",
+          "matched": 0,
+          "partial": 0,
+          "missing": 5,
+          "total": 5,
+          "coverage_percent": 0.0
+        },
+        {
+          "category": "Machine Learning & AI",
+          "matched": 0,
+          "partial": 1,
+          "missing": 3,
+          "total": 4,
+          "coverage_percent": 26.9
+        },
+        {
+          "category": "Tooling",
+          "matched": 0,
+          "partial": 1,
+          "missing": 2,
+          "total": 3,
+          "coverage_percent": 11.8
+        }
+      ],
+      "top_missing": [
+        {
+          "skill": "Data Warehousing",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "AWS",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Communication",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Git",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "ETL",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Linux",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Teamwork",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Documentation",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Business Intelligence",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Financial Analysis",
+          "severity": "critical",
+          "essential": true
+        },
+        {
+          "skill": "Data Structures & Algorithms",
+          "severity": "high",
+          "essential": true
+        },
+        {
+          "skill": "CI/CD",
+          "severity": "high",
+          "essential": false
+        }
+      ],
+      "advice_available": true,
+      "advice_filtered_out": 2
+    },
+    "cv_improvement": {
+      "elapsed_ms": 11418.8,
+      "summary": {
+        "requested": 6,
+        "returned_by_model": 5,
+        "accepted": 5,
+        "rejected": 1,
+        "already_strong": 0,
+        "with_warnings": 0,
+        "rejections_by_reason": {
+          "empty_rewrite": 1
+        },
+        "elapsed_ms": 11403.0,
+        "engine": "ollama/qwen2.5:3b-instruct-q4_K_M",
+        "degraded": false,
+        "guard_note": "Every rewrite is checked automatically for invented metrics, invented technologies and escalated scope. Rewrites that fail are rejected and the original is kept."
+      },
+      "examples": [
+        {
+          "original": "Responsible for the weekly sales performance pack circulated to regional managers",
+          "improved": "Generated weekly sales performance reports for regional managers",
+          "accepted": true,
+          "rejection_reason": "",
+          "changes": [
+            "removed filler",
+            "stronger verb"
+          ],
+          "flags": []
+        },
+        {
+          "original": "Presented monthly findings to the commercial team",
+          "improved": "Presented monthly findings to the commercial team",
+          "accepted": true,
+          "rejection_reason": "",
+          "changes": [
+            "removed filler"
+          ],
+          "flags": []
+        },
+        {
+          "original": "Worked on cleaning and consolidating point-of-sale data from 48 stores",
+          "improved": "Cleaned and consolidated POS data from 48 stores",
+          "accepted": true,
+          "rejection_reason": "",
+          "changes": [
+            "removed filler",
+            "stronger verb"
+          ],
+          "flags": []
+        },
+        {
+          "original": "Maintained the existing Excel reporting suite",
+          "improved": "Maintained the existing Excel reporting suite",
+          "accepted": true,
+          "rejection_reason": "",
+          "changes": [
+            "removed filler"
+          ],
+          "flags": []
+        },
+        {
+          "original": "Documented the definitions behind each KPI so the numbers could be reproduced",
+          "improved": "Documented KPI definitions for reproducibility",
+          "accepted": true,
+          "rejection_reason": "",
+          "changes": [
+            "removed filler"
+          ],
+          "flags": []
+        },
+        {
+          "original": "tree, and wrote up which features mattered most.",
+          "improved": "tree, and wrote up which features mattered most.",
+          "accepted": false,
+          "rejection_reason": "empty_rewrite",
+          "changes": [],
+          "flags": []
+        }
+      ]
+    },
+    "interview": {
+      "interview_id": "int_eb6efd038af9408f",
+      "plan": {
+        "interviewer_name": "Emily Chen",
+        "interviewer_persona": "Senior HR Manager, empathetic, seeks to understand candidate's background and potential fit",
+        "opening_line_hint": "Introduce yourself and the purpose of the interview, emphasizing the candidate's fit for the role",
+        "cv_talking_points": [
+          "Daniel's experience in data analysis at Mercia Retail Group",
+          "His project on customer churn analysis using Python, Pandas, and scikit-learn",
+          "Daniel's proficiency in SQL and Excel, and his skills in data visualization tools",
+          "His experience with Tableau and Power BI in creating public dashboards",
+          "Daniel's educational background in BSc Economics and BSc, which complements the role"
+        ],
+        "technical_topics": [
+          "Data analysis techniques and project management",
+          "Data visualization tools and communication skills",
+          "SQL and data querying",
+          "Data storytelling and communication",
+          "Data governance and compliance initiatives",
+          "Project management and team collaboration",
+          "Data structures and algorithms",
+          "Data cleaning and preprocessing"
+        ],
+        "behavioural_themes": [
+          "Problem-solving and analytical thinking",
+          "Teamwork and cross-functional collaboration",
+          "Adaptability and continuous learning",
+          "Customer focus and stakeholder management",
+          "Attention to detail and data accuracy"
+        ],
+        "gap_probes": [
+          "Daniel's experience with big data and CI/CD",
+          "His proficiency with Jira and Microsoft Azure",
+          "Daniel's experience with Jupyter and MongoDB"
+        ],
+        "red_flag_checks": [
+          "Daniel's experience with Big Data and CI/CD",
+          "His proficiency with Jira and Microsoft Azure",
+          "Daniel's experience with Jupyter and MongoDB"
+        ],
+        "rubric_version": "1.0",
+        "llm_degraded": false,
+        "candidate_context": "Name: Daniel Okonkwo\nSummary (their own words): Data analyst with 2 years of experience turning operational data into reporting that non-technical managers actually use. Strong SQL and Excel, currently building out Python skills.\nStated years of experience: 2.0\nSkills on CV (13): Data Cleaning, Data Visualisation, Excel, Google Analytics, Pandas, Power BI, Statistics, Tableau, SQL, scikit-learn, Presentation Skills, Stakeholder Management, Python\n\nExperience: Data Analyst at Mercia Retail Group (Jan 2024 - Present)\n  - Responsible for the weekly sales performance pack circulated to regional managers\n  - Worked on cleaning and consolidating point-of-sale data from 48 stores\n  - Built a Power BI dashboard tracking stock availability that replaced a manual spreadsheet process\n  - Investigated a reporting discrepancy and traced it to duplicated records in the nightly load\n\nExperience: Junior Reporting Analyst at Mercia Retail Group (Jul 2023 - Dec 2023)\n  - Produced ad-hoc SQL extracts for the finance and marketing teams\n  - Maintained the existing Excel reporting suite\n  - Documented the definitions behind each KPI so the numbers could be reproduced\n\nProject: Customer Churn Exploration [Python, Pandas, scikit-learn]\n  Analysed a public telecoms churn dataset, compared logistic regression with a decision tree, and wrote up which features mattered most. Reported accuracy of 79% on a held-out test set.\n\nProject: Analysed a public telecoms churn dataset, compared logistic regression with a decision\n  tree, and wrote up which features mattered most. Reported accuracy of 79% on a held-out test set.\n\nProject: Football Attendance Dashboard [Tableau]\n  Built a public dashboard exploring attendance trends across four seasons.\nEducation: BSc, Birmingham, University of Birmingham, 2023\nEducation: BSc Economics, Economics, University of Birmingham, 2023\nCertifications: Google Data Analytics Professional Certificate - Coursera",
+        "role_context": "Role summary: Conducts data analysis to provide insights and support decision-making processes.\nCore technical requirements: Python, SQL, Data Visualisation, Excel, Data Warehousing, Tableau, AWS, Communication, Git, Data Structures & Algorithms, Data Cleaning, ETL, Linux, Teamwork, Data Science & Analytics, Documentation\nDesirable: Big Data, Statistics, Power BI, CI/CD, Kubernetes, Docker, Certified Data Analyst (CDA), Jupyter, MongoDB, MySQL\nTools and platforms: AWS, Git, CI/CD, Kubernetes, Docker, Linux, Jupyter, Google Cloud Platform, Jira, Microsoft Azure\nProfessional skills: Communication, Presentation Skills, Project Management, Teamwork, Leadership, Customer Focus, Adaptability, Attention to Detail\nInterview focus areas: Data analysis techniques, Data visualization tools, SQL and data querying, Data storytelling and communication, Project management and team collaboration, Data governance and compliance\nTypical responsibilities: Analyze data to identify trends and patterns, Prepare and present data reports to stakeholders, Collaborate with cross-functional teams to understand business needs, Design and implement data pipelines and workflows, Perform data cleaning and preprocessing, Conduct statistical analysis and predictive modeling, Support data governance and compliance initiatives, Train and mentor junior analysts",
+        "role_skills": [
+          "Python",
+          "SQL",
+          "Data Visualisation",
+          "Excel",
+          "Data Warehousing",
+          "Tableau",
+          "AWS",
+          "Communication",
+          "Git",
+          "Data Structures & Algorithms",
+          "Data Cleaning",
+          "ETL",
+          "Linux",
+          "Teamwork",
+          "Data Science & Analytics",
+          "Documentation",
+          "Big Data",
+          "Statistics",
+          "Power BI",
+          "CI/CD",
+          "Kubernetes",
+          "Docker",
+          "Certified Data Analyst (CDA)",
+          "Jupyter",
+          "MongoDB",
+          "MySQL",
+          "PostgreSQL",
+          "Marketing Analytics",
+          "Google Cloud Platform",
+          "Jira",
+          "Microsoft Azure",
+          "Presentation Skills",
+          "Project Management",
+          "Leadership",
+          "Customer Focus",
+          "Adaptability",
+          "Attention to Detail",
+          "Time Management",
+          "Machine Learning",
+          "Business Intelligence",
+          "Financial Analysis",
+          "Bachelor's Degree",
+          "REST API",
+          "SAS",
+          "VBA",
+          "Agile",
+          "Large Language Models",
+          "Looker",
+          "Product Management",
+          "A/B Testing",
+          "Business Acumen",
+          "Next.js",
+          "Time Series Analysis",
+          "Analyst",
+          "Authentication & Authorization",
+          "Consulting",
+          "Customer Support",
+          "Data & Astrodynamics",
+          "Data Science",
+          "Database Design"
+        ]
+      },
+      "turns": [
+        {
+          "index": 0,
+          "candidate_answer": null,
+          "reply": "Good morning Daniel, it's a pleasure to meet you. My name is Emily Chen, and I'll be conducting your interview today. Welcome to the role of Data Analyst at our organization, and thank you for taking the time to speak with me. Can you start by telling me a little bit about yourself and why you're interested in this Data Analyst position?",
+          "audio_chunks": 0,
+          "timings": {
+            "stt_ms": null,
+            "llm_ttft_ms": 6361.3,
+            "llm_total_ms": 7957.7,
+            "tts_first_ms": null,
+            "tts_total_ms": null,
+            "e2e_first_audio_ms": null,
+            "total_ms": 7961.0,
+            "audio_seconds": null,
+            "chars_out": 339,
+            "tts_engine": "",
+            "stt_engine": "",
+            "llm_provider": "ollama",
+            "llm_model": "llama3.2:3b"
+          },
+          "stage": "introduction",
+          "finished": false,
+          "follow_up": false,
+          "effective_difficulty": "medium"
+        },
+        {
+          "reply": "I see you have a strong foundation in economics, which is great for this role. Can you tell me more about how you think your economics background has translated into data analysis skills, and what specific aspects of statistics have been most valuable to you in this role?",
+          "audio_chunks": 0,
+          "analysis": {
+            "word_count": 60,
+            "quality_score": 0.54,
+            "quality_band": "adequate",
+            "specificity_hits": 1,
+            "structure_hits": 0,
+            "hedge_hits": 0,
+            "metric_hits": 0,
+            "first_person": true,
+            "team_only": false,
+            "is_non_answer": false,
+            "is_question": false,
+            "skills_mentioned": [
+              "Python",
+              "SQL",
+              "Statistics"
+            ],
+            "role_skills_mentioned": [
+              "Python",
+              "SQL",
+              "Statistics"
+            ],
+            "salient_terms": [
+              "Python",
+              "SQL",
+              "Statistics",
+              "Mercia Retail",
+              "Group"
+            ],
+            "signals": [
+              "role-relevant: Python, SQL, Statistics"
+            ]
+          },
+          "stage": "background",
+          "timings": {
+            "stt_ms": null,
+            "llm_ttft_ms": 1219.8,
+            "llm_total_ms": 2341.5,
+            "tts_first_ms": null,
+            "tts_total_ms": null,
+            "e2e_first_audio_ms": null,
+            "total_ms": 2376.8,
+            "audio_seconds": null,
+            "chars_out": 272,
+            "tts_engine": "",
+            "stt_engine": "",
+            "llm_provider": "ollama",
+            "llm_model": "llama3.2:3b"
+          },
+          "finished": false,
+          "follow_up": false,
+          "effective_difficulty": "medium",
+          "index": 1,
+          "candidate_answer": "Thanks for seeing me. I'm a data analyst with about two years at Mercia Retail Group. I own the weekly sales performance pack that goes to regional managers, and I built the stock availability dashboard in Power BI. My background is economics, so I came in strong on statistics and I've been building up the SQL and Python side since."
+        },
+        {
+          "reply": "Your experience in Power BI has been particularly impressive, and it's great to hear that you've been able to make a tangible impact on your team's workflow. Can you elaborate on what you did to identify the key data point that made the flag truly useful, and how you ensured that the dashboard was still easy to understand for non-technical stakeholders?",
+          "audio_chunks": 0,
+          "analysis": {
+            "word_count": 67,
+            "quality_score": 0.365,
+            "quality_band": "adequate",
+            "specificity_hits": 0,
+            "structure_hits": 0,
+            "hedge_hits": 0,
+            "metric_hits": 0,
+            "first_person": true,
+            "team_only": false,
+            "is_non_answer": false,
+            "is_question": false,
+            "skills_mentioned": [
+              "Power BI"
+            ],
+            "role_skills_mentioned": [
+              "Power BI"
+            ],
+            "salient_terms": [
+              "Power BI",
+              "Before",
+              "Monday",
+              "Power",
+              "availability"
+            ],
+            "signals": [
+              "no concrete example",
+              "role-relevant: Power BI"
+            ]
+          },
+          "timings": {
+            "stt_ms": null,
+            "llm_ttft_ms": 1428.9,
+            "llm_total_ms": 2968.2,
+            "tts_first_ms": null,
+            "tts_total_ms": null,
+            "e2e_first_audio_ms": null,
+            "total_ms": 3003.8,
+            "audio_seconds": null,
+            "chars_out": 355,
+            "tts_engine": "",
+            "stt_engine": "",
+            "llm_provider": "ollama",
+            "llm_model": "llama3.2:3b"
+          },
+          "stage": "background",
+          "finished": false,
+          "follow_up": false,
+          "effective_difficulty": "medium",
+          "index": 2,
+          "candidate_answer": "The stock availability dashboard is the work I'd point to. Before it, store managers were getting a spreadsheet emailed on Monday that was already two days stale. I rebuilt it in Power BI against the nightly load so it refreshes every morning, and I added a flag for lines that had been out of stock more than three days. That flag was the bit people actually used."
+        },
+        {
+          "reply": "That's a great example of your analytical skills, Daniel. I'm impressed by how you were able to identify the root cause of the discrepancy and implement a solution to prevent it from happening again. Can you walk me through your thought process behind deciding to add a duplicate check into the load, and how you ensured that this query wouldn't impact the overall performance of the nightly load?",
+          "audio_chunks": 0,
+          "analysis": {
+            "word_count": 62,
+            "quality_score": 0.413,
+            "quality_band": "adequate",
+            "specificity_hits": 2,
+            "structure_hits": 0,
+            "hedge_hits": 0,
+            "metric_hits": 0,
+            "first_person": true,
+            "team_only": false,
+            "is_non_answer": false,
+            "is_question": false,
+            "skills_mentioned": [],
+            "role_skills_mentioned": [],
+            "salient_terms": [
+              "discrepancy",
+              "weekly",
+              "numbers",
+              "reconcile",
+              "finance"
+            ],
+            "signals": []
+          },
+          "timings": {
+            "stt_ms": null,
+            "llm_ttft_ms": 1456.9,
+            "llm_total_ms": 3126.5,
+            "tts_first_ms": null,
+            "tts_total_ms": null,
+            "e2e_first_audio_ms": null,
+            "total_ms": 3155.5,
+            "audio_seconds": null,
+            "chars_out": 397,
+            "tts_engine": "",
+            "stt_engine": "",
+            "llm_provider": "ollama",
+            "llm_model": "llama3.2:3b"
+          },
+          "stage": "background",
+          "finished": false,
+          "follow_up": false,
+          "effective_difficulty": "medium",
+          "index": 3,
+          "candidate_answer": "I found a discrepancy in the weekly numbers where the total didn't reconcile with finance. I traced it back to the nightly load, and it turned out a store that had changed its ID was being counted twice for a four-day window. I wrote a duplicate check into the load and added a reconciliation query that runs before the pack goes out."
+        },
+        {
+          "reply": "I appreciate the detail you've put into the weekly sales performance pack, Daniel. It sounds like you've made a significant impact on the team's workflow. Can you tell me more about how you handle commercial team requests, such as ad-hoc queries or data analysis, within a tight time frame, like you mentioned?",
+          "audio_chunks": 0,
+          "analysis": {
+            "word_count": 33,
+            "quality_score": 0.111,
+            "quality_band": "weak",
+            "specificity_hits": 0,
+            "structure_hits": 0,
+            "hedge_hits": 1,
+            "metric_hits": 0,
+            "first_person": false,
+            "team_only": false,
+            "is_non_answer": false,
+            "is_question": false,
+            "skills_mentioned": [
+              "REST API"
+            ],
+            "role_skills_mentioned": [
+              "REST API"
+            ],
+            "salient_terms": [
+              "REST API",
+              "myself",
+              "minutes",
+              "templated",
+              "whatever"
+            ],
+            "signals": [
+              "no concrete example",
+              "role-relevant: REST API"
+            ]
+          },
+          "stage": "technical",
+          "timings": {
+            "stt_ms": null,
+            "llm_ttft_ms": 1644.5,
+            "llm_total_ms": 3061.6,
+            "tts_first_ms": null,
+            "tts_total_ms": null,
+            "e2e_first_audio_ms": null,
+            "total_ms": 3092.1,
+            "audio_seconds": null,
+            "chars_out": 310,
+            "tts_engine": "",
+            "stt_engine": "",
+            "llm_provider": "ollama",
+            "llm_model": "llama3.2:3b"
+          },
+          "finished": false,
+          "follow_up": true,
+          "effective_difficulty": "medium",
+          "index": 4,
+          "candidate_answer": "I do the pack myself every week. It's about forty five minutes now that it's templated, and the rest of the time goes on whatever the commercial team has asked about that week."
+        }
+      ],
+      "completed_naturally": false,
+      "questions_asked": 5,
+      "follow_ups": 1,
+      "stages_reached": [
+        "background",
+        "introduction",
+        "technical"
+      ],
+      "difficulty_adaptations": [
+        "medium"
+      ],
+      "transcription": []
+    },
+    "scoring": {
+      "elapsed_ms": 31780.1,
+      "overall_score": 3.0,
+      "overall_band": "Competent",
+      "categories_scored": 5,
+      "categories_not_tested": [
+        "Behavioural Competency"
+      ],
+      "category_scores": [
+        {
+          "key": "technical_accuracy",
+          "score": 3,
+          "weight_percent": 25.0,
+          "justification": "The candidate's answer to the question about the duplicate check was vague and lacked detail. The candidate did not provide specific details about the performance impact or the steps taken to ensure the query didn't affect the nightly load."
+        },
+        {
+          "key": "conceptual_understanding",
+          "score": 3,
+          "weight_percent": 20.0,
+          "justification": "The candidate did not provide a clear explanation of the reasoning behind the decision to add the duplicate check. The candidate did not discuss the trade-offs or alternatives considered."
+        },
+        {
+          "key": "communication",
+          "score": 3,
+          "weight_percent": 18.0,
+          "justification": "The candidate's answer was clear but lacked detail and structure. The candidate did not provide a clear introduction or conclusion to their answer."
+        },
+        {
+          "key": "problem_solving",
+          "score": 3,
+          "weight_percent": 17.0,
+          "justification": "The candidate did not provide a clear explanation of the problem-solving process. The candidate did not discuss the steps taken to identify the issue or the reasoning behind the solution."
+        },
+        {
+          "key": "relevance",
+          "score": 3,
+          "weight_percent": 12.0,
+          "justification": "The candidate's answer did not connect to the specific requirements of the Data Analyst role. The candidate did not provide examples of how their background in economics translated into data analysis skills."
+        },
+        {
+          "key": "behavioural_competency",
+          "score": null,
+          "weight_percent": 8.0,
+          "justification": "The candidate did not provide any evidence of collaboration, ownership, handling conflict, failure, or pressure."
+        }
+      ],
+      "strengths": [
+        "The candidate has experience in building data dashboards and has a strong foundation in statistics",
+        "The candidate provided specific examples of their work, such as the stock availability dashboard and the weekly sales performance pack",
+        "The candidate demonstrated analytical skills by identifying discrepancies in the weekly numbers and implementing a solution to prevent them from happening again"
+      ],
+      "weaknesses": [
+        "The candidate's answers lacked detail and structure, particularly in explaining their thought process and the reasoning behind their decisions",
+        "The candidate did not provide a clear explanation of the problem-solving process or the trade-offs considered",
+        "The candidate did not connect their background in economics to the specific requirements of the Data Analyst role"
+      ],
+      "recommended_topics": [
+        "Data analysis best practices",
+        "Problem-solving and decision-making",
+        "SQL and Python programming",
+        "Data visualization and dashboard design",
+        "Data quality and data integrity",
+        "Data security and privacy"
+      ],
+      "transcript_stats": {
+        "total_turns": 9,
+        "interviewer_questions": 5,
+        "candidate_answers": 4,
+        "candidate_total_words": 222,
+        "candidate_mean_words": 55.5,
+        "shortest_answer_words": 33,
+        "longest_answer_words": 67
+      },
+      "assessor": {
+        "engine": "ollama/qwen2.5:3b-instruct-q4_K_M",
+        "degraded": false,
+        "note": "Scored by a language model against the fixed rubric. The overall score is computed in code as a weighted mean of the category scores."
+      }
+    },
+    "performance": {
+      "aggregates": {
+        "stt_ms": {
+          "samples": 0,
+          "mean_ms": null,
+          "median_ms": null,
+          "p90_ms": null,
+          "min_ms": null,
+          "max_ms": null
+        },
+        "llm_ttft_ms": {
+          "samples": 5,
+          "mean_ms": 2422.3,
+          "median_ms": 1456.9,
+          "p90_ms": 6361.3,
+          "min_ms": 1219.8,
+          "max_ms": 6361.3
+        },
+        "llm_total_ms": {
+          "samples": 5,
+          "mean_ms": 3891.1,
+          "median_ms": 3061.6,
+          "p90_ms": 7957.7,
+          "min_ms": 2341.5,
+          "max_ms": 7957.7
+        },
+        "tts_first_ms": {
+          "samples": 0,
+          "mean_ms": null,
+          "median_ms": null,
+          "p90_ms": null,
+          "min_ms": null,
+          "max_ms": null
+        },
+        "tts_total_ms": {
+          "samples": 0,
+          "mean_ms": null,
+          "median_ms": null,
+          "p90_ms": null,
+          "min_ms": null,
+          "max_ms": null
+        },
+        "e2e_first_audio_ms": {
+          "samples": 0,
+          "mean_ms": null,
+          "median_ms": null,
+          "p90_ms": null,
+          "min_ms": null,
+          "max_ms": null
+        },
+        "total_ms": {
+          "samples": 5,
+          "mean_ms": 3917.8,
+          "median_ms": 3092.1,
+          "p90_ms": 7961.0,
+          "min_ms": 2376.8,
+          "max_ms": 7961.0
+        }
+      },
+      "turns": [
+        {
+          "turn_index": 0,
+          "stt_ms": null,
+          "llm_ttft_ms": 6361.3,
+          "llm_total_ms": 7957.7,
+          "tts_first_ms": null,
+          "tts_total_ms": null,
+          "e2e_first_audio_ms": null,
+          "total_ms": 7961.0,
+          "audio_seconds": null,
+          "chars_out": 339,
+          "stt_engine": "",
+          "tts_engine": "",
+          "llm_provider": "ollama",
+          "llm_model": "llama3.2:3b",
+          "mode": "text"
+        },
+        {
+          "turn_index": 2,
+          "stt_ms": null,
+          "llm_ttft_ms": 1219.8,
+          "llm_total_ms": 2341.5,
+          "tts_first_ms": null,
+          "tts_total_ms": null,
+          "e2e_first_audio_ms": null,
+          "total_ms": 2376.8,
+          "audio_seconds": null,
+          "chars_out": 272,
+          "stt_engine": "",
+          "tts_engine": "",
+          "llm_provider": "ollama",
+          "llm_model": "llama3.2:3b",
+          "mode": "text"
+        },
+        {
+          "turn_index": 4,
+          "stt_ms": null,
+          "llm_ttft_ms": 1428.9,
+          "llm_total_ms": 2968.2,
+          "tts_first_ms": null,
+          "tts_total_ms": null,
+          "e2e_first_audio_ms": null,
+          "total_ms": 3003.8,
+          "audio_seconds": null,
+          "chars_out": 355,
+          "stt_engine": "",
+          "tts_engine": "",
+          "llm_provider": "ollama",
+          "llm_model": "llama3.2:3b",
+          "mode": "text"
+        },
+        {
+          "turn_index": 6,
+          "stt_ms": null,
+          "llm_ttft_ms": 1456.9,
+          "llm_total_ms": 3126.5,
+          "tts_first_ms": null,
+          "tts_total_ms": null,
+          "e2e_first_audio_ms": null,
+          "total_ms": 3155.5,
+          "audio_seconds": null,
+          "chars_out": 397,
+          "stt_engine": "",
+          "tts_engine": "",
+          "llm_provider": "ollama",
+          "llm_model": "llama3.2:3b",
+          "mode": "text"
+        },
+        {
+          "turn_index": 8,
+          "stt_ms": null,
+          "llm_ttft_ms": 1644.5,
+          "llm_total_ms": 3061.6,
+          "tts_first_ms": null,
+          "tts_total_ms": null,
+          "e2e_first_audio_ms": null,
+          "total_ms": 3092.1,
+          "audio_seconds": null,
+          "chars_out": 310,
+          "stt_engine": "",
+          "tts_engine": "",
+          "llm_provider": "ollama",
+          "llm_model": "llama3.2:3b",
+          "mode": "text"
+        }
+      ],
+      "engines": {
+        "stt": [],
+        "tts": [],
+        "llm_providers": [
+          "ollama"
+        ],
+        "llm_models": [
+          "llama3.2:3b"
+        ]
+      }
+    },
+    "finished_at": "2026-11-20T13:10:51+00:00"
+  }
+]

@@ -1,0 +1,56 @@
+SYNTHETIC TEST CV - FICTIONAL PERSON - CREATED FOR NLP COURSE PROJECT TESTING
+
+Priya Deshmukh
+Cybersecurity Analyst
+priya.deshmukh@example.com | +44 7700 900789 | Reading, United Kingdom
+linkedin.com/in/example-priya
+
+SUMMARY
+SOC analyst with 3 years of experience in alert triage, incident response and
+vulnerability management for a managed security services provider.
+
+TECHNICAL SKILLS
+Security: Incident Response, SIEM, Threat Intelligence, Vulnerability Management,
+Endpoint Security, Network Security, Packet Analysis, MITRE ATT&CK
+Tools: Splunk, Wireshark, Nessus, CrowdStrike, Microsoft Sentinel
+Systems: Linux, Windows Server, Active Directory
+Networking: TCP/IP, DNS, DHCP, firewalls, VPN
+Scripting: Python, PowerShell, Bash
+
+PROFESSIONAL EXPERIENCE
+
+Security Analyst (Tier 2) | Sentinel Managed Security | Reading | Jun 2023 - Present
+- Responsible for triaging escalated Splunk alerts across 12 client environments
+- Worked on tuning detection rules, which cut false positives on the phishing use case by roughly 40%
+- Led the investigation of a credential stuffing incident and produced the client-facing report
+- Ran monthly Nessus vulnerability scans and tracked remediation with system owners
+- Mentored one Tier 1 analyst through their first three months
+
+SOC Analyst (Tier 1) | Sentinel Managed Security | Reading | Aug 2022 - May 2023
+- Monitored SIEM dashboards on a rotating shift pattern
+- Performed initial triage and escalated genuine incidents according to the playbook
+- Maintained the on-call handover log
+
+IT Support Technician | Reading Borough Council | Reading | Sep 2021 - Jul 2022
+- Handled first-line support tickets for roughly 300 users
+- Managed Active Directory accounts and group membership
+- Assisted with the rollout of multi-factor authentication
+
+PROJECTS
+
+Home Detection Lab | Linux, Splunk, Sysmon
+Built a small lab with a Windows host and a Kali attacker, generated attack telemetry,
+and wrote Splunk detections for three MITRE ATT&CK techniques.
+
+EDUCATION
+
+BSc (Hons) Cyber Security | University of Reading | 2018 - 2021
+Grade: 2:1
+
+CERTIFICATIONS
+CompTIA Security+ - CompTIA - 2022
+CompTIA Network+ - CompTIA - 2021
+Microsoft SC-200 Security Operations Analyst - Microsoft - 2024
+
+LANGUAGES
+English (fluent), Marathi (native), Hindi (fluent)

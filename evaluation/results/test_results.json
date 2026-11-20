@@ -1,0 +1,2459 @@
+{
+  "generated_at": "2026-11-20T21:45:31+00:00",
+  "total": 408,
+  "passed": 408,
+  "failed": 0,
+  "skipped": 0,
+  "offline_summary": "403 passed, 5 deselected in 5.30s",
+  "live_summary": "5 passed, 403 deselected in 10.60s",
+  "results": [
+    {
+      "file": "test_api.py",
+      "test": "test_root_lists_the_seven_modules",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_ping",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_health_reports_every_component",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_health_declares_the_offline_engine_as_degraded",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_health_states_that_speech_is_local",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_taxonomy_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_normalisation_endpoint_demonstrates_the_react_requirement",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_settings_never_returns_api_keys",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_settings_rejects_unknown_fields",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_dashboard_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_limits",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_and_fetch",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_docx",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_rejections",
+      "param": "cv.exe-content0-415-unsupported_file",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_rejections",
+      "param": "cv.pdf--422-empty_document",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_rejections",
+      "param": "cv.pdf-content2-415-unsupported_file",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_upload_rejections",
+      "param": "cv.docx-content3-415-unsupported_file",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cv_404_is_shaped_consistently",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_errors_never_leak_internals",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_sources_lists_compliance",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "a",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "title2",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "Engineer{injection}",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "Engineer<script>",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "role|with|pipes",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_title_validation",
+      "param": "role`with`ticks",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_analysis_without_scraping_or_llm",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_analysis_with_offline_engine_still_produces_requirements",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_role_analysis_handles_an_unusual_title",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_gap_analysis_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_gap_analysis_rejects_unknown_ids",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_bullet_ranking_endpoint_needs_no_llm",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_improve_bullets_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_improve_bullets_validation",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_improvement_decision_round_trip",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_rubric_endpoint_is_available_before_the_interview",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_stages_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_speech_health_endpoint",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_start_validation",
+      "param": "body0",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_start_validation",
+      "param": "body1",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_start_validation",
+      "param": "body2",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_start_validation",
+      "param": "body3",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_start_validation",
+      "param": "body4",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_text_interview_runs_through_every_stage",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_turn_on_a_finished_interview_is_refused",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_interview_404",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_scoring_an_interview_with_no_answers",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_transcribe_rejects_an_oversized_upload",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_metrics_overview_shape",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_metrics_export_is_self_describing",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_metrics_csv_export",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_metrics_summarise_handles_no_samples",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_percentile_is_nearest_rank",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_storage_stats_and_clear",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_json_columns_round_trip",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_activity_log_records_actions",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_cascade_delete_removes_dependent_rows",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_a_rate_limited_turn_reaches_the_user_with_advice",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_api.py",
+      "test": "test_the_interview_survives_a_failed_turn",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_the_exact_character_crashes_an_unguarded_cp1252_stream",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_ascii_safe_makes_the_killer_line_encodable",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_ascii_safe_does_not_touch_text_that_was_already_fine",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_ascii_safe_folds_every_character_in_its_table_to_cp1252_safe_ascii",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_install_makes_a_cp1252_stream_lossy_instead_of_fatal",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_install_is_idempotent_and_safe_on_an_unreconfigurable_stream",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_the_harness_log_function_is_actually_guarded",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_console_encoding.py",
+      "test": "test_recorded_results_keep_the_original_text_not_the_folded_one",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_extract_pdf",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_extract_docx",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_extract_txt",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_extract_computes_a_stable_hash",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_empty_file_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_unsupported_extension_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".doc",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".rtf",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".pages",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".odt",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".jpg",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": ".zip",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_other_unsupported_extensions",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_file_claiming_to_be_pdf_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_file_claiming_to_be_docx_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_oversized_file_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_corrupt_pdf_raises_a_readable_error",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_image_only_pdf_is_identified_as_scanned",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_corrupt_docx_raises_a_readable_error",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_very_short_cv_produces_a_warning",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_long_document_is_truncated_with_a_warning",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_sections_are_detected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "TECHNICAL SKILLS-skills",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Skills-skills",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Core Competencies-skills",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "WORK EXPERIENCE-experience",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Employment History-experience",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Professional Experience-experience",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "EDUCATION-education",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Academic Background-education",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "PROJECTS-projects",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Certifications-certifications",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "Summary-summary",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_heading_variants_map_to_the_right_section",
+      "param": "PROFILE-summary",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_a_sentence_is_not_mistaken_for_a_heading",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_contact_details",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_skills",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_experience",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_education_with_grade",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_projects_without_splitting_descriptions",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_certifications",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_extracts_languages",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_collects_improvable_bullets",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_deduplicates_bullets",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_collects_job_roles",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_minimal_cv_parses_without_crashing_and_warns",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_messy_cv_still_yields_skills",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_empty_text_parses_to_an_empty_profile",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parser_never_raises_on_hostile_text",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_prompt_injection_in_a_cv_is_treated_as_text_not_instruction",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_parse_mode_is_reported",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_cv_parser.py",
+      "test": "test_profile_round_trips_to_a_dict",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_stage_order_matches_the_specification",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_every_stage_has_a_spec_and_a_budget",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_stages_advance_in_order_to_completion",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_stage_advances_once_its_budget_is_spent",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_harder_interviews_spend_longer_on_technical_questions",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_ends_when_they_have_none",
+      "param": "No questions, thanks",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_ends_when_they_have_none",
+      "param": "Nothing from me",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_ends_when_they_have_none",
+      "param": "No thank you",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_ends_when_they_have_none",
+      "param": "That's all",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_ends_when_they_have_none",
+      "param": "I'm good",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_candidate_questions_stage_continues_when_they_do_ask",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_progress_payload_is_coherent",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_stage_state_round_trips",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_introduction_and_closing_are_not_scored",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_strong_answer_is_recognised",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_weak_answer_is_recognised",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_non_answer_is_recognised",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_team_only_answer_is_flagged",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_empty_answer_is_handled",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_role_relevant_skills_are_weighted_higher",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_salient_terms_give_the_follow_up_something_to_grip",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "medium-0-0-medium",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "medium-2-0-hard",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "medium-5-0-hard",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "medium-0-2-easy",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "easy-0-5-easy",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "hard-5-0-hard",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "easy-2-0-medium",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_difficulty_moves_at_most_one_band",
+      "param": "hard-0-2-medium",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_follow_up_on_a_substantive_answer",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_follow_up_on_a_thin_answer_asks_for_specifics",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_follow_up_depth_is_bounded",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_no_follow_up_on_a_non_answer",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_coverage_note_tells_the_model_what_to_do",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_sentence_is_emitted_as_soon_as_it_completes",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_incomplete_buffer_is_held_back",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_abbreviation_does_not_split_a_sentence",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_long_run_on_flushes_at_a_comma_so_audio_still_starts",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_short_buffer_is_not_split",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "Interviewer: ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "interviewer:",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "You: ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "Assistant: ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "**",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_speaker_labels_are_stripped",
+      "param": "  Interviewer:  ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_quotes_around_the_whole_reply_are_stripped",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "**Important** question-*",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "## Heading\\nThen a question-#",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "- First point\\n- Second point-- ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "Use `pytest` for this-`",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "See [the docs](https://example.com)-](",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "Visit https://example.com/page now-https://",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_markdown_never_reaches_the_speech_engine",
+      "param": "1. First\\n2. Second-1.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_stage_directions_are_removed",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_clean_for_speech_keeps_the_actual_words",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_split_sentences_merges_fragments_and_caps_length",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_split_sentences_on_empty_input",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_rubric_is_defined_in_advance",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_rubric_covers_the_categories_the_specification_asks_for",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_weights_sum_to_one",
+      "param": "easy",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_weights_sum_to_one",
+      "param": "medium",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_weights_sum_to_one",
+      "param": "hard",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_weights_differ_by_difficulty_in_the_expected_direction",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_unknown_difficulty_falls_back_to_medium",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_scale_covers_one_to_five_with_descriptors",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_overall_bands_cover_the_whole_range",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_rubric_prompt_text_names_the_exact_keys",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_rubric_disclaimer_denies_being_a_hiring_decision",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "I would hire this candidate.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "I would not hire this candidate.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "They should be hired for this role.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "They should not be hired.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "This is a good fit for the role.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "This is not a good fit for the position.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "The candidate passed the interview.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "The candidate failed the interview.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_hiring_verdicts_are_rewritten",
+      "param": "We would recommend hiring them.",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_sanitisation_leaves_legitimate_feedback_alone",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_interview.py",
+      "test": "test_sanitisation_handles_empty_input",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_exact_match_is_matched",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_absent_skill_is_missing",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_variant_spelling_on_the_cv_counts_as_a_match",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_implied_skill_is_a_partial_match",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_foundation_present_is_a_partial_match",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_every_comparison_carries_evidence",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_score_is_weighted_by_importance",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_severity_escalates_for_missing_essentials",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_priority_gaps_are_ordered_by_severity_then_importance",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_extra_cv_skills_are_reported",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_category_breakdown_sums_correctly",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_essential_coverage_is_computed",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_empty_cv_produces_a_warning_not_a_crash",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_no_requirements_produces_a_warning",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_result_never_claims_employability",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_skills_in_text_finds_canonical_skills",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_skills_in_text_ignores_short_ambiguous_words",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_fusion_marks_provenance_correctly",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_fusion_keeps_a_skill_corroborated_by_two_adverts",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_fusion_drops_the_uncorroborated_long_tail",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_fusion_caps_the_requirement_list",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_agreement_outranks_a_single_source",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_fusion_normalises_variants_across_sources",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_essential_flag_requires_evidence",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_an_invented_metric",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_allows_a_metric_that_was_already_there",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_an_invented_technology",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_allows_a_technology_present_elsewhere_in_the_cv",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_escalated_scope",
+      "param": "Led",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_escalated_scope",
+      "param": "Managed",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_escalated_scope",
+      "param": "Owned",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_escalated_scope",
+      "param": "Architected",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_blocks_escalated_scope",
+      "param": "Spearheaded",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_allows_leadership_language_when_the_original_supports_it",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_rejects_an_empty_rewrite",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_guard_rejects_an_absurdly_long_rewrite",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_new_wording_is_a_warning_not_a_rejection",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_weakness_detection_flags_the_usual_suspects",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_weakness_detection_is_quiet_on_a_strong_bullet",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_bullets_are_ranked_worst_first",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_improve_rejects_an_empty_request",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_improve_rejects_too_many_bullets",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_improve_end_to_end_with_the_offline_engine",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "{\"a\": 1}0",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "```json\\n{\"a\": 1}\\n```",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "```\\n{\"a\": 1}\\n```",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "Here is the JSON you asked for:\\n{\"a\": 1}",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "{\"a\": 1,}",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "{\"a\": 1}1",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "{\\n  \"a\": 1\\n}\\nHope that helps!",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "{\"a\": 1} trailing commentary",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_repair_cascade",
+      "param": "[{\"a\": 1}]",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_handles_raw_newlines_in_strings",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_handles_smart_quotes",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_handles_nested_braces_in_strings",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_raises_on_unusable_output",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_raises_on_unusable_output",
+      "param": "   ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_raises_on_unusable_output",
+      "param": "not json at all",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_raises_on_unusable_output",
+      "param": "{broken",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_json_guard_raises_on_unusable_output",
+      "param": "null",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "value0-expected0",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "a, b-expected1",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "a; b\\nc-expected2",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "value3-expected3",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "value4-expected4",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "None-expected5",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "value6-expected6",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_str_list_coerces_everything",
+      "param": "value7-expected7",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_float_clamps_and_defaults",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_as_choice_falls_back_to_the_default",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_unsupported_numbers_detects_invention",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_grounding_filter_splits_supported_from_invented",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_grounding_filter_accepts_an_acronym_backed_by_its_expansion",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_certifications_and_degrees_count_as_skills",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_a_held_certification_is_not_reported_as_missing",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_candidate_skill_set_does_not_duplicate",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_anthropic_request_omits_the_removed_sampling_parameters",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_latency_critical_task_requests_low_effort",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_unsupported_output_config_is_dropped_and_retried",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_unrelated_errors_are_not_swallowed",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_groq_reasoning_model_gets_effort_and_token_headroom",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_non_reasoning_models_are_left_alone",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_reasoning_effort_is_dropped_if_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_provider_failures_explain_themselves",
+      "param": "429-rate-limited",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_provider_failures_explain_themselves",
+      "param": "401-rejected the API key",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_provider_failures_explain_themselves",
+      "param": "404-not available on",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_rate_limit_message_names_a_way_out",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_matching_and_guards.py",
+      "test": "test_retries_are_configured_for_free_tiers",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "React",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "react",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "REACT",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "ReactJS",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "reactjs",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "React.js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "react.js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "React JS",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "React  js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "Experience with React",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "Experience with ReactJS (3+ years)",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "Strong knowledge of React.js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "5 years React",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_every_react_spelling_resolves_to_one_skill",
+      "param": "  react  ",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_react_variants_collapse_to_a_single_entry",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants0-Node.js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants1-PostgreSQL",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants2-Kubernetes",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants3-JavaScript",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants4-Machine Learning",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants5-TensorFlow",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants6-Excel",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants7-CI/CD",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants8-scikit-learn",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants9-Vue.js",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants10-C#",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_known_alias_families_collapse",
+      "param": "variants11-TypeScript",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_mixed_list_deduplicates_across_families",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "React-Redux",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "React-React Native",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "Java-JavaScript",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "Python-PyTorch",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "MySQL-PostgreSQL",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "C-C++",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "CSS-SASS",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_distinct_skills_are_not_merged",
+      "param": "Angular-AngularJS",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_generic_words_do_not_match_specific_certifications",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_document_scan_minimum_key_length_excludes_ambiguous_acronyms",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "React.js-react",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "ReactJS-react",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "React JS-react",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "Experience with ReactJS (3+ years)-react",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "  Strong knowledge of   Python  -python",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "5+ years of Java experience-java",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "Proficiency in SQL-sql",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "C++-c++",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "C#-c#",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "CI/CD-ci/cd",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "Node.js-node",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key",
+      "param": "NodeJS-node",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalise_key_can_keep_noise_words",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_skill_list",
+      "param": "Python, Java and C++-expected0",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_skill_list",
+      "param": "SQL; Docker | Kubernetes-expected1",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_skill_list",
+      "param": "Docker/Kubernetes-expected2",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_skill_list",
+      "param": "HTML/CSS-expected3",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_skill_list",
+      "param": "React & Redux-expected4",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_preserves_terms_containing_a_slash",
+      "param": "CI/CD",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_preserves_terms_containing_a_slash",
+      "param": "TCP/IP",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_preserves_terms_containing_a_slash",
+      "param": "PL/SQL",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_split_preserves_terms_containing_a_slash",
+      "param": "A/B",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_surface_form_tidies_without_destroying_casing",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_strip_bullet_handles_every_glyph",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_unknown_skill_is_kept_rather_than_discarded",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_unknown_near_duplicates_cluster_together",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_junk_input_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_sentence_is_not_treated_as_a_skill",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalisation_records_which_stage_decided",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_common_typos_still_resolve",
+      "param": "kubernets-Kubernetes",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_common_typos_still_resolve",
+      "param": "javscript-JavaScript",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_common_typos_still_resolve",
+      "param": "postgressql-PostgreSQL",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_common_typos_still_resolve",
+      "param": "pyhton-Python",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_an_unrecoverable_typo_is_kept_verbatim_not_misassigned",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_taxonomy_is_internally_consistent",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_no_alias_maps_to_two_different_skills",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_implication_graph_has_no_self_loops",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_skill_normalisation.py",
+      "test": "test_normalisation_is_deterministic",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_wav_decodes_to_16k_mono",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_stereo_wav_is_downmixed",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_any_sample_rate_is_resampled",
+      "param": "8000",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_any_sample_rate_is_resampled",
+      "param": "16000",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_any_sample_rate_is_resampled",
+      "param": "22050",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_any_sample_rate_is_resampled",
+      "param": "44100",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_any_sample_rate_is_resampled",
+      "param": "48000",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_empty_audio_is_rejected",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_undecodable_audio_is_rejected_with_a_helpful_message",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_stt_describes_itself_as_local",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_tiny_recording_returns_no_speech_rather_than_an_error",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_confidence_banding",
+      "param": "-0.2-0.05-hello there-high",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_confidence_banding",
+      "param": "-0.8-0.1-hello there-medium",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_confidence_banding",
+      "param": "-1.5-0.1-hello there-low",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_confidence_banding",
+      "param": "-0.2-0.9-hello there-low",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_confidence_banding",
+      "param": "-0.2-0.05--none",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_tts_describes_itself_as_local",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_wav_helpers",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_pcm_is_wrapped_into_a_valid_wav",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_wavs_concatenate",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_mismatched_sample_rates_are_skipped_not_mangled",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_every_source_is_declared_with_attribution",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_at_least_one_source_is_genuine_markup_scraping",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_sources_build_valid_urls",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_user_agent_identifies_the_project_rather_than_a_browser",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_rate_limiting_is_configured",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_scraping_disabled_is_reported_not_faked",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_robots_block_is_reported_as_a_named_failure",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_failed_fetch_never_claims_success",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_empty_200_response_is_treated_as_a_failure",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_html_to_text_keeps_list_structure",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_html_to_text_handles_junk",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_rss_items_are_parsed",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_rss_parsing_of_junk_returns_nothing",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_wwr_title_is_split_into_company_and_role",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_role_tokens_drop_seniority_noise",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_title_matches_outrank_body_mentions",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_irrelevant_posting_falls_below_the_threshold",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_relevance_of_an_empty_query_is_neutral",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_token_budget.py",
+      "test": "test_interview_turn_prompt_size_is_recorded",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_live_tts_produces_audio",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_live_tts_streams_sentence_by_sentence",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_live_round_trip_tts_then_stt",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_live_sources_are_reachable",
+      "param": "",
+      "outcome": "PASSED"
+    },
+    {
+      "file": "test_speech_and_scraping.py",
+      "test": "test_live_collection_returns_postings_with_descriptions",
+      "param": "",
+      "outcome": "PASSED"
+    }
+  ]
+}

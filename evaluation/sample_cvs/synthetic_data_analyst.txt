@@ -1,0 +1,51 @@
+SYNTHETIC TEST CV - FICTIONAL PERSON - CREATED FOR NLP COURSE PROJECT TESTING
+
+Daniel Okonkwo
+Data Analyst
+daniel.okonkwo@example.com | +44 7700 900456 | Birmingham, United Kingdom
+linkedin.com/in/example-daniel
+
+PROFILE
+Data analyst with 2 years of experience turning operational data into reporting that
+non-technical managers actually use. Strong SQL and Excel, currently building out
+Python skills.
+
+SKILLS
+SQL, Microsoft Excel, Power BI, Tableau, Python, Pandas, Data Visualisation,
+Data Cleaning, Statistics, Google Analytics, Stakeholder Management, Presentation Skills
+
+EXPERIENCE
+
+Data Analyst | Mercia Retail Group | Birmingham | Jan 2024 - Present
+- Responsible for the weekly sales performance pack circulated to regional managers
+- Worked on cleaning and consolidating point-of-sale data from 48 stores
+- Built a Power BI dashboard tracking stock availability that replaced a manual spreadsheet process
+- Investigated a reporting discrepancy and traced it to duplicated records in the nightly load
+- Presented monthly findings to the commercial team
+
+Junior Reporting Analyst | Mercia Retail Group | Birmingham | Jul 2023 - Dec 2023
+- Produced ad-hoc SQL extracts for the finance and marketing teams
+- Maintained the existing Excel reporting suite
+- Documented the definitions behind each KPI so the numbers could be reproduced
+
+PROJECTS
+
+Customer Churn Exploration | Python, Pandas, scikit-learn
+Analysed a public telecoms churn dataset, compared logistic regression with a decision
+tree, and wrote up which features mattered most. Reported accuracy of 79% on a held-out
+test set.
+
+Football Attendance Dashboard | Tableau
+Built a public dashboard exploring attendance trends across four seasons.
+
+EDUCATION
+
+BSc Economics | University of Birmingham | 2020 - 2023
+Grade: First Class Honours
+Relevant modules: Econometrics, Statistics for Economists, Data Analysis
+
+CERTIFICATIONS
+Google Data Analytics Professional Certificate - Coursera - 2023
+
+LANGUAGES
+English (native)

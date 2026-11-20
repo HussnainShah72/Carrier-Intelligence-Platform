@@ -1,0 +1,55 @@
+SYNTHETIC TEST CV - FICTIONAL PERSON - CREATED FOR NLP COURSE PROJECT TESTING
+
+Aisha Rahman
+Software Engineer
+aisha.rahman@example.com | +44 7700 900123 | Manchester, United Kingdom
+github.com/example-aisha | linkedin.com/in/example-aisha
+
+PROFESSIONAL SUMMARY
+Backend-focused software engineer with 4 years of experience building and maintaining
+REST APIs and internal tooling for logistics platforms. Comfortable owning a service
+from design through to production support.
+
+TECHNICAL SKILLS
+Languages: Python, JavaScript, TypeScript, SQL, Bash
+Backend: FastAPI, Django, Node.js, Express, REST APIs, PostgreSQL, Redis
+Frontend: React, HTML, CSS, Tailwind CSS
+Tooling: Git, Docker, GitHub Actions, pytest, Postman, Linux
+Practices: Unit testing, code review, Agile, object-oriented programming
+
+WORK EXPERIENCE
+
+Software Engineer | Northfield Logistics Ltd | Manchester | Mar 2023 - Present
+- Responsible for the shipment tracking API used by three internal teams
+- Worked on migrating a monolithic Django application to a set of FastAPI services
+- Reduced median API response time from 420ms to 180ms by adding Redis caching and fixing N+1 queries
+- Helped to set up GitHub Actions pipelines that run pytest and linting on every pull request
+- Reviewed pull requests from two junior engineers and ran their onboarding
+
+Junior Software Developer | Brightline Software | Leeds | Sep 2021 - Feb 2023
+- Built internal admin screens in React consumed by the operations team
+- Wrote unit tests for the billing module, raising its coverage from 34% to 81%
+- Fixed defects reported by QA against the customer portal
+- Participated in sprint planning and estimation with the product owner
+
+PROJECTS
+
+Warehouse Slot Optimiser | Python, PostgreSQL, FastAPI
+Built a service that assigns inbound pallets to warehouse slots using a greedy
+heuristic. Exposed as a REST endpoint and used in a pilot at one depot.
+
+Open Source Contribution - httpx
+Submitted a documentation fix and a small bug fix for timeout handling.
+github.com/example-aisha/httpx-contrib
+
+EDUCATION
+
+BSc (Hons) Computer Science | University of Manchester | 2018 - 2021
+Grade: 2:1
+
+CERTIFICATIONS
+AWS Certified Cloud Practitioner - Amazon Web Services - 2024
+Professional Scrum Master I - Scrum.org - 2023
+
+LANGUAGES
+English (native), Urdu (fluent)

@@ -1,0 +1,20 @@
+SYNTHETIC TEST CV - FICTIONAL PERSON - CREATED FOR NLP COURSE PROJECT TESTING
+
+MARIA  SANTOS   ||   maria.santos@example.com   ||   07700900999
+
+WHAT I DO
+I am a developer. I have been doing web work since 2019 and I mostly use react and
+node these days, plus a bit of mongo.
+
+WHERE I HAVE WORKED
+Acme Web Studio -- developer -- 2019 to now
+   * built websites for clients
+   * did some API work
+Freelance | 2018-2019
+   * various small jobs
+
+SCHOOL
+Diploma in Software Development, Lisbon Technical College, finished 2018
+
+OTHER
+react, reactjs, React.js, node.js, nodejs, mongodb, mongo db, git, GIT

@@ -1,0 +1,6 @@
+SYNTHETIC TEST CV - FICTIONAL PERSON - CREATED FOR NLP COURSE PROJECT TESTING
+
+John Smith
+john.smith@example.com
+
+Looking for work.
