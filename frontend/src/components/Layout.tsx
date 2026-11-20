@@ -98,9 +98,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <span className="block truncate text-sm font-bold leading-tight text-ink">
               Career Intelligence
             </span>
-            <span className="block text-[0.6875rem] font-medium uppercase tracking-wider text-ink-faint">
-              NLP Course Project
-            </span>
+
           </span>
           <button
             type="button"
