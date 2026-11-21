@@ -326,3 +326,34 @@ def test_normalisation_is_deterministic() -> None:
     first = [s.canonical for s in normalise_skills(raw)]
     for _ in range(4):
         assert [s.canonical for s in normalise_skills(raw)] == first
+
+
+# --- QA regression: unrelated skills must not merge (B1/B2) -------------------
+
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize(
+    "raw, wrong",
+    [
+        ("Problem Solving", "Data Structures & Algorithms"),
+        ("Cooking", "C"),
+        ("Adobe Photoshop", "Figma"),
+    ],
+)
+def test_unrelated_skills_do_not_merge(raw: str, wrong: str) -> None:
+    from app.services.skills.normalizer import resolve_skill
+
+    resolved = resolve_skill(raw)
+    assert resolved is None or resolved.canonical != wrong
+
+
+@_pytest.mark.parametrize(
+    "requirement, cv_skill",
+    [("Java", "JavaScript"), ("C", "CI/CD"), ("R", "Express.js"), ("Go", "Django"), ("VS Code", "Code Review")],
+)
+def test_short_or_contained_names_get_no_similarity_credit(requirement: str, cv_skill: str) -> None:
+    from app.services.skills.matcher import PARTIAL_FUZZY_THRESHOLD, _closest_cv_skill
+
+    _, score = _closest_cv_skill(requirement, [cv_skill])
+    assert score < PARTIAL_FUZZY_THRESHOLD

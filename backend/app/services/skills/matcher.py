@@ -39,7 +39,7 @@ from typing import Any, Sequence
 from app.core.logging_setup import get_logger
 from app.services.skills import taxonomy as tx
 from app.services.skills.normalizer import FUZZY_ACCEPT, resolve_skill
-from app.services.skills.text_norm import normalise_key
+from app.services.skills.text_norm import normalise_key, skill_similarity
 
 log = get_logger(__name__)
 
@@ -353,7 +353,7 @@ def _closest_cv_skill(requirement: str, cv_canonical: Sequence[str]) -> tuple[st
     key = normalise_key(requirement)
     best_name, best_score = "", 0.0
     for name in cv_canonical:
-        score = float(max(fuzz.token_set_ratio(key, normalise_key(name)), fuzz.WRatio(key, normalise_key(name)) * 0.95))
+        score = skill_similarity(fuzz, key, normalise_key(name))
         if score > best_score:
             best_name, best_score = name, score
     return best_name, best_score
@@ -518,6 +518,9 @@ def candidate_skill_set(profile: dict[str, Any]) -> list[dict[str, Any]]:
         degree = (education or {}).get("degree", "")
         if degree:
             extra.append(degree)
+            level = _degree_level(degree)
+            if level:
+                extra.append(level)
 
     for project in profile.get("projects") or []:
         extra.extend(project.get("technologies") or [])
@@ -528,6 +531,21 @@ def candidate_skill_set(profile: dict[str, Any]) -> list[dict[str, Any]]:
             known.add(resolved.canonical.lower())
 
     return entries
+
+
+_DEGREE_LEVELS = (
+    ("PhD", re.compile(r"^\s*(ph\.?\s?d|doctor(ate)?|doctoral|d\.?phil)\b", re.I)),
+    ("Master's Degree", re.compile(r"^\s*(m\.?\s?sc|m\.?\s?s|m\.?\s?a|mba|m\.?\s?eng|m\.?\s?phil|master'?s?)\b", re.I)),
+    ("Bachelor's Degree", re.compile(r"^\s*(b\.?\s?sc|b\.?\s?s|b\.?\s?a|b\.?\s?e|b\.?\s?eng|b\.?\s?tech|bachelor'?s?)\b", re.I)),
+)
+
+
+def _degree_level(degree: str) -> str:
+    """'BSc (Hons) Cyber Security' -> "Bachelor's Degree", by its prefix."""
+    for level, pattern in _DEGREE_LEVELS:
+        if pattern.search(degree):
+            return level
+    return ""
 
 
 def resolve_many(names: Sequence[str]) -> list[str]:

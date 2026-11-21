@@ -305,6 +305,7 @@ CANONICAL_SKILLS: dict[str, dict] = {
     "Jira": _s(["atlassian jira", "jira software", "confluence"], CATEGORY_TOOL),
     "Postman": _s(["postman api", "insomnia", "api testing tool"], CATEGORY_TOOL),
     "Figma": _s(["figma design", "adobe xd", "sketch app"], CATEGORY_TOOL),
+    "Adobe Photoshop": _s(["photoshop", "adobe ps"], CATEGORY_TOOL),
     "VS Code": _s(["visual studio code", "vscode"], CATEGORY_TOOL),
     "Jupyter": _s(["jupyter notebook", "jupyter notebooks", "google colab", "colab"], CATEGORY_TOOL, ["Python"]),
 
@@ -321,7 +322,7 @@ CANONICAL_SKILLS: dict[str, dict] = {
         CATEGORY_PRACTICE,
     ),
     "Data Structures & Algorithms": _s(
-        ["dsa", "data structures", "algorithms", "algorithm design", "complexity analysis", "problem solving (coding)"],
+        ["dsa", "data structures", "algorithms", "algorithm design", "complexity analysis", "coding problems", "leetcode"],
         CATEGORY_PRACTICE,
     ),
     "Object-Oriented Programming": _s(["oop", "object oriented design", "ood", "solid principles"], CATEGORY_PRACTICE),

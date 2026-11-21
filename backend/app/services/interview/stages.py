@@ -130,7 +130,7 @@ STAGE_SPECS: dict[str, StageSpec] = {
 
 # Phrases that mean "I have nothing to ask" in the candidate-questions stage.
 _NO_QUESTIONS_MARKERS = (
-    "no questions", "nothing", "no thanks", "no thank you", "i'm good", "im good",
+    "no questions", "nothing else", "nothing from me", "nothing to ask", "no thanks", "no thank you", "i'm good", "im good",
     "that's all", "thats all", "all good", "no i don't", "no i dont", "not really",
     "you've covered", "youve covered", "covered everything", "i think that's it",
 )
@@ -200,6 +200,26 @@ def next_stage(stage: str) -> str:
     return STAGE_ORDER[index + 1] if index + 1 < len(STAGE_ORDER) else COMPLETE
 
 
+_QUESTION_OPENERS = (
+    "what", "how", "why", "when", "where", "who", "which", "can", "could", "would",
+    "is", "are", "do", "does", "will", "should", "tell me",
+)
+
+
+def _contains_question(text: str) -> bool:
+    """Does the candidate actually ask something ("Nothing much, but what...?")"""
+    if "?" in text:
+        return True
+    words = text.replace(",", " ").split()
+    # "nothing much, but how big is the team" - a question without the "?"
+    # that speech recognition often drops.
+    for index, word in enumerate(words):
+        if word in ("but", "although", "though", "actually") and index + 1 < len(words):
+            if any(" ".join(words[index + 1:]).startswith(o + " ") for o in _QUESTION_OPENERS):
+                return True
+    return False
+
+
 def should_advance(state: StageState, difficulty: str, last_answer: str = "") -> bool:
     """Has the current stage finished?"""
     spec = spec_for(state.stage)
@@ -207,7 +227,13 @@ def should_advance(state: StageState, difficulty: str, last_answer: str = "") ->
 
     if state.stage == CANDIDATE_QUESTIONS and last_answer:
         probe = last_answer.strip().lower()
-        if len(probe) < 90 and any(marker in probe for marker in _NO_QUESTIONS_MARKERS):
+        if probe.strip(" .!,") in ("no", "nope", "none", "nothing", "nothing much", "no thank you"):
+            return True
+        if (
+            len(probe) < 90
+            and not _contains_question(probe)
+            and any(marker in probe for marker in _NO_QUESTIONS_MARKERS)
+        ):
             return True
 
     return state.stage_question_count >= budget
