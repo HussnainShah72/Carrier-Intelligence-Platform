@@ -414,3 +414,36 @@ def _is_protected_slash(part: str) -> bool:
     # Only *both*, so "R/Python" and "HTML/CSS" still split correctly.
     left, _, right = key.partition("/")
     return len(left.strip()) <= 2 and len(right.strip()) <= 2
+
+
+#: Keys shorter than this are compared exactly, never fuzzily: "c", "r", "go"
+#: and "java" are substrings of unrelated skills ("ci/cd", "express", "django",
+#: "javascript"), so any partial-match score for them is meaningless.
+FUZZY_MIN_KEY_LENGTH = 5
+
+
+def skill_similarity(fuzz, a: str, b: str) -> float:
+    """
+    Length-safe 0-100 similarity between two normalised skill keys.
+
+    rapidfuzz's WRatio/partial scores reward one string being *contained* in the
+    other, which is how "c" scored 90 against "ci/cd" and "java" against
+    "javascript". Here short keys must match exactly, and the subset-friendly
+    token_set_ratio only counts when both keys are of comparable length.
+    """
+    if not a or not b:
+        return 0.0
+    if a == b:
+        return 100.0
+    shorter, longer = sorted((a, b), key=len)
+    if len(shorter) < FUZZY_MIN_KEY_LENGTH:
+        return 0.0
+    score = max(fuzz.ratio(a, b), fuzz.token_sort_ratio(a, b))
+    # One typo (including a swapped pair: "pyhton") in a word of 5+ letters.
+    from rapidfuzz.distance import OSA  # type: ignore
+
+    if OSA.distance(a, b) == 1:
+        score = max(score, 92.0)
+    if len(shorter) / len(longer) >= 0.6:
+        score = max(score, fuzz.token_set_ratio(a, b))
+    return float(score)

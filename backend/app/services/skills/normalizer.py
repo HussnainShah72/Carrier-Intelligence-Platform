@@ -25,6 +25,7 @@ from typing import Iterable, Sequence
 from app.core.logging_setup import get_logger
 from app.services.skills import taxonomy as tx
 from app.services.skills.text_norm import (
+    skill_similarity,
     char_ngrams,
     jaccard,
     normalise_key,
@@ -198,10 +199,7 @@ def resolve_skill(raw: str) -> NormalisedSkill | None:
         best_name, best_score, best_key = "", 0.0, ""
         candidates = _prefilter(key)
         for cand_key, cand_name in candidates:
-            score = max(
-                fuzz.token_set_ratio(key, cand_key),
-                fuzz.WRatio(key, cand_key) * 0.98,
-            )
+            score = skill_similarity(fuzz, key, cand_key)
             if score > best_score:
                 best_name, best_score, best_key = cand_name, float(score), cand_key
         if best_score >= FUZZY_ACCEPT:
@@ -225,7 +223,11 @@ def resolve_skill(raw: str) -> NormalisedSkill | None:
             sims = (matrix @ q.T).toarray().ravel()
             idx = int(np.argmax(sims))
             score = float(sims[idx])
-            if score >= VECTOR_ACCEPT:
+            # Character n-grams overweight a shared word ("adobe photoshop" vs
+            # "adobe xd" scores 0.84), so the whole key must also agree.
+            if score >= VECTOR_ACCEPT and (
+                fuzz is None or fuzz.token_sort_ratio(key, _canonical_keys[idx]) >= 60
+            ):
                 name = _canonical_names[idx]
                 return NormalisedSkill(
                     canonical=name,

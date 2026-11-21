@@ -463,3 +463,26 @@ def test_sanitisation_leaves_legitimate_feedback_alone() -> None:
 
 def test_sanitisation_handles_empty_input() -> None:
     assert _sanitise("") == ""
+
+
+# --- QA regression: a real question is not mistaken for "no questions" (B3) --
+
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize(
+    "answer, advances",
+    [
+        ("Nothing much, but what does the on-call rotation look like?", False),
+        ("nothing much but how big is the team", False),
+        ("What tech stack does the team use?", False),
+        ("No questions, thank you.", True),
+        ("Nothing.", True),
+        ("Nothing else from me, thanks", True),
+    ],
+)
+def test_candidate_question_stage_only_ends_without_a_question(answer: str, advances: bool) -> None:
+    from app.services.interview import stages as st
+
+    state = st.StageState(stage=st.CANDIDATE_QUESTIONS)
+    assert st.should_advance(state, "medium", answer) is advances
