@@ -55,15 +55,40 @@ def test_ollama_streaming_parses_ndjson() -> None:
 
 
 def test_stopped_ollama_is_reported_quickly(monkeypatch) -> None:
+    """A refused connection is reported with a short timeout, not ~40 s of SDK retries."""
     from app.core.config import settings
     from app.services.llm import client as client_mod
 
     monkeypatch.setattr(settings, "llm_provider", "ollama")
-    monkeypatch.setattr(settings, "ollama_base_url", "http://127.0.0.1:9")  # nothing listens here
+    seen: dict = {}
 
-    started = time.perf_counter()
+    def refused(url, timeout):
+        seen["timeout"] = timeout
+        raise httpx.ConnectError("connection refused")
+
+    monkeypatch.setattr(httpx, "get", refused)
     status = client_mod.check_ollama(max_age_seconds=0)
     assert status["reachable"] is False
-    assert "not reachable" in status["detail"]
-    # Windows retries a refused connect for a few seconds; the old behaviour was ~40 s.
-    assert time.perf_counter() - started < 15
+    assert "not reachable" in status["detail"] and "ollama serve" in status["detail"]
+    assert seen["timeout"] <= 3.0
+
+
+def test_ollama_client_does_not_retry_a_dead_server() -> None:
+    """The local server has no rate limit; the old 6 retries with backoff cost ~40 s."""
+    from app.services.llm.client import LLMClient
+
+    client = LLMClient(provider="ollama", model="llama3.2:3b")
+    response_calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        response_calls["n"] += 1
+        raise httpx.ConnectError("connection refused")
+
+    client._ollama_http = httpx.Client(base_url="http://ollama.test", transport=httpx.MockTransport(handler))
+    started = time.perf_counter()
+    try:
+        client.complete("ping")
+    except Exception:
+        pass
+    assert response_calls["n"] == 1
+    assert time.perf_counter() - started < 5

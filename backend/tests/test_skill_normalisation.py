@@ -357,3 +357,15 @@ def test_short_or_contained_names_get_no_similarity_credit(requirement: str, cv_
 
     _, score = _closest_cv_skill(requirement, [cv_skill])
     assert score < PARTIAL_FUZZY_THRESHOLD
+
+
+@_pytest.mark.parametrize(
+    "raw, wrong",
+    [("CPR Certification", "AWS Certification"), ("Current BLS Certification", "AWS Certification"),
+     ("Patient Assessment", "Security Compliance")],
+)
+def test_shared_word_does_not_merge_in_vector_stage(raw: str, wrong: str) -> None:
+    from app.services.skills.normalizer import resolve_skill
+
+    resolved = resolve_skill(raw)
+    assert resolved is None or resolved.canonical != wrong

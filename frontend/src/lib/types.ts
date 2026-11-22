@@ -553,6 +553,7 @@ export interface Rubric {
   scale: Array<{ score: number; label: string; descriptor: string }>;
   categories: RubricCategory[];
   overall_bands: Array<{ min: number; label: string; summary: string }>;
+  calibration_rules?: string[];
   disclaimer: string;
   defined_in_advance: boolean;
   note: string;

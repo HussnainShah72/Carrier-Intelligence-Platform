@@ -68,6 +68,16 @@ REASON_OK = ""
 REASON_NUMBERS = "invented_metric"
 REASON_TECH = "invented_technology"
 REASON_SCOPE = "escalated_scope"
+REASON_OUTCOME = "invented_outcome"
+
+# Words that claim a result or benefit. If the rewrite uses one and neither the
+# original bullet nor the CV says anything of the kind, the outcome is invented.
+_OUTCOME_STEMS = (
+    "scalab", "maintainab", "reliab", "efficien", "performan", "productiv", "improv",
+    "enhanc", "increas", "reduc", "boost", "optimi", "accelerat", "streamlin", "robust",
+    "quality", "revenue", "satisfaction", "user experience", "cost saving", "savings",
+    "faster", "fewer", "higher", "lower", "stabil", "uptime", "availability",
+)
 REASON_EMPTY = "empty_rewrite"
 REASON_TOO_LONG = "rewrite_too_long"
 
@@ -311,6 +321,28 @@ def _verify_one(
         )
         return improvement
 
+    # ---- check 3b: invented outcomes -------------------------------------
+    # "Migrated X" -> "Migrated X for improved scalability and maintainability"
+    # claims a result the candidate never stated -- inventing experience, just
+    # without a number. Found with a real model in QA; it used to be a warning.
+    invented_outcomes = _invented_outcomes(original, improved, cv_text)
+    if invented_outcomes:
+        improvement.accepted = False
+        improvement.rejection_reason = REASON_OUTCOME
+        improvement.flags.append(
+            {
+                "type": REASON_OUTCOME,
+                "severity": "blocking",
+                "detail": "The rewrite claims an outcome your original does not state: "
+                          f"{', '.join(invented_outcomes[:4])}.",
+            }
+        )
+        improvement.explanation = (
+            "Rejected: the rewrite added a result or benefit you did not claim "
+            f"({', '.join(invented_outcomes[:3])}). Your original text has been kept."
+        )
+        return improvement
+
     # ---- check 4: unexplained new content (soft) -------------------------
     sources = [original]
     if cv_text:
@@ -348,6 +380,21 @@ _PEOPLE_LEADERSHIP_EVIDENCE = {
     "directed", "director", "oversaw", "chaired", "captain", "president",
     "coordinated", "coordinator", "in charge", "team of",
 }
+
+
+def _invented_outcomes(original: str, improved: str, cv_text: str = "") -> list[str]:
+    """Outcome/benefit stems present in the rewrite but in neither the bullet nor the CV line."""
+    original_low = original.lower()
+    improved_low = improved.lower()
+    found: list[str] = []
+    for stem in _OUTCOME_STEMS:
+        if stem in improved_low and stem not in original_low:
+            match = re.search(rf"\b\w*{re.escape(stem)}\w*\b", improved_low)
+            found.append(match.group(0) if match else stem)
+    # The CV may state the outcome elsewhere (e.g. the next bullet); only then
+    # is it supported. Check the whole word, not the stem, against the CV.
+    cv_low = (cv_text or "").lower()
+    return [word for word in dict.fromkeys(found) if not (cv_low and _has_word(word, cv_low))]
 
 
 def _has_word(phrase: str, text_low: str) -> bool:
