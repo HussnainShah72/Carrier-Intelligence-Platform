@@ -650,3 +650,25 @@ def test_closing_without_a_thank_you_gets_one(monkeypatch) -> None:
     assert done["stage"] == stages.CLOSING
     assert "?" not in done["reply"] and "thank you" in done["reply"].lower()
     assert done["reply"].startswith("That's a valuable skill")
+
+
+def test_browser_speech_end_is_added_to_the_latency(monkeypatch) -> None:
+    """Upload time the server cannot see is reported, and stored for the performance report."""
+    from app.services.interview import engine
+    from app.services.metrics import recorder
+
+    def fake_speak(text, start_index, reference):
+        yield ({"type": "audio", "index": start_index, "engine": "fake"}, 5.0, 1.0)
+
+    monkeypatch.setattr(engine, "_speak", fake_speak)
+    interview = engine.create_interview(role_title="Data Analyst", mode="voice")
+
+    events = list(engine.stream_turn(interview.id, candidate_text="", speak=True,
+                                     speech_end_to_server_ms=420.0))
+    timings = next(e for e in events if e["type"] == "metrics")["timings"]
+    assert timings["speech_end_to_server_ms"] == 420.0
+    assert timings["e2e_from_speech_end_ms"] == round(420.0 + timings["e2e_first_audio_ms"], 1)
+
+    stored = recorder.interview_metrics(interview.id)["turns"][0]
+    assert stored["speech_end_to_server_ms"] == 420.0
+    assert stored["e2e_from_speech_end_ms"] is not None

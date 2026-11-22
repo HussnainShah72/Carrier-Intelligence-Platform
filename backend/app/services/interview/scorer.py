@@ -46,7 +46,24 @@ _HIRING_PATTERNS = [
     (re.compile(r"\b(?:pass|fail)(?:ed|es)?\s+(?:the\s+)?interview\b", re.I),
      "completed the interview"),
     (re.compile(r"\b(?:definitely|certainly)\s+(?:hire|reject)\b", re.I), "practise further"),
+    # Readiness verdicts, seen in QA from a real model in the gap advice:
+    # "Candidate is ready for Software Engineer role with areas needing ...".
+    (re.compile(r"\b(?:is|are|seems?|appears?|looks?)\s+(?:not\s+(?:yet\s+)?|already\s+)?ready\s+"
+                r"(?:to\s+(?:contribute|start|work)\s+)?(?:as|for|in)\s+(?:a|an|the\s+)?[^,.;]{0,60}?"
+                r"\b(?:role|position|job)\b", re.I),
+     "covers part of the requirements for this role"),
+    (re.compile(r"\b(?:is|are)\s+(?:not\s+(?:yet\s+)?)?ready\s+to\s+(?:contribute|start|work)\s+as\s+(?:a|an)\s+[^,.;]{1,60}",
+                re.I),
+     "covers part of the requirements for this role"),
+    (re.compile(r"\b(?:would\s+)?(?:be\s+)?a\s+(?:strong|good|great|ideal|weak)\s+candidate\s+for\s+"
+                r"(?:the\s+|this\s+)?[^,.;]{0,40}?\b(?:role|position|job)\b", re.I),
+     "be better prepared for this role"),
 ]
+
+
+def remove_hiring_language(text: str) -> str:
+    """Public wrapper so other modules (gap advice) apply the same rules."""
+    return _sanitise(text)
 
 
 def score_interview(interview_id: str) -> dict[str, Any]:

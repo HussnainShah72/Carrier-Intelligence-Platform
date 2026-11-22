@@ -8,6 +8,7 @@ from fastapi import APIRouter
 
 from app.core.db import dumps, execute, loads, log_activity, new_id, query_all, query_one, utcnow
 from app.core.errors import NotFoundError
+from app.services.interview.scorer import remove_hiring_language
 from app.core.logging_setup import get_logger
 from app.schemas.models import BulletDecisionRequest, GapAnalysisRequest, ImproveBulletsRequest
 from app.services.improve import bullets as improve_service
@@ -112,7 +113,7 @@ def _generate_advice(analysis: Any, role_title: str) -> dict[str, Any]:
         priority.append(
             {
                 "skill": skill,
-                "why_it_matters": json_guard.as_text(item.get("why_it_matters"), max_len=500),
+                "why_it_matters": remove_hiring_language(json_guard.as_text(item.get("why_it_matters"), max_len=500)),
                 "how_to_close": json_guard.as_text(item.get("how_to_close"), max_len=500),
                 "estimated_effort": json_guard.as_text(item.get("estimated_effort"), max_len=80),
             }
@@ -121,7 +122,7 @@ def _generate_advice(analysis: Any, role_title: str) -> dict[str, Any]:
     valid_matched = {c.requirement.lower() for c in analysis.matched}
     return {
         "available": True,
-        "headline": json_guard.as_text(payload.get("headline"), max_len=400),
+        "headline": remove_hiring_language(json_guard.as_text(payload.get("headline"), max_len=400)),
         "priority_gaps": priority,
         "quick_wins": [
             s for s in json_guard.as_str_list(payload.get("quick_wins"), limit=8, max_len=80)

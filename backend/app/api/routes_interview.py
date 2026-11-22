@@ -210,6 +210,7 @@ async def voice_turn(
     interview_id: str,
     audio: UploadFile = File(...),
     speak: bool = Form(True),
+    speech_ended_at_ms: float | None = Form(None),
 ) -> StreamingResponse:
     """
     A full spoken turn: local transcription, then the streamed spoken reply.
@@ -222,6 +223,17 @@ async def voice_turn(
     """
     data = await audio.read()
     speech_ended_at = time.perf_counter()
+    received_epoch_ms = time.time() * 1000
+
+    # The browser sends when it detected the end of speech (epoch ms). Browser
+    # and backend run on the same machine, so the clocks agree; the difference
+    # is the recording finalisation + upload time that a server-only clock
+    # cannot see. Implausible values (clock skew, a remote browser) are ignored.
+    speech_end_to_server_ms: float | None = None
+    if speech_ended_at_ms is not None:
+        gap = received_epoch_ms - speech_ended_at_ms
+        if 0 <= gap <= 60_000:
+            speech_end_to_server_ms = gap
 
     if len(data) > MAX_AUDIO_BYTES:
         raise ValidationError(
@@ -280,6 +292,7 @@ async def voice_turn(
                 audio_seconds=transcription.duration_seconds,
                 speak=speak,
                 speech_ended_at=speech_ended_at,
+                speech_end_to_server_ms=speech_end_to_server_ms,
             ):
                 yield _sse(event)
         except AppError as exc:

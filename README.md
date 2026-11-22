@@ -172,7 +172,9 @@ guessed. Hiring-decision language is stripped from the output.
 Measures, per turn, with a high-resolution timer in the real request path:
 speech-recognition time, end-of-speech to first text token, first-sentence
 synthesis time, **end of speech to first audio** (the headline), and total turn
-time. Reported as median, mean and p90 — a mean alone hides the tail. Broken
+time. The browser also reports when speech actually ended, so the recording and
+upload time the server cannot see is measured too (browser end of speech to
+first audio). Reported as median, mean and p90 — a mean alone hides the tail. Broken
 down per job role, exportable as JSON and CSV.
 
 ---
@@ -388,7 +390,10 @@ result.
 3. Press **Start**. The speech models load first (a few seconds) — deliberately
    before the clock starts, so model loading does not distort the measured
    latency.
-4. Press the microphone, speak your answer, press it again to send.
+4. Press the microphone and speak your answer. When you pause for about 1.6
+   seconds the answer is sent automatically (voice activity detection); you can
+   also press the button again, or untick "Send automatically when I stop
+   talking".
 5. Watch the input meter while you speak: if it does not move, your microphone
    is muted or the wrong device is selected.
 6. The interviewer's reply streams in as text and starts speaking after the

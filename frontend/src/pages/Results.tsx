@@ -235,6 +235,16 @@ export default function Results() {
         </Notice>
       )}
 
+      {report.calibration && report.calibration.length > 0 && (
+        <Notice tone="warn" title="Evidence rules applied to this interview" className="mb-6">
+          <ul className="list-disc space-y-1 pl-4">
+            {report.calibration.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        </Notice>
+      )}
+
       {/* ---------------------------------------------------- score header -- */}
       <Card className="mb-6">
         <div className="card-pad">
@@ -532,6 +542,16 @@ function ScoresTab({ report }: { report: InterviewReport }) {
             </tr>
           ))}
         </Table>
+        {report.rubric.calibration_rules && report.rubric.calibration_rules.length > 0 && (
+          <>
+            <p className="label mt-4">Evidence rules (part of the rubric, published before the interview)</p>
+            <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-ink-muted">
+              {report.rubric.calibration_rules.map((rule) => (
+                <li key={rule}>{rule}</li>
+              ))}
+            </ul>
+          </>
+        )}
         <p className="mt-3 text-xs leading-relaxed text-ink-muted">{report.rubric.note}</p>
       </Collapsible>
     </div>
@@ -828,6 +848,7 @@ function PerformanceTab({ report }: { report: InterviewReport }) {
     'llm_ttft_ms',
     'tts_first_ms',
     'e2e_first_audio_ms',
+    'e2e_from_speech_end_ms',
     'total_ms',
   ] as const;
 

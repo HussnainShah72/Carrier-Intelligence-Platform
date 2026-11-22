@@ -848,3 +848,18 @@ def test_rewrites_may_not_invent_outcomes(original, rewrite, invented) -> None:
 
     cv = "Reduced median API response time from 420ms to 180ms by adding Redis caching"
     assert bool(_invented_outcomes(original, rewrite, cv)) is invented
+
+
+@_pytest.mark.parametrize(
+    "text",
+    [
+        "Candidate is ready for Software Engineer role with areas needing further development",
+        "This candidate is ready to contribute as a Software Engineer, with areas needing development.",
+        "With practice, Aisha can be a strong candidate for the role.",
+    ],
+)
+def test_readiness_verdicts_are_removed(text: str) -> None:
+    from app.services.interview.scorer import remove_hiring_language
+
+    cleaned = remove_hiring_language(text).lower()
+    assert "ready" not in cleaned and "strong candidate" not in cleaned

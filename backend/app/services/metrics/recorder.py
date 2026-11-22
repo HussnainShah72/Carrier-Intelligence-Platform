@@ -15,6 +15,10 @@ tts_first_ms          Piper synthesis time for the FIRST sentence only
 tts_total_ms          Piper synthesis time summed over all sentences
 e2e_first_audio_ms    END OF SPEECH -> FIRST AUDIO BYTE READY  <-- headline
 total_ms              end of speech -> whole turn complete
+speech_end_to_server_ms  browser-detected end of speech -> audio received by the server
+                      (recording finalisation + upload; same machine, same clock)
+e2e_from_speech_end_ms   browser-detected end of speech -> first audio byte ready
+                      (= speech_end_to_server_ms + e2e_first_audio_ms)
 audio_seconds         duration of the candidate's recording
 
 Aggregates report the median and p90 as well as the mean, because a mean alone
@@ -39,16 +43,20 @@ METRIC_FIELDS = (
     "tts_total_ms",
     "e2e_first_audio_ms",
     "total_ms",
+    "speech_end_to_server_ms",
+    "e2e_from_speech_end_ms",
 )
 
 METRIC_LABELS = {
     "stt_ms": "Speech recognition (local Whisper)",
     "llm_ttft_ms": "End of speech to first text token",
-    "llm_total_ms": "LLM generation (total)",
+    "llm_total_ms": "LLM generation time (from LLM start)",
     "tts_first_ms": "First sentence synthesis (local Piper)",
     "tts_total_ms": "Speech synthesis (total)",
     "e2e_first_audio_ms": "End of speech to first audio (headline)",
     "total_ms": "End of speech to turn complete",
+    "speech_end_to_server_ms": "Browser end of speech to server receipt (upload)",
+    "e2e_from_speech_end_ms": "Browser end of speech to first audio",
 }
 
 HEADLINE_METRIC = "e2e_first_audio_ms"
@@ -102,8 +110,9 @@ def record_turn(
         execute(
             "INSERT INTO latency_events(id, interview_id, turn_index, role_title, stt_ms, llm_total_ms, "
             "llm_ttft_ms, tts_first_ms, tts_total_ms, e2e_first_audio_ms, total_ms, audio_seconds, "
-            "chars_out, stt_engine, tts_engine, llm_provider, llm_model, mode, created_at) "
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "chars_out, stt_engine, tts_engine, llm_provider, llm_model, mode, created_at, "
+            "speech_end_to_server_ms, e2e_from_speech_end_ms) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (
                 new_id("lat"), interview_id, turn_index, role_title,
                 _sane(payload.get("stt_ms")), _sane(payload.get("llm_total_ms")),
@@ -114,6 +123,7 @@ def record_turn(
                 payload.get("stt_engine") or "", payload.get("tts_engine") or "",
                 payload.get("llm_provider") or "", payload.get("llm_model") or "",
                 mode, utcnow(),
+                _sane(payload.get("speech_end_to_server_ms")), _sane(payload.get("e2e_from_speech_end_ms")),
             ),
         )
     except Exception as exc:  # pragma: no cover - metrics must never break a turn
@@ -292,6 +302,8 @@ def export_payload() -> dict[str, Any]:
                 "unit": "milliseconds",
                 "measured_from": "end of candidate speech (server receipt of audio)"
                 if field in ("llm_ttft_ms", "e2e_first_audio_ms", "total_ms")
+                else "end of candidate speech as detected in the browser"
+                if field in ("speech_end_to_server_ms", "e2e_from_speech_end_ms")
                 else "start of that pipeline stage",
             }
             for field in METRIC_FIELDS

@@ -614,6 +614,8 @@ export interface InterviewReport {
   answer_quality_series: number[];
   performance: InterviewMetrics;
   assessor: { engine: string; degraded: boolean; note: string };
+  /** Evidence rules (from the rubric) that changed a score in this interview. */
+  calibration?: string[];
   disclaimer: string;
   scoring_ms: number;
 }
@@ -636,7 +638,9 @@ export type MetricField =
   | 'tts_first_ms'
   | 'tts_total_ms'
   | 'e2e_first_audio_ms'
-  | 'total_ms';
+  | 'total_ms'
+  | 'speech_end_to_server_ms'
+  | 'e2e_from_speech_end_ms';
 
 export interface InterviewMetrics {
   interview_id: string;

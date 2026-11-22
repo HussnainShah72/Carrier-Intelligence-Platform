@@ -1311,6 +1311,16 @@ def build_technical_section(document, keys, h2, h3, para, bullet, table, code_bl
         widths=[2.3, 1.7, 2.8],
     )
 
+    h2("14.5  Hardening from end-to-end QA with a real model")
+    para(C.HARDENING_INTRO)
+    table(
+        ["Problem found", "Effect", "Fix"],
+        [[problem, effect, fix] for problem, effect, fix in C.HARDENING],
+        caption="Defects found by running the full product against a local LLM, and how each was fixed. "
+                "Every fix has a regression test.",
+        widths=[2.0, 2.2, 2.6],
+    )
+
 
 def build_evaluation_section(document, data, h1, h2, h3, para, body, bullet, table,
                              figure, code_block, page_break, include_screenshots):

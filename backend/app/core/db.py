@@ -23,7 +23,7 @@ log = get_logger(__name__)
 
 _local = threading.local()
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS schema_meta (
@@ -159,7 +159,9 @@ CREATE TABLE IF NOT EXISTS latency_events (
     llm_provider       TEXT NOT NULL DEFAULT '',
     llm_model          TEXT NOT NULL DEFAULT '',
     mode               TEXT NOT NULL DEFAULT 'voice',
-    created_at         TEXT NOT NULL
+    created_at         TEXT NOT NULL,
+    speech_end_to_server_ms REAL,
+    e2e_from_speech_end_ms  REAL
 );
 CREATE INDEX IF NOT EXISTS idx_latency_interview ON latency_events(interview_id);
 CREATE INDEX IF NOT EXISTS idx_latency_created ON latency_events(created_at DESC);
@@ -216,6 +218,12 @@ def init_db() -> None:
     """Create the schema if needed.  Safe to call on every boot."""
     conn = get_connection()
     conn.executescript(SCHEMA)
+    # v4: browser-side end-of-speech timings. Added to existing databases in
+    # place, so an upgrade keeps every earlier measurement.
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(latency_events)")}
+    for column in ("speech_end_to_server_ms", "e2e_from_speech_end_ms"):
+        if column not in existing:
+            conn.execute(f"ALTER TABLE latency_events ADD COLUMN {column} REAL")
     conn.execute(
         "INSERT INTO schema_meta(key, value) VALUES('version', ?) "
         "ON CONFLICT(key) DO UPDATE SET value=excluded.value",

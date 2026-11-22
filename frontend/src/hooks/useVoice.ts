@@ -29,7 +29,22 @@ export interface RecorderState {
   cancel: () => void;
   prepare: () => Promise<boolean>;
   release: () => void;
+  /**
+   * When the candidate stopped speaking, as epoch ms: the last moment the input
+   * level was above the speech threshold, or the stop time if no speech was
+   * heard. Sent with the recording so latency can be measured from real speech end.
+   */
+  speechEndedAt: () => number;
+  /** Called once per recording after `silenceMs` of silence following speech; null disables. */
+  setOnSilence: (callback: (() => void) | null) => void;
 }
+
+/** Meter level (0-1) above which the input counts as speech. Normal speech is ~0.3-0.7. */
+const SPEECH_LEVEL = 0.12;
+/** Silence after speech that ends an answer automatically. */
+const SILENCE_MS = 1600;
+/** Never auto-stop in the first moments, before the candidate has started. */
+const MIN_RECORDING_MS = 1500;
 
 /** Candidate container/codec list, best first; browsers differ. */
 const PREFERRED_MIME_TYPES = [
@@ -65,6 +80,11 @@ export function useRecorder(maxSeconds = 150): RecorderState {
   const timerRef = useRef<number | null>(null);
   const startedAtRef = useRef(0);
   const stopResolveRef = useRef<((blob: Blob | null) => void) | null>(null);
+  const heardSpeechRef = useRef(false);
+  const lastVoiceAtRef = useRef(0);
+  const stoppedAtRef = useRef(0);
+  const onSilenceRef = useRef<(() => void) | null>(null);
+  const silenceFiredRef = useRef(false);
 
   useEffect(() => {
     if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
@@ -103,7 +123,27 @@ export function useRecorder(maxSeconds = 150): RecorderState {
         sum += centred * centred;
       }
       const rms = Math.sqrt(sum / buffer.length);
-      setLevel(Math.min(1, rms * 3.2));
+      const level = Math.min(1, rms * 3.2);
+      setLevel(level);
+
+      // Voice activity: remember when speech was last heard and, once the
+      // candidate has spoken and then stayed quiet, end the answer for them.
+      if (recorderRef.current?.state === 'recording') {
+        const now = Date.now();
+        if (level > SPEECH_LEVEL) {
+          heardSpeechRef.current = true;
+          lastVoiceAtRef.current = now;
+        } else if (
+          heardSpeechRef.current &&
+          !silenceFiredRef.current &&
+          onSilenceRef.current &&
+          now - startedAtRef.current > MIN_RECORDING_MS &&
+          now - lastVoiceAtRef.current > SILENCE_MS
+        ) {
+          silenceFiredRef.current = true;
+          onSilenceRef.current();
+        }
+      }
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -205,6 +245,9 @@ export function useRecorder(maxSeconds = 150): RecorderState {
     // 250 ms timeslices keep the buffer small and make a long answer resilient.
     recorder.start(250);
     startedAtRef.current = Date.now();
+    heardSpeechRef.current = false;
+    silenceFiredRef.current = false;
+    lastVoiceAtRef.current = 0;
     setSeconds(0);
     setStatus('recording');
 
@@ -220,6 +263,7 @@ export function useRecorder(maxSeconds = 150): RecorderState {
   const stop = useCallback((): Promise<Blob | null> => {
     const recorder = recorderRef.current;
     if (!recorder || recorder.state === 'inactive') return Promise.resolve(null);
+    stoppedAtRef.current = Date.now();
 
     if (timerRef.current !== null) {
       window.clearInterval(timerRef.current);
@@ -257,7 +301,18 @@ export function useRecorder(maxSeconds = 150): RecorderState {
     setStatus((current) => (current === 'recording' ? 'ready' : current));
   }, []);
 
-  return { status, level, seconds, error, mimeType, start, stop, cancel, prepare, release };
+  const speechEndedAt = useCallback(
+    () => (heardSpeechRef.current && lastVoiceAtRef.current ? lastVoiceAtRef.current : stoppedAtRef.current || Date.now()),
+    [],
+  );
+
+  const setOnSilence = useCallback((callback: (() => void) | null) => {
+    onSilenceRef.current = callback;
+  }, []);
+
+  return {
+    status, level, seconds, error, mimeType, start, stop, cancel, prepare, release, speechEndedAt, setOnSilence,
+  };
 }
 
 /* ------------------------------------------------------------ audio queue -- */

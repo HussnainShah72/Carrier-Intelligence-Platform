@@ -383,10 +383,13 @@ export async function streamVoiceTurn(
   audio: Blob,
   speak: boolean,
   options: StreamOptions,
+  speechEndedAtMs?: number,
 ): Promise<void> {
   const form = new FormData();
   form.append('audio', audio, 'recording.webm');
   form.append('speak', String(speak));
+  // Lets the backend add recording-finalisation + upload time to the latency.
+  if (speechEndedAtMs) form.append('speech_ended_at_ms', String(Math.round(speechEndedAtMs)));
 
   const response = await fetch(`${BASE}/interview/${interviewId}/voice-turn`, {
     method: 'POST',
