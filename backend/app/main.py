@@ -46,6 +46,14 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
             "No language model is configured - the deterministic OFFLINE engine will be used. "
             "Set LLM_PROVIDER in backend/.env for full quality."
         )
+    elif client.provider == "ollama":
+        from app.services.llm.client import check_ollama
+
+        ollama = check_ollama(max_age_seconds=0)
+        if ollama.get("reachable") and not ollama.get("models_missing"):
+            log.info("Ollama: %s", ollama["detail"])
+        else:
+            log.warning("Ollama: %s", ollama.get("detail"))
 
     from app.services.speech import stt, tts
 

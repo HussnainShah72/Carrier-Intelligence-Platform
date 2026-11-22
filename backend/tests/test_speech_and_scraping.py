@@ -430,3 +430,25 @@ def test_live_collection_returns_postings_with_descriptions() -> None:
             assert posting.source
     finally:
         object.__setattr__(config.settings, "scrape_enabled", False)
+
+
+# --- QA regression: posting relevance (B7) ------------------------------------
+
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize(
+    "role, title, body, kept",
+    [
+        ("Chef", "Chef d'équipe logistique (H/F)", "", False),
+        ("Chef", "Head Chef", "kitchen team", True),
+        ("Software Engineer", "Civil Engineer", "bridges and roads", False),
+        ("Software Engineer", "Senior Full Stack Software Engineer", "", True),
+        ("Java Developer", "JavaScript Developer", "react", False),
+    ],
+)
+def test_posting_relevance_uses_whole_words_and_the_full_title(role, title, body, kept) -> None:
+    from app.services.jobs.sources import MIN_RELEVANCE, JobPosting, relevance_score, role_tokens
+
+    score = relevance_score(JobPosting(source="t", source_type="api", title=title, description=body), role_tokens(role))
+    assert (score >= MIN_RELEVANCE) is kept

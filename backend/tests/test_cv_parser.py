@@ -361,3 +361,31 @@ def test_profile_round_trips_to_a_dict(software_engineer_cv_text: str) -> None:
     ):
         assert key in payload
     assert payload["skill_count"] == len(payload["skills"])
+
+
+# --- QA regression: non-standard CVs and link-only lines (B5/B6) -------------
+
+
+def test_messy_cv_headings_and_name_are_recognised() -> None:
+    from pathlib import Path
+
+    from app.services.cv.parser import parse_cv
+
+    path = Path(__file__).resolve().parents[2] / "evaluation" / "sample_cvs" / "synthetic_messy.txt"
+    profile, _ = parse_cv(path.read_text(encoding="utf-8"), use_llm=False)
+    assert profile.full_name == "Maria Santos"
+    assert len(profile.experience) == 2
+    assert profile.experience[0]["company"] == "Acme Web Studio"
+    assert len(profile.education) == 1
+
+
+def test_link_only_lines_are_not_bullets_to_improve() -> None:
+    from app.services.cv.parser import parse_cv
+
+    text = (
+        "Jane Doe\njane@example.com\n\nEXPERIENCE\nEngineer, Acme Ltd, Jan 2020 - Present\n"
+        "- Built the billing service used by four internal teams\n\nPROJECTS\nhttpx contrib\n"
+        "- github.com/example-jane/httpx-contrib\n"
+    )
+    profile, _ = parse_cv(text, use_llm=False)
+    assert not any("github.com" in b for b in profile.all_bullets)

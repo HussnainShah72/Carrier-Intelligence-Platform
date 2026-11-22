@@ -92,10 +92,10 @@ EMPLOYMENT_TYPE_RE = re.compile(r"\b(full[\s\-]?time|part[\s\-]?time|contract|re
 # Section headings as they actually appear on CVs.
 SECTION_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("contact", re.compile(r"^(contact|personal\s+(?:details|information|info)|details)\b", re.I)),
-    ("summary", re.compile(r"^(summary|professional\s+summary|profile|professional\s+profile|about(\s+me)?|objective|career\s+objective|personal\s+statement|introduction)\b", re.I)),
+    ("summary", re.compile(r"^(summary|professional\s+summary|profile|professional\s+profile|about(\s+me)?|objective|career\s+objective|personal\s+statement|introduction|what\s+i\s+do|who\s+i\s+am|overview)\b", re.I)),
     ("skills", re.compile(r"^(skills?|technical\s+skills?|core\s+(?:skills|competenc\w+)|competenc\w+|technologies|tech(?:nical)?\s+stack|expertise|areas\s+of\s+expertise|proficienc\w+|tools?(\s+(?:and|&)\s+technologies)?|key\s+skills)\b", re.I)),
-    ("experience", re.compile(r"^(experience|work\s+experience|professional\s+experience|employment(\s+history)?|work\s+history|career\s+history|relevant\s+experience|internships?)\b", re.I)),
-    ("education", re.compile(r"^(education|academic(\s+(?:background|qualifications?|history))?|qualifications?|educational\s+background)\b", re.I)),
+    ("experience", re.compile(r"^(experience|work\s+experience|professional\s+experience|employment(\s+history)?|work\s+history|career\s+history|career|relevant\s+experience|internships?|jobs|positions\s+held|where\s+i(?:'ve|\s+have)?\s+worked|work)$|^(experience|work\s+experience|professional\s+experience|employment(\s+history)?|work\s+history|career\s+history|relevant\s+experience|internships?)\b", re.I)),
+    ("education", re.compile(r"^(education|academic(\s+(?:background|qualifications?|history))?|qualifications?|educational\s+background|school(?:ing)?|studies|university|college|where\s+i\s+studied)\b", re.I)),
     ("projects", re.compile(r"^(projects?|personal\s+projects?|academic\s+projects?|key\s+projects?|selected\s+projects?|portfolio|project\s+experience)\b", re.I)),
     ("certifications", re.compile(r"^(certifications?|certificates?|licen[sc]es?|courses?|training|professional\s+development|credentials)\b", re.I)),
     ("awards", re.compile(r"^(awards?|achievements?|honors?|honours?|accomplishments?|activities|extra[\s\-]?curricular|volunteer\w*|leadership)\b", re.I)),
@@ -434,7 +434,13 @@ def _find_name(head: str, email: str) -> str:
     """
     The name is almost always the first substantial non-contact line of a CV.
     """
+    # Header lines often pack the name with contact details:
+    # "MARIA SANTOS || maria@example.com || 07700 900999". Try each segment.
+    segments: list[str] = []
     for raw_line in head.split("\n")[:8]:
+        segments.extend(re.split(r"\s*(?:\|\|?|•|·|–\s|—)\s*", raw_line))
+
+    for raw_line in segments:
         line = raw_line.strip().strip("|").strip()
         if not line or len(line) > 60:
             continue
@@ -534,10 +540,14 @@ def _new_job_from_header(line: str, dates: re.Match[str] | None) -> dict[str, An
         job["end"] = dates.group(2).strip().title()
         line = line.replace(dates.group(0), " ").strip(" ,|-–—\t")
 
+    employment_type = EMPLOYMENT_TYPE_RE.search(line)
     line = EMPLOYMENT_TYPE_RE.sub(" ", line)
-    parts = [p.strip(" .") for p in re.split(r"\s*(?:\||•|–|—|,|\sat\s|\s-\s)\s*", line) if p.strip(" .")]
+    parts = [p.strip(" .") for p in re.split(r"\s*(?:\||•|–|—|,|\sat\s|\s-{1,2}\s)\s*", line) if p.strip(" .")]
 
     if not parts:
+        # "Freelance | 2018-2019": the employment type is the only label there is.
+        if employment_type:
+            job["job_title"] = employment_type.group(0).strip().title()
         return job
 
     title_idx = next((i for i, p in enumerate(parts) if JOB_TITLE_HINT_RE.search(p)), 0)
@@ -756,6 +766,10 @@ def _collect_bullets(profile: CVProfile, sections: dict[str, list[str]]) -> list
     def add(candidate: str) -> None:
         text = strip_bullet((candidate or "").strip())
         if not (18 <= len(text) <= 400):
+            return
+        # A link, email or phone number is not an achievement to rewrite.
+        words_left = re.sub(r"[^A-Za-z]+", " ", EMAIL_RE.sub(" ", URL_RE.sub(" ", text))).split()
+        if len(words_left) < 3 or re.fullmatch(r"\S+", text):
             return
         key = normalise_key(text)[:90]
         if not key or key in seen:

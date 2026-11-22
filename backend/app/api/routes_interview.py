@@ -229,9 +229,20 @@ async def voice_turn(
             f"The limit is {MAX_AUDIO_BYTES / 1_048_576:.0f} MB - please answer in shorter turns."
         )
 
+    try:
+        plan = engine.load_interview(interview_id).plan
+    except AppError:
+        plan = {}
+    vocabulary = ", ".join(
+        list(dict.fromkeys([*(plan.get("role_skills") or [])[:25], "schema", "API", "latency",
+                            "deployment", "database", "pipeline", "stakeholders"]))
+    )
+
     def generate() -> Iterator[str]:
         try:
-            transcription = stt.transcribe_bytes(data, filename_hint=audio.filename or "recording.webm")
+            transcription = stt.transcribe_bytes(
+                data, filename_hint=audio.filename or "recording.webm", vocabulary=vocabulary
+            )
         except SpeechError as exc:
             yield _sse({"type": "error", "code": exc.code, "message": exc.message,
                         "fallback": "text", "stage": "speech_recognition"})

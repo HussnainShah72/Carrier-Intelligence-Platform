@@ -65,6 +65,9 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     groq_api_key: str = ""
     ollama_base_url: str = "http://127.0.0.1:11434"
+    # Context window requested from Ollama. Its default (2-4k) truncates the
+    # scoring prompt of a full interview from the front, silently.
+    ollama_num_ctx: int = 8192
 
     # --------------------------------------------------------------- uploads
     max_upload_bytes: int = 5 * 1024 * 1024          # 5 MB

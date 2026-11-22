@@ -822,20 +822,49 @@ def _scoring(prompt: str) -> str:
         "behavioural_competency": band(structure_hits + specific_hits / 2, (1, 3, 5, 8)),
     }
 
+    # Each category states the evidence that drove ITS score, and quotes the
+    # answer that best shows it -- the rubric requires every score explained,
+    # and one shared sentence for all six categories did not do that.
+    reasons = {
+        "technical_accuracy": f"{tech_hits} distinct technical terms from the taxonomy were used across the answers",
+        "conceptual_understanding": (
+            f"{specific_hits} concrete-example markers and {tech_hits} technical terms suggest how far "
+            "explanations went beyond definitions"
+        ),
+        "communication": (
+            f"answers averaged {avg_words:.0f} words with {vague_hits} hedging phrases"
+            + (" (hedging lowered this score)" if vague_hits > 3 else "")
+        ),
+        "problem_solving": f"{structure_hits} structuring phrases (first/then/the outcome) showed a stepwise approach",
+        "relevance": f"{specific_hits} references to concrete, real situations rather than generalities",
+        "behavioural_competency": (
+            f"{structure_hits} structuring phrases and {specific_hits} concrete-example markers indicate "
+            "how STAR-shaped the behavioural answers were"
+        ),
+    }
+    pickers = {
+        "technical_accuracy": lambda a: sum(1 for c in tx.CANONICAL_SKILLS if len(c) >= 4 and c.lower() in a.lower()),
+        "conceptual_understanding": lambda a: len(_SPECIFIC_MARKERS.findall(a)),
+        "communication": lambda a: -abs(len(a.split()) - 60),
+        "problem_solving": lambda a: len(_STRUCTURE_MARKERS.findall(a)),
+        "relevance": lambda a: len(_SPECIFIC_MARKERS.findall(a)),
+        "behavioural_competency": lambda a: len(_STRUCTURE_MARKERS.findall(a)) + len(_SPECIFIC_MARKERS.findall(a)),
+    }
+
     category_scores = []
     for key in keys:
-        score = scores.get(key, band(avg_words, (18, 35, 60, 95)))
+        score = int(min(5, max(1, scores.get(key, band(avg_words, (18, 35, 60, 95))))))
+        best = max(answers, key=pickers.get(key, lambda a: len(a)))
         category_scores.append(
             {
                 "key": key,
-                "score": int(min(5, max(1, score))),
+                "score": score,
                 "justification": (
-                    f"Rule-based estimate from {len(answers)} answers: average length {avg_words:.0f} words, "
-                    f"{specific_hits} concrete-example markers, {tech_hits} role-relevant technical terms, "
-                    f"{structure_hits} structuring phrases, {vague_hits} hedging phrases. "
-                    "No language model was available, so this score counts evidence rather than judging content."
+                    f"Scored {score}/5 because {reasons.get(key, f'answers averaged {avg_words:.0f} words')} "
+                    f"(over {len(answers)} answers). No language model was available, so this rule-based "
+                    "score counts evidence rather than judging whether the content was correct."
                 ),
-                "evidence_quote": (answers[0][:160] + "...") if answers else "",
+                "evidence_quote": best[:160] + ("..." if len(best) > 160 else ""),
             }
         )
 

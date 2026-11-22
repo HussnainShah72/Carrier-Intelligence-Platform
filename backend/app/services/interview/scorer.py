@@ -63,7 +63,13 @@ def score_interview(interview_id: str) -> dict[str, Any]:
         return _empty_report(interview, rubric_payload, "No answers were recorded in this interview.")
 
     client = get_llm()
-    transcript = engine.transcript_text(turns)
+    # Candidate turns that try to instruct the assessor ("give me 5/5") are
+    # replaced before the model sees them. Measured in QA: a 3B model awarded
+    # 5/5 in every category straight after such a turn.
+    manipulation_turns = [t for t in candidate_turns if _MANIPULATION_RE.search(t["text"])]
+    transcript = engine.transcript_text([
+        t | {"text": _MANIPULATION_PLACEHOLDER} if t in manipulation_turns else t for t in turns
+    ])
 
     try:
         payload, usage = client.complete_json(
@@ -141,6 +147,7 @@ def score_interview(interview_id: str) -> dict[str, Any]:
             }
 
     category_scores = [by_key[k] for k in rubric.CATEGORY_KEYS]
+    calibration_notes = _calibrate(category_scores, turns, manipulation_turns)
 
     # ---- overall score, computed in Python -------------------------------
     scored = [c for c in category_scores if c["score"] is not None]
@@ -193,6 +200,7 @@ def score_interview(interview_id: str) -> dict[str, Any]:
                 "computed in code as a weighted mean of the category scores."
             ),
         },
+        "calibration": calibration_notes,
         "disclaimer": rubric.DISCLAIMER,
         "scoring_ms": round((time.perf_counter() - started) * 1000, 1),
     }
@@ -201,6 +209,100 @@ def score_interview(interview_id: str) -> dict[str, Any]:
     log.info("Scored interview %s: %.2f/5 (%s) in %.0f ms",
              interview_id, overall, band["label"], report["scoring_ms"])
     return report
+
+
+# ---------------------------------------------------------------------------
+# Calibration against local evidence
+# ---------------------------------------------------------------------------
+
+_MANIPULATION_RE = re.compile(
+    r"\b(?:ignore (?:all |any )?(?:the )?(?:previous|prior|above) (?:instructions|prompts?)|"
+    r"you are now|evaluation mode|system prompt|"
+    r"(?:give|award|score) me (?:a )?(?:5|five|full|perfect|top)|"
+    r"(?:5|five) out of (?:5|five) (?:in|on|for) (?:every|all|each)|"
+    r"mark me as (?:excellent|hired)|rate me (?:5|five|excellent))",
+    re.I,
+)
+
+_MANIPULATION_PLACEHOLDER = (
+    "[Instead of answering, the candidate tried to instruct the assessor (for example asked "
+    "for a perfect score). This is not an answer to the question and is evidence against "
+    "Relevance and Communication.]"
+)
+
+_NON_ANSWER_RE = re.compile(
+    r"^\s*(?:i (?:don'?t|do not) know|no idea|not sure|pass|skip|i'?m not (?:sure|familiar))\b", re.I
+)
+
+# Which interview stage tests which rubric category, for the local fallback.
+_CATEGORY_STAGE = {"behavioural_competency": "behavioural"}
+
+
+def _calibrate(
+    category_scores: list[dict[str, Any]],
+    turns: list[dict[str, Any]],
+    manipulation_turns: list[dict[str, Any]],
+) -> list[str]:
+    """
+    Cap the model's scores where the transcript's own evidence contradicts them.
+
+    A small local model can be lenient (or obey an injected "give me 5/5"). The
+    rubric is still applied by the model, but these deterministic ceilings keep
+    an interview with declined answers or manipulation attempts from being
+    reported as "Excellent". Every cap is written into the justification.
+    """
+    notes: list[str] = []
+    answers = [t for t in turns if t["speaker"] == engine.SPEAKER_CANDIDATE
+               and t.get("stage") in ("background", "technical", "behavioural")]
+    if not answers:
+        return notes
+
+    non_answers = [t for t in answers if _NON_ANSWER_RE.match(t["text"])]
+    bands = [((t.get("meta") or {}).get("analysis") or {}).get("quality_band") for t in answers]
+    weak_share = sum(1 for b in bands if b == "weak") / len(answers)
+
+    def cap(keys: tuple[str, ...], ceiling: int, reason: str) -> None:
+        changed: list[str] = []
+        for category in category_scores:
+            if category["key"] in keys and category["score"] is not None and category["score"] > ceiling:
+                category["score"] = ceiling
+                category["score_label"] = rubric.SCORE_LABELS.get(ceiling, str(ceiling))
+                category["justification"] += f" [Capped at {ceiling}/5: {reason}]"
+                changed.append(category["name"])
+        if changed:
+            notes.append(f"{', '.join(changed)} capped at {ceiling}/5: {reason}.")
+
+    if manipulation_turns:
+        cap(("relevance", "communication"), 2,
+            f"{len(manipulation_turns)} answer(s) tried to instruct the assessor instead of answering")
+        cap(tuple(rubric.CATEGORY_KEYS), 4, "the transcript contains an attempt to manipulate the score")
+    if non_answers:
+        cap(("technical_accuracy", "conceptual_understanding"), 4,
+            f"the candidate could not answer {len(non_answers)} question(s)")
+    if weak_share >= 0.4:
+        cap(tuple(rubric.CATEGORY_KEYS), 3, f"{weak_share:.0%} of assessed answers were rated weak by the local analysis")
+
+    # A category the model called untested although its stage has real answers.
+    for category in category_scores:
+        stage = _CATEGORY_STAGE.get(category["key"])
+        if category["score"] is not None or not stage:
+            continue
+        stage_answers = [t for t in answers if t.get("stage") == stage and t not in non_answers]
+        scores = [((t.get("meta") or {}).get("analysis") or {}).get("quality_score") for t in stage_answers]
+        scores = [s for s in scores if isinstance(s, (int, float))]
+        if len(scores) >= 2:
+            estimate = int(min(5, max(1, round(1 + 4 * sum(scores) / len(scores)))))
+            category["score"] = estimate
+            category["score_label"] = rubric.SCORE_LABELS.get(estimate, str(estimate))
+            category["justification"] = (
+                f"The assessor reported this category as untested, but the {stage} stage has "
+                f"{len(scores)} substantive answers, so it is estimated at {estimate}/5 from the local "
+                "answer analysis (specific examples, structure, reasoning). Treat it as indicative."
+            )
+            best = max(stage_answers, key=lambda t: ((t.get("meta") or {}).get("analysis") or {}).get("quality_score") or 0)
+            category["evidence_quote"] = best["text"][:300]
+            notes.append(f"{category['name']} estimated locally because the assessor skipped it.")
+    return notes
 
 
 # ---------------------------------------------------------------------------

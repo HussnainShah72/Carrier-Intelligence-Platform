@@ -131,14 +131,42 @@ def relevance_score(posting: JobPosting, tokens: list[str]) -> float:
     tags_low = " ".join(posting.tags).lower()
     body_low = (posting.description or "")[:4000].lower()
 
-    title_hits = sum(1 for t in tokens if t in title_low)
-    tag_hits = sum(1 for t in tokens if t in tags_low)
-    body_hits = sum(1 for t in tokens if t in body_low)
+    # Whole-word matching: "chef" must not match "chef(fe)" and "java" must not
+    # match "javascript".
+    def has(token: str, text: str) -> bool:
+        return re.search(rf"(?<![a-z0-9]){re.escape(token)}(?![a-z0-9])", text) is not None
+
+    title_hits = sum(1 for t in tokens if has(t, title_low))
+    tag_hits = sum(1 for t in tokens if has(t, tags_low))
+    body_hits = sum(1 for t in tokens if has(t, body_low))
 
     score = (title_hits / len(tokens)) * 0.65 + (tag_hits / len(tokens)) * 0.2 + (body_hits / len(tokens)) * 0.15
     if title_hits == len(tokens):
         score = min(1.0, score + 0.2)
+    elif len(tokens) > 1:
+        # Only part of a multi-word title matched ("Civil Engineer" for
+        # "Software Engineer"). Keep it only if the missing words are clearly
+        # present in the advert's tags or body; otherwise it is another role.
+        missing = [t for t in tokens if not has(t, title_low)]
+
+        def well_supported(token: str) -> bool:
+            # A tag, or repeated use in the body. One passing mention ("our
+            # software stack") is not enough: that let "Tier III Service Desk
+            # Engineer" through for "Software Engineer".
+            pattern = rf"(?<![a-z0-9]){re.escape(token)}(?![a-z0-9])"
+            return has(token, tags_low) or len(re.findall(pattern, body_low)) >= 3
+
+        if not all(well_supported(t) for t in missing):
+            score = min(score, MIN_RELEVANCE - 0.01)
+
+    # The platform is English-only; French/German adverts ("Chef de projet
+    # (H/F)", "Entwickler (m/w/d)") match English words by accident.
+    if _FOREIGN_TITLE_RE.search(title_low):
+        score = min(score, MIN_RELEVANCE - 0.01)
     return round(min(1.0, score), 3)
+
+
+_FOREIGN_TITLE_RE = re.compile(r"\((?:h/f|f/h|m/w/d|w/m/d|m/f/d|f/m/d|m/w|w/m|h/f/x|f/h/x)\)|\bstage\s*-|\balternance\b")
 
 
 MIN_RELEVANCE = 0.22

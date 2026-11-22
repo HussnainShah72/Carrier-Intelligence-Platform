@@ -23,7 +23,7 @@ from app.schemas.models import SettingsUpdateRequest
 from app.services.interview import rubric
 from app.services.jobs import sources as job_sources
 from app.services.jobs.http import fetcher
-from app.services.llm.client import get_llm, probe_llm, reset_llm
+from app.services.llm.client import check_ollama, get_llm, probe_llm, reset_llm
 from app.services.metrics import recorder as metrics
 from app.services.skills import taxonomy as tx
 from app.services.speech import stt, tts
@@ -85,6 +85,14 @@ def health(deep: bool = False) -> dict[str, Any]:
             "No language model is configured, so the deterministic offline engine is being used. "
             "Output quality is visibly lower. Set LLM_PROVIDER and the matching key in backend/.env."
         )
+    elif client.provider == "ollama":
+        ollama = check_ollama()
+        llm_info = llm_info | {"ollama": ollama}
+        components["llm"] = llm_info
+        if llm_info.get("reachable") is None:
+            llm_info["reachable"] = bool(ollama.get("reachable")) and not ollama.get("models_missing")
+        if not ollama.get("reachable") or ollama.get("models_missing"):
+            degradations.append(ollama.get("detail", "Ollama is not ready."))
     if not stt.is_available():
         degradations.append("faster-whisper is not installed, so the voice interview cannot transcribe.")
     elif not settings.stt_enabled:

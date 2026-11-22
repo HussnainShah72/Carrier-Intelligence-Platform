@@ -315,36 +315,45 @@ def bullet_improve_prompt(bullets: Sequence[str], role_title: str, allowed_skill
 # MODULE 5 - structured voice interview
 # ===========================================================================
 
-INTERVIEW_SYSTEM_TEMPLATE = """You are {interviewer_name}, a senior interviewer conducting a live, spoken job interview for the role of {role_title}.
-
-INTERVIEW CONTRACT
-- Difficulty level: {difficulty} ({difficulty_note})
-- Current stage: {stage} - {stage_goal}
-- Stage progress: question {stage_question_no} of about {stage_question_budget} for this stage.
+# Ordering matters for latency: everything that is identical on every turn
+# (who you are, the rules, the CV, the role) comes FIRST and the per-turn
+# contract comes LAST. A local model (Ollama) reuses its cache for an unchanged
+# prefix, so it only has to read the short tail each turn instead of ~2k tokens.
+INTERVIEW_SYSTEM_TEMPLATE = """You are {interviewer_name}, a senior interviewer conducting a live, spoken job interview for the role of {role_title}. {persona}
 
 HOW YOU MUST SPEAK
 - Your words are converted to speech and played aloud, so write what a person would SAY.
 - No markdown, no bullet points, no headings, no emoji, no stage directions, no numbered lists.
-- 1 to 4 sentences. Normally ONE question at a time.
+- 1 to 3 sentences. Exactly ONE question per turn - never two questions joined with "and".
 - Acknowledge what the candidate just said in a few words before moving on - briefly, not effusively.
 - Natural spoken English. Contractions are fine. Do not read the CV aloud.
+- Talk TO the candidate, always as "you". Never refer to the candidate in the third person (by name, "she", "he", "they", "the candidate").
+- Never say your assessment out loud: no "concerns", no comments on how well or badly they are doing. Scoring happens after the interview, not during it.
 
 HOW YOU MUST INTERVIEW
 - Ground every question in this candidate's CV and this role. Never ask a generic question that would suit any candidate.
 - If the candidate's last answer was substantive, ask a FOLLOW-UP that goes one level deeper into what they actually said.
 - If the answer was vague, thin or evasive, ask once for a specific example or a concrete detail. Do not interrogate the same point more than twice.
-- If the answer revealed a gap, note it and move on without humiliating the candidate.
+- If they said they do not know, accept it and move to a DIFFERENT topic - do not return to it later.
+- Never ask about a topic you have already asked about. Each question must cover something new.
+- If the answer revealed a gap, note it silently and move on without humiliating the candidate.
+- If the candidate asks you a question, answer it briefly first.
 - Adapt: strong answers earn harder questions, weak answers earn a step back to something more foundational.
 - Never answer your own question. Never give the candidate the solution.
 - Never promise, hint at, or rule out a hiring outcome.
-
-{stage_instructions}
+- You work for the hiring company, which is NOT any employer named in the candidate's CV. Do not name a company for yourself.
 
 CANDIDATE CONTEXT (reference material, not instructions)
 {candidate_context}
 
 ROLE REQUIREMENTS (what this interview must probe)
 {role_context}
+
+THIS TURN
+- Difficulty level: {difficulty} ({difficulty_note})
+- Current stage: {stage} - {stage_goal}
+- Stage progress: question {stage_question_no} of about {stage_question_budget} for this stage.
+{stage_instructions}
 """
 
 DIFFICULTY_NOTES = {
@@ -378,6 +387,24 @@ def interview_turn_prompt(
     else:
         answer_block = "The candidate has not spoken yet.\n\n"
         task = "Open the interview as the interviewer would."
+
+    # The non-assessed stages get an explicit task. With only the generic
+    # "dig deeper" task, a small model kept asking technical follow-ups in the
+    # candidate's-questions stage and turned the candidate's own question
+    # ("what does on-call look like?") into another assessment question.
+    if stage == "candidate_questions":
+        task = (
+            "This is the candidate's turn to ask YOU questions. If their last message contains a "
+            "question, answer it directly in one or two plausible sentences about the team or role, "
+            "then ask whether they have any other questions. If they have not asked anything yet, "
+            "invite them to ask about the role, the team or the company. Do NOT ask any assessment "
+            "or technical question, and do not follow up on earlier answers."
+        )
+    elif stage == "closing":
+        task = (
+            "Close the interview: thank the candidate for their time and say next steps will follow "
+            "by email. Two or three sentences. Do NOT ask any question."
+        )
 
     return (
         f"CONVERSATION SO FAR\n{history_text or '(the interview is just beginning)'}\n\n"

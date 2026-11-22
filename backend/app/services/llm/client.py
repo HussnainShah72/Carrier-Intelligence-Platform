@@ -20,6 +20,7 @@ degraded in /api/system/health and in the UI.
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import dataclass, field
 from typing import Any, Iterator, Sequence
@@ -87,6 +88,7 @@ class LLMClient:
         self.temperature = settings.llm_temperature if temperature is None else temperature
         self.max_tokens = max_tokens or settings.llm_max_tokens
         self._client: Any = None
+        self._ollama_http: Any = None
         # Set per call; used to pick an Anthropic effort level per task.
         self._current_task: str = "generic"
 
@@ -270,7 +272,16 @@ class LLMClient:
             message = self._anthropic_call(client.messages.create, kwargs)
             return "".join(block.text for block in message.content if getattr(block, "type", "") == "text")
 
-        if self.provider in ("openai", "groq", "ollama"):
+        if self.provider == "ollama":
+            # Streamed even here: the HTTP read timeout then bounds the gap
+            # between tokens, not the whole reply. On a CPU-only laptop a full
+            # scoring report (~2.6k tokens at ~5 tokens/s) takes minutes, and a
+            # non-streamed call timed out with nothing to show for it.
+            return "".join(
+                self._provider_stream(prompt, system=system, temperature=temperature, max_tokens=max_tokens)
+            )
+
+        if self.provider in ("openai", "groq"):
             client = self._openai_compatible()
             kwargs = self._openai_kwargs(
                 prompt, system=system, temperature=temperature, max_tokens=max_tokens
@@ -308,7 +319,26 @@ class LLMClient:
                     yield delta
             return
 
-        if self.provider in ("openai", "groq", "ollama"):
+        if self.provider == "ollama":
+            response = self._ollama_post(prompt, system=system, temperature=temperature,
+                                         max_tokens=max_tokens, stream=True)
+            try:
+                for line in response.iter_lines():
+                    if not line:
+                        continue
+                    event = json.loads(line)
+                    if event.get("error"):
+                        raise LLMError(f"Ollama error: {event['error']}")
+                    content = (event.get("message") or {}).get("content")
+                    if content:
+                        yield content
+                    if event.get("done"):
+                        break
+            finally:
+                response.close()
+            return
+
+        if self.provider in ("openai", "groq"):
             client = self._openai_compatible()
             kwargs = self._openai_kwargs(
                 prompt, system=system, temperature=temperature, max_tokens=max_tokens
@@ -372,6 +402,48 @@ class LLMClient:
 
     # Headroom so reasoning tokens cannot starve the visible answer.
     MIN_REASONING_MAX_TOKENS = 512
+
+    def _ollama_post(
+        self, prompt: str, *, system: str, temperature: float, max_tokens: int, stream: bool
+    ) -> Any:
+        """
+        Call Ollama's NATIVE chat API.
+
+        Its OpenAI-compatible /v1 endpoint ignores `num_ctx`, so every request ran
+        in Ollama's default 2,048-token window and longer prompts were silently
+        cut from the FRONT (measured: a 6k-token prompt arrived as 2,050 tokens
+        and the model could not see its opening line). For scoring, the front is
+        the rubric and the first answers. The native API honours `num_ctx`.
+        """
+        import httpx
+
+        messages = ([{"role": "system", "content": system}] if system else []) + [
+            {"role": "user", "content": prompt}
+        ]
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "stream": stream,
+            "options": {
+                "temperature": temperature,
+                "num_predict": max_tokens,
+                "num_ctx": settings.ollama_num_ctx,
+            },
+        }
+        if self._ollama_http is None:
+            self._ollama_http = httpx.Client(
+                base_url=settings.ollama_base_url.rstrip("/"),
+                # CPU-only laptops read prompts at ~20-100 tokens/s, so a full
+                # scoring prompt can take minutes; a refused connection still fails in 3 s.
+                timeout=httpx.Timeout(max(settings.llm_timeout_seconds, 300), connect=3.0),
+            )
+        request = self._ollama_http.build_request("POST", "/api/chat", json=payload)
+        response = self._ollama_http.send(request, stream=stream)
+        if response.status_code >= 400:
+            body = response.read().decode("utf-8", "replace")[:300]
+            response.close()
+            raise LLMError(f"Ollama returned HTTP {response.status_code}: {body}")
+        return response
 
     def _openai_kwargs(
         self, prompt: str, *, system: str, temperature: float, max_tokens: int
@@ -577,7 +649,10 @@ class LLMClient:
                     api_key="ollama",
                     base_url=f"{settings.ollama_base_url.rstrip('/')}/v1",
                     timeout=settings.llm_timeout_seconds,
-                    max_retries=retries,
+                    # A local server has no rate limit to back off from; a
+                    # refused connection retried 6 times with backoff cost
+                    # ~40 s per call when Ollama was not running.
+                    max_retries=1,
                 )
         return self._client
 
@@ -625,6 +700,49 @@ def reset_llm() -> None:
     """Drop the cached client (used after a settings change, and by tests)."""
     global _default_client
     _default_client = None
+
+
+_ollama_status: dict[str, Any] = {}
+_ollama_checked_at = 0.0
+
+
+def check_ollama(*, max_age_seconds: float = 20.0) -> dict[str, Any]:
+    """
+    Fast, cached check that the local Ollama server is up and has the models.
+
+    Without this, a missing Ollama only showed up as a 30-40 second wait on the
+    first CV upload (the SDK retrying a refused connection) while the health
+    endpoint still said "ok".
+    """
+    global _ollama_status, _ollama_checked_at
+    if settings.llm_provider != "ollama":
+        return {}
+    if _ollama_status and time.time() - _ollama_checked_at < max_age_seconds:
+        return _ollama_status
+
+    import httpx
+
+    wanted = [m for m in dict.fromkeys([settings.llm_model or LLMClient().model, settings.fast_model]) if m]
+    status: dict[str, Any] = {"reachable": False, "models_missing": [], "detail": ""}
+    try:
+        response = httpx.get(f"{settings.ollama_base_url.rstrip('/')}/api/tags", timeout=2.0)
+        response.raise_for_status()
+        have = {m.get("name", "") for m in response.json().get("models", [])}
+        have |= {name.split(":")[0] + ":latest" for name in have if ":" not in name}
+        missing = [m for m in wanted if m not in have and f"{m}:latest" not in have]
+        status.update(reachable=True, models_missing=missing)
+        status["detail"] = (
+            "Ollama is running." if not missing
+            else "Ollama is running but these models are not pulled: "
+            + ", ".join(missing) + ". Run: ollama pull " + " && ollama pull ".join(missing)
+        )
+    except Exception as exc:  # connection refused, timeout, bad JSON
+        status["detail"] = (
+            f"Ollama is not reachable at {settings.ollama_base_url} ({type(exc).__name__}). "
+            "Start the Ollama app (or run `ollama serve`), or set LLM_PROVIDER=offline in backend/.env."
+        )
+    _ollama_status, _ollama_checked_at = status, time.time()
+    return status
 
 
 def probe_llm() -> dict[str, Any]:
