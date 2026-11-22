@@ -1060,7 +1060,7 @@ function SetupView({
   roles: Array<{ role_analysis_id: string; role_title: string }>;
   speech: { stt: { installed?: boolean; model_size?: string; enabled: boolean }; tts: { active_engine?: string; enabled: boolean }; voice_ready: boolean; note: string } | null;
   speechLoading: boolean;
-  rubric: { categories: Array<{ key: string; name: string; weight_percent: number; description: string }>; disclaimer: string; version: string } | null;
+  rubric: { categories: Array<{ key: string; name: string; weight_percent: number; description: string }>; disclaimer: string; version: string; calibration_rules?: string[] } | null;
   stages: Array<{ key: string; name: string; goal: string; budget: number; scored: boolean }>;
   starting: boolean;
   warming: boolean;
@@ -1307,6 +1307,15 @@ function SetupView({
                     </tr>
                   ))}
                 </Table>
+                {rubric.calibration_rules && rubric.calibration_rules.length > 0 && (
+                  <Collapsible title="Evidence rules" className="mt-3 !border-0 bg-surface-muted">
+                    <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-ink-muted">
+                      {rubric.calibration_rules.map((rule) => (
+                        <li key={rule}>{rule}</li>
+                      ))}
+                    </ul>
+                  </Collapsible>
+                )}
                 <Collapsible title="Important caveat" className="mt-3 !border-0 bg-surface-muted">
                   <p className="text-xs leading-relaxed text-ink-muted">{rubric.disclaimer}</p>
                 </Collapsible>

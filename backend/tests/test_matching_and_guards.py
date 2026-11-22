@@ -829,3 +829,22 @@ def test_a_shared_generic_word_does_not_make_skills_similar(requirement, cv_skil
 
     _, score = _closest_cv_skill(requirement, [cv_skill])
     assert score < PARTIAL_FUZZY_THRESHOLD
+
+
+@_pytest.mark.parametrize(
+    "original, rewrite, invented",
+    [
+        ("Worked on migrating a monolithic Django application to a set of FastAPI services",
+         "Transformed a monolithic Django application into FastAPI services for improved scalability.", True),
+        ("Fixed defects reported by QA against the customer portal",
+         "Ensured the customer portal's reliability by resolving defects reported by QA.", True),
+        ("Fixed defects reported by QA against the customer portal",
+         "Resolved QA-reported defects in the customer portal", False),
+        ("Helped speed up the API with Redis caching", "Reduced API response time with Redis caching", False),
+    ],
+)
+def test_rewrites_may_not_invent_outcomes(original, rewrite, invented) -> None:
+    from app.services.improve.bullets import _invented_outcomes
+
+    cv = "Reduced median API response time from 420ms to 180ms by adding Redis caching"
+    assert bool(_invented_outcomes(original, rewrite, cv)) is invented

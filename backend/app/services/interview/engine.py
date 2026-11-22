@@ -43,7 +43,7 @@ from app.services.interview.answer_analysis import (
 )
 from app.services.interview.rubric import DIFFICULTIES
 from app.services.llm import json_guard
-from app.services.llm.client import LLMClient, StreamChunk, get_llm
+from app.services.llm.client import LLMClient, get_llm
 from app.services.llm.prompts import (
     DIFFICULTY_NOTES,
     INTERVIEW_PLAN_SYSTEM,
@@ -497,24 +497,23 @@ def stream_turn(
     first_audio_done = False
     llm_started = time.perf_counter()
 
-    if state.stage == stage_mod.CLOSING:
-        # The closing needs no CV- or role-specific content, and in QA a 3B
-        # model ignored "do not ask a question" and opened a new technical
-        # question here. A fixed closing is correct every time and is spoken
-        # immediately, with no LLM round-trip.
-        chunks = _scripted_stream(_closing_line(first_name))
-        timings.llm_model = "scripted-closing"
-    else:
-        chunks = client.stream(
+    # The LLM writes every turn, the closing included (the specification says
+    # the LLM generates everything). In QA a 3B model ignored "do not ask a
+    # question" in the closing, so closing sentences that ask something are
+    # dropped before they are spoken (see _drop_sentence).
+    closing = state.stage == stage_mod.CLOSING
+
+    def drop(sentence: str) -> bool:
+        return _drop_sentence(sentence, first_name, closing=closing)
+
+    try:
+        for chunk in client.stream(
             user_prompt,
             system=system_prompt,
             task="interview_turn",
             temperature=0.65,
             max_tokens=320,
-        )
-
-    try:
-        for chunk in chunks:
+        ):
             if chunk.delta:
                 if timings.llm_ttft_ms is None:
                     timings.llm_ttft_ms = (time.perf_counter() - reference) * 1000
@@ -524,7 +523,7 @@ def stream_turn(
 
                 if speak and interview.mode == MODE_VOICE:
                     sentence, pending = _take_complete_sentence(pending)
-                    if sentence and not _is_meta_commentary(sentence, first_name):
+                    if sentence and not drop(sentence):
                         for event, elapsed, seconds in _speak(sentence, audio_index, reference):
                             if event.get("type") == "audio":
                                 audio_total_ms += elapsed
@@ -551,7 +550,19 @@ def stream_turn(
         timings.llm_total_ms = (time.perf_counter() - llm_started) * 1000
 
     reply = "".join(reply_parts).strip()
-    reply = _clean_reply(_strip_speaker_label(reply), first_name)
+    reply = _clean_reply(_strip_speaker_label(reply), first_name, closing=closing)
+    # A closing must actually close. If every sentence was a question (fallback
+    # used) or what is left never thanks the candidate, add the closing line,
+    # and speak it, since none of it was spoken while streaming.
+    closing_extra = ""
+    if closing and reply == _closing_line(first_name):
+        log.info("Closing reply for %s contained only questions; used the fallback line", interview.id)
+        closing_extra = reply
+    elif closing and "thank" not in reply.lower():
+        closing_extra = _closing_line(first_name)
+        reply = f"{reply} {closing_extra}".strip()
+    if closing_extra:
+        pending = f"{pending} {closing_extra}".strip() if not drop(pending) else closing_extra
 
     if not reply:
         yield {"type": "error", "code": "empty_reply",
@@ -561,7 +572,7 @@ def stream_turn(
         return
 
     # Speak whatever is left over (the final partial sentence).
-    if speak and interview.mode == MODE_VOICE and pending.strip() and not _is_meta_commentary(pending, first_name):
+    if speak and interview.mode == MODE_VOICE and pending.strip() and not drop(pending):
         for event, elapsed, seconds in _speak(pending, audio_index, reference):
             if event.get("type") == "audio":
                 audio_total_ms += elapsed
@@ -650,31 +661,28 @@ def _is_meta_commentary(sentence: str, first_name: str) -> bool:
 
 
 def _closing_line(first_name: str) -> str:
+    """Last-resort closing, used only if every sentence the LLM wrote was a question."""
     who = f", {first_name}" if first_name else ""
     return (
         f"Thank you for your time today{who}, that's everything from my side. "
-        "We'll be in touch by email about next steps. Good luck with your preparation."
+        "We'll be in touch by email about next steps."
     )
 
 
-def _scripted_stream(text: str) -> Iterator[StreamChunk]:
-    """Yield fixed text in the same shape as an LLM stream."""
-    words = text.split(" ")
-    for index, word in enumerate(words):
-        yield StreamChunk(
-            delta=word + (" " if index < len(words) - 1 else ""),
-            index=index,
-            elapsed_ms=0.0,
-            is_first=index == 0,
-            is_final=index == len(words) - 1,
-        )
+def _drop_sentence(sentence: str, first_name: str, *, closing: bool = False) -> bool:
+    """Sentences never spoken or stored: third-person judgement, and questions in the closing."""
+    if _is_meta_commentary(sentence, first_name):
+        return True
+    return closing and "?" in sentence
 
 
-def _clean_reply(reply: str, first_name: str) -> str:
-    """Drop meta-commentary sentences; keep the reply if nothing would be left."""
+def _clean_reply(reply: str, first_name: str, *, closing: bool = False) -> str:
+    """Drop unwanted sentences; keep the reply if nothing would be left."""
     sentences = re.split(r"(?<=[.!?])\s+", reply.strip())
-    kept = [s for s in sentences if s and not _is_meta_commentary(s, first_name)]
-    return " ".join(kept).strip() if kept else reply.strip()
+    kept = [s for s in sentences if s and not _drop_sentence(s, first_name, closing=closing)]
+    if kept:
+        return " ".join(kept).strip()
+    return _closing_line(first_name) if closing else reply.strip()
 
 
 def _speak(text: str, start_index: int, reference: float):

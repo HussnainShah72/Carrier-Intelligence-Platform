@@ -224,9 +224,10 @@ def resolve_skill(raw: str) -> NormalisedSkill | None:
             idx = int(np.argmax(sims))
             score = float(sims[idx])
             # Character n-grams overweight a shared word ("adobe photoshop" vs
-            # "adobe xd" scores 0.84), so the whole key must also agree.
+            # "adobe xd" scores 0.84; "cpr certification" vs "aws certification"
+            # likewise), so the words that differ must also agree.
             if score >= VECTOR_ACCEPT and (
-                fuzz is None or fuzz.token_sort_ratio(key, _canonical_keys[idx]) >= 60
+                fuzz is None or skill_similarity(fuzz, key, _canonical_keys[idx]) >= 75
             ):
                 name = _canonical_names[idx]
                 return NormalisedSkill(

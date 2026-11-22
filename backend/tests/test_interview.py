@@ -605,7 +605,7 @@ def test_clean_interview_is_not_capped() -> None:
     assert all(c["score"] == 5 for c in categories)
 
 
-def test_closing_turn_is_scripted_and_asks_nothing() -> None:
+def test_closing_turn_is_generated_and_asks_nothing() -> None:
     from app.services.interview import engine, stages
 
     interview = engine.create_interview(role_title="Software Engineer", difficulty="medium", mode="text",
@@ -617,5 +617,36 @@ def test_closing_turn_is_scripted_and_asks_nothing() -> None:
     events = list(engine.stream_turn(interview.id, candidate_text="No questions, thank you.", speak=False))
     done = next(e for e in events if e["type"] == "done")
     assert done["stage"] == stages.CLOSING
-    assert done["reply"] == engine._closing_line("Aisha")
-    assert "?" not in done["reply"]
+    assert done["reply"] and "?" not in done["reply"]
+
+
+def test_closing_questions_are_dropped_but_the_closing_is_kept() -> None:
+    from app.services.interview.engine import _clean_reply, _closing_line
+
+    reply = "Thank you for your time, Aisha. Can you walk me through your caching strategy?"
+    assert _clean_reply(reply, "Aisha", closing=True) == "Thank you for your time, Aisha."
+    assert _clean_reply("Any last thoughts?", "Aisha", closing=True) == _closing_line("Aisha")
+    # Outside the closing, questions are of course kept.
+    assert _clean_reply(reply, "Aisha") == reply
+
+
+def test_closing_without_a_thank_you_gets_one(monkeypatch) -> None:
+    from app.services.interview import engine, stages
+    from app.services.llm.client import LLMClient, StreamChunk
+
+    def fake_stream(self, prompt, **kwargs):
+        text = "That's a valuable skill to bring to a team. What else would you add?"
+        yield StreamChunk(delta=text, index=0, elapsed_ms=0.0, is_first=True, is_final=True)
+
+    monkeypatch.setattr(LLMClient, "stream", fake_stream)
+    interview = engine.create_interview(role_title="Software Engineer", mode="text",
+                                        cv_profile={"full_name": "Aisha Rahman"})
+    interview.stage = interview.state.stage = stages.CANDIDATE_QUESTIONS
+    interview.state.stage_question_count = 2
+    engine._save_interview(interview)
+
+    done = next(e for e in engine.stream_turn(interview.id, candidate_text="No questions, thank you.", speak=False)
+                if e["type"] == "done")
+    assert done["stage"] == stages.CLOSING
+    assert "?" not in done["reply"] and "thank you" in done["reply"].lower()
+    assert done["reply"].startswith("That's a valuable skill")
