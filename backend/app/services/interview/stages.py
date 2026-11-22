@@ -286,6 +286,8 @@ def stage_catalogue(difficulty: str = "medium") -> list[dict[str, Any]]:
             "name": STAGE_SPECS[s].name,
             "goal": STAGE_SPECS[s].goal,
             "questions": STAGE_SPECS[s].budget(difficulty),
+            # Same name as in progress(); the setup page reads "budget".
+            "budget": STAGE_SPECS[s].budget(difficulty),
             "scored": STAGE_SPECS[s].scored,
         }
         for s in STAGE_ORDER

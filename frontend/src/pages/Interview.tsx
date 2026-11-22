@@ -114,6 +114,23 @@ export default function Interview() {
 
   const recorder = useRecorder(150);
   const audio = useAudioQueue();
+  // Auto-stop: end the answer after a short silence, like a real conversation.
+  // Remembered per browser; storage can be unavailable, so every access is guarded.
+  const [autoStop, setAutoStopState] = useState<boolean>(() => {
+    try {
+      return window.localStorage.getItem('cip.autoStop') !== 'off';
+    } catch {
+      return true;
+    }
+  });
+  const setAutoStop = useCallback((value: boolean) => {
+    setAutoStopState(value);
+    try {
+      window.localStorage.setItem('cip.autoStop', value ? 'on' : 'off');
+    } catch {
+      /* preference simply is not remembered */
+    }
+  }, []);
   const transcriptRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -331,6 +348,7 @@ export default function Interview() {
   const submitVoice = useCallback(async () => {
     if (!interview) return;
     const blob = await recorder.stop();
+    const speechEndedAt = recorder.speechEndedAt();
     if (!blob || blob.size < 1200) {
       setTurnError('That recording was too short to transcribe. Hold the button while you speak.');
       return;
@@ -345,13 +363,24 @@ export default function Interview() {
     const controller = new AbortController();
     abortRef.current = controller;
     try {
-      await streamVoiceTurn(interview.id, blob, true, { onEvent: handleEvent, signal: controller.signal });
+      await streamVoiceTurn(
+        interview.id, blob, true, { onEvent: handleEvent, signal: controller.signal }, speechEndedAt,
+      );
     } catch (caught: unknown) {
       setTurnState('idle');
       const message = caught instanceof ApiFailure ? caught.message : 'The turn failed.';
       setTurnError(message);
     }
   }, [interview, recorder, audio, handleEvent]);
+
+  // Wire the silence detector to the latest submitVoice (a ref avoids
+  // re-registering the callback, and stale closures, on every render).
+  const submitVoiceRef = useRef(submitVoice);
+  submitVoiceRef.current = submitVoice;
+  useEffect(() => {
+    recorder.setOnSilence(autoStop ? () => void submitVoiceRef.current() : null);
+    return () => recorder.setOnSilence(null);
+  }, [autoStop, recorder.setOnSilence]);
 
   const submitText = useCallback(async () => {
     if (!interview) return;
@@ -626,7 +655,9 @@ export default function Interview() {
                               ? 'The interviewer is thinking…'
                               : 'The interviewer is speaking…'
                           : recording
-                            ? `Recording — ${recorder.seconds.toFixed(1)}s. Press again when you finish.`
+                            ? autoStop
+                              ? `Recording — ${recorder.seconds.toFixed(1)}s. Pause for a moment when you finish, or press again.`
+                              : `Recording — ${recorder.seconds.toFixed(1)}s. Press again when you finish.`
                             : 'Press to answer out loud'}
                       </p>
 
@@ -672,6 +703,14 @@ export default function Interview() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 border-t border-line pt-3">
+                    <label className="flex cursor-pointer items-center gap-1.5 text-xs text-ink-muted">
+                      <input
+                        type="checkbox"
+                        checked={autoStop}
+                        onChange={(event) => setAutoStop(event.target.checked)}
+                      />
+                      Send automatically when I stop talking
+                    </label>
                     <Button variant="ghost" size="sm" icon={Keyboard} onClick={() => setUseText(true)}>
                       Type instead
                     </Button>

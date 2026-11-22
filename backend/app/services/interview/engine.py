@@ -80,6 +80,8 @@ class TurnTimings:
     tts_total_ms: float | None = None
     e2e_first_audio_ms: float | None = None
     total_ms: float | None = None
+    speech_end_to_server_ms: float | None = None
+    e2e_from_speech_end_ms: float | None = None
     audio_seconds: float | None = None
     chars_out: int = 0
     tts_engine: str = ""
@@ -99,6 +101,8 @@ class TurnTimings:
             "tts_total_ms": ms(self.tts_total_ms),
             "e2e_first_audio_ms": ms(self.e2e_first_audio_ms),
             "total_ms": ms(self.total_ms),
+            "speech_end_to_server_ms": ms(self.speech_end_to_server_ms),
+            "e2e_from_speech_end_ms": ms(self.e2e_from_speech_end_ms),
             "audio_seconds": round(self.audio_seconds, 2) if self.audio_seconds is not None else None,
             "chars_out": self.chars_out,
             "tts_engine": self.tts_engine,
@@ -358,6 +362,7 @@ def stream_turn(
     audio_seconds: float | None = None,
     speak: bool = True,
     speech_ended_at: float | None = None,
+    speech_end_to_server_ms: float | None = None,
 ) -> Iterator[dict[str, Any]]:
     """
     Run one interviewer turn, yielding events as they happen.
@@ -385,7 +390,8 @@ def stream_turn(
                "message": "This interview has already finished. Start a new one to continue practising."}
         return
 
-    timings = TurnTimings(stt_ms=stt_ms, stt_engine=stt_engine, audio_seconds=audio_seconds)
+    timings = TurnTimings(stt_ms=stt_ms, stt_engine=stt_engine, audio_seconds=audio_seconds,
+                          speech_end_to_server_ms=speech_end_to_server_ms)
     state = interview.state
     role_skills = interview.plan.get("role_skills") or []
 
@@ -589,6 +595,8 @@ def stream_turn(
     timings.audio_seconds = audio_seconds_total or audio_seconds
     timings.chars_out = len(reply)
     timings.total_ms = (time.perf_counter() - reference) * 1000
+    if timings.speech_end_to_server_ms is not None and timings.e2e_first_audio_ms is not None:
+        timings.e2e_from_speech_end_ms = timings.speech_end_to_server_ms + timings.e2e_first_audio_ms
 
     # -------------------------------------------------------- bookkeeping --
     state.asked_questions.append(reply[:220])

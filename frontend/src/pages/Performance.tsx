@@ -64,6 +64,8 @@ const FIELDS: MetricField[] = [
   'tts_total_ms',
   'e2e_first_audio_ms',
   'total_ms',
+  'speech_end_to_server_ms',
+  'e2e_from_speech_end_ms',
 ];
 
 const STAGE_COLOURS = ['#0ea5e9', '#f59e0b', '#10b981'];
