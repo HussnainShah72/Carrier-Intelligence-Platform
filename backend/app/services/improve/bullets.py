@@ -335,13 +335,40 @@ def _verify_one(
     return improvement
 
 
+# Verbs that claim authority over PEOPLE. "Responsible for the API" supports
+# "owned the API" but not "led the API team" -- found in QA when a real model
+# rewrote "Responsible for the shipment tracking API" as "Led the ...".
+_PEOPLE_LEADERSHIP_VERBS = {
+    "led", "leading", "managed", "managing", "directed", "headed", "supervised",
+    "oversaw", "overseeing", "mentored", "spearheaded", "championed", "orchestrated",
+}
+_PEOPLE_LEADERSHIP_EVIDENCE = {
+    "led", "lead", "leader", "leadership", "managed", "manager", "management",
+    "head", "supervisor", "supervised", "mentor", "mentored", "mentoring",
+    "directed", "director", "oversaw", "chaired", "captain", "president",
+    "coordinated", "coordinator", "in charge", "team of",
+}
+
+
+def _has_word(phrase: str, text_low: str) -> bool:
+    return re.search(rf"(?<![a-z]){re.escape(phrase)}(?![a-z])", text_low) is not None
+
+
 def _escalated_scope(original: str, improved: str) -> str:
     """Return the escalating verb used without support, or '' if none."""
-    original_low = f" {original.lower()} "
-    if any(evidence in original_low for evidence in _SCOPE_EVIDENCE):
-        return ""
-    for word in re.findall(r"[a-z]+", improved.lower()):
-        if word in _ESCALATION_VERBS:
+    original_low = original.lower()
+    improved_words = re.findall(r"[a-z]+", improved.lower())
+    original_words = set(re.findall(r"[a-z]+", original_low))
+
+    people_ok = any(_has_word(e, original_low) for e in _PEOPLE_LEADERSHIP_EVIDENCE)
+    scope_ok = people_ok or any(_has_word(e, original_low) for e in _SCOPE_EVIDENCE)
+
+    for word in improved_words:
+        if word in original_words:
+            continue  # the candidate used this verb themselves
+        if word in _PEOPLE_LEADERSHIP_VERBS and not people_ok:
+            return word
+        if word in _ESCALATION_VERBS and not scope_ok:
             return word
     return ""
 

@@ -188,6 +188,7 @@ def transcribe_bytes(
     filename_hint: str = "recording.webm",
     language: str | None = None,
     model_size: str | None = None,
+    vocabulary: str = "",
 ) -> TranscriptionResult:
     """
     Transcribe an in-memory recording from the browser.
@@ -233,6 +234,10 @@ def transcribe_bytes(
             condition_on_previous_text=False,
             temperature=0.0,
             no_speech_threshold=0.62,
+            # Domain vocabulary (the role's skills and common interview terms)
+            # biases Whisper towards words it otherwise mishears: in QA, "schema"
+            # was transcribed as "gima" and the interviewer repeated it back.
+            initial_prompt=(f"Job interview answer. Terms: {vocabulary}." if vocabulary else None),
         )
         segments = list(segments_iter)
     except SpeechError:

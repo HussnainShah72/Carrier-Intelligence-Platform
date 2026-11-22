@@ -794,3 +794,38 @@ def test_retries_are_configured_for_free_tiers() -> None:
     assert settings.llm_max_retries >= 4, (
         "a free tier capped at 8,000 tokens per minute needs more than the SDK default of 2"
     )
+
+
+# --- QA regression (found with a real local LLM) ------------------------------
+
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize(
+    "original, rewrite, rejected",
+    [
+        ("Responsible for the shipment tracking API used by three internal teams",
+         "Led the shipment tracking API, used by three internal teams", True),
+        ("Responsible for the shipment tracking API used by three internal teams",
+         "Owned the shipment tracking API used by three internal teams", False),
+        ("Worked on reducing overhead in the build", "Headed an effort to reduce build overhead", True),
+        ("Team lead for a team of 4", "Led a team of four engineers", False),
+        ("Mentored two junior engineers", "Mentored two junior engineers through onboarding", False),
+    ],
+)
+def test_people_leadership_verbs_need_people_leadership_evidence(original, rewrite, rejected) -> None:
+    from app.services.improve.bullets import _escalated_scope
+
+    assert bool(_escalated_scope(original, rewrite)) is rejected
+
+
+@_pytest.mark.parametrize(
+    "requirement, cv_skill",
+    [("AWS Certification", "Scrum Certification"), ("Google Analytics", "Google Cloud"),
+     ("Unit Testing", "Integration Testing")],
+)
+def test_a_shared_generic_word_does_not_make_skills_similar(requirement, cv_skill) -> None:
+    from app.services.skills.matcher import PARTIAL_FUZZY_THRESHOLD, _closest_cv_skill
+
+    _, score = _closest_cv_skill(requirement, [cv_skill])
+    assert score < PARTIAL_FUZZY_THRESHOLD

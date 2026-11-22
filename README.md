@@ -201,8 +201,8 @@ No GPU is required. Everything in this project runs on CPU.
 ### 1. Get the code
 
 ```bash
-git clone <your-repository-url>
-cd NLP_Project
+git clone https://github.com/HussnainShah72/Carrier-Intelligence-Platform.git
+cd Carrier-Intelligence-Platform
 ```
 
 ### 2. Backend
@@ -218,6 +218,7 @@ source .venv/bin/activate     # macOS / Linux
 
 pip install --upgrade pip
 pip install -r backend/requirements.txt
+# faster alternative if you have uv:  uv pip install -r backend/requirements.txt
 ```
 
 This installs about 95 packages (~1 GB), including `faster-whisper` and
@@ -235,8 +236,10 @@ cp .env.example .env          # Windows cmd:        copy .env.example .env
 cd ..
 ```
 
-**The defaults work with no editing.** Read on only if you want to change the
-language model.
+**The defaults need no editing, but they expect Ollama to be running** with the
+two models below pulled (see *API configuration*). If you do not want to install
+Ollama, set `LLM_PROVIDER=offline` (no model, lower quality) or a cloud provider.
+The backend checks Ollama at start-up and the Settings page shows what is missing.
 
 ### 4. Local speech models
 
@@ -467,7 +470,7 @@ repository.
 ## Project structure
 
 ```
-NLP_Project/
+Carrier-Intelligence-Platform/
 ├── README.md                        this file
 ├── Project.pdf                      the course specification
 │
@@ -577,6 +580,17 @@ found. Run `python scripts/download_speech_models.py` and check
 - Use a smaller Whisper model: `STT_MODEL_SIZE=tiny.en`.
 - Shorter answers transcribe faster — latency scales with how long you speak.
 - A cloud provider with `LLM_PROVIDER=groq` is usually the fastest option.
+- **Old or low-power CPUs are too slow for a local 3B model.** Measured on a
+  2-core 2016 laptop (i7-6600U, no GPU): ~23 prompt tokens/s and ~5 output
+  tokens/s, i.e. about a minute per interview reply and several minutes per role
+  analysis. On such a machine use `LLM_PROVIDER=groq` for the live demo; speech
+  recognition and TTS stay local either way.
+
+### The LLM stops responding mid-session
+If you started Ollama from its desktop app and the app is closed or restarts for
+an update, the Ollama server stops with it. Run `ollama serve` in a terminal
+instead for a long session or a demo. The Settings page and
+`/api/system/health` report "Ollama is not reachable" when this happens.
 
 ### "No live job postings could be collected"
 Check **Settings → system check** for per-source reachability. Causes: no

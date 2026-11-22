@@ -24,6 +24,7 @@ Server-Sent Events.
 from __future__ import annotations
 
 import base64
+import re
 import time
 from dataclasses import dataclass, field
 from typing import Any, Iterator, Sequence
@@ -42,7 +43,7 @@ from app.services.interview.answer_analysis import (
 )
 from app.services.interview.rubric import DIFFICULTIES
 from app.services.llm import json_guard
-from app.services.llm.client import LLMClient, get_llm
+from app.services.llm.client import LLMClient, StreamChunk, get_llm
 from app.services.llm.prompts import (
     DIFFICULTY_NOTES,
     INTERVIEW_PLAN_SYSTEM,
@@ -168,6 +169,7 @@ def create_interview(
     plan["candidate_context"] = candidate_context
     plan["role_context"] = role_context
     plan["role_skills"] = _role_skill_names(role_requirements or {})
+    plan["candidate_first_name"] = ((cv_profile or {}).get("full_name") or "").split(" ")[0][:40]
 
     interview = Interview(
         id=new_id("int"),
@@ -457,7 +459,11 @@ def stream_turn(
     state.effective_difficulty = adapt_difficulty(
         interview.difficulty, state.consecutive_strong, state.consecutive_weak
     )
-    follow_up = should_follow_up(analysis, state.follow_up_depth) if analysis else False
+    # Follow-up probing only makes sense in the assessed stages.
+    follow_up = (
+        should_follow_up(analysis, state.follow_up_depth)
+        if analysis and stage_mod.spec_for(state.stage).scored else False
+    )
     state.follow_up_depth = state.follow_up_depth + 1 if follow_up else 0
 
     note = coverage_note(
@@ -482,6 +488,7 @@ def stream_turn(
     timings.llm_provider = client.provider
     timings.llm_model = client.model
 
+    first_name = interview.plan.get("candidate_first_name", "")
     reply_parts: list[str] = []
     pending = ""
     audio_index = 0
@@ -490,14 +497,24 @@ def stream_turn(
     first_audio_done = False
     llm_started = time.perf_counter()
 
-    try:
-        for chunk in client.stream(
+    if state.stage == stage_mod.CLOSING:
+        # The closing needs no CV- or role-specific content, and in QA a 3B
+        # model ignored "do not ask a question" and opened a new technical
+        # question here. A fixed closing is correct every time and is spoken
+        # immediately, with no LLM round-trip.
+        chunks = _scripted_stream(_closing_line(first_name))
+        timings.llm_model = "scripted-closing"
+    else:
+        chunks = client.stream(
             user_prompt,
             system=system_prompt,
             task="interview_turn",
             temperature=0.65,
             max_tokens=320,
-        ):
+        )
+
+    try:
+        for chunk in chunks:
             if chunk.delta:
                 if timings.llm_ttft_ms is None:
                     timings.llm_ttft_ms = (time.perf_counter() - reference) * 1000
@@ -507,7 +524,7 @@ def stream_turn(
 
                 if speak and interview.mode == MODE_VOICE:
                     sentence, pending = _take_complete_sentence(pending)
-                    if sentence:
+                    if sentence and not _is_meta_commentary(sentence, first_name):
                         for event, elapsed, seconds in _speak(sentence, audio_index, reference):
                             if event.get("type") == "audio":
                                 audio_total_ms += elapsed
@@ -534,7 +551,7 @@ def stream_turn(
         timings.llm_total_ms = (time.perf_counter() - llm_started) * 1000
 
     reply = "".join(reply_parts).strip()
-    reply = _strip_speaker_label(reply)
+    reply = _clean_reply(_strip_speaker_label(reply), first_name)
 
     if not reply:
         yield {"type": "error", "code": "empty_reply",
@@ -544,7 +561,7 @@ def stream_turn(
         return
 
     # Speak whatever is left over (the final partial sentence).
-    if speak and interview.mode == MODE_VOICE and pending.strip():
+    if speak and interview.mode == MODE_VOICE and pending.strip() and not _is_meta_commentary(pending, first_name):
         for event, elapsed, seconds in _speak(pending, audio_index, reference):
             if event.get("type") == "audio":
                 audio_total_ms += elapsed
@@ -603,6 +620,61 @@ def stream_turn(
         "follow_up": follow_up,
         "audio_chunks": audio_index,
     }
+
+
+_THIRD_PERSON_GENERIC_RE = re.compile(
+    r"\bthe candidate\b|\b(?:she|he)\s+(?:is|was|has|seems|struggled|didn'?t|did not|lacks?)\b|"
+    r"\b(?:her|his)\s+(?:answer|lack|technical|ability|abilities|response|thought process)\b|"
+    r"\bleaves? (?:some )?concerns?\b|\bi'?m concerned\b|\bconcerns? about (?:her|his|their)\b",
+    re.I,
+)
+
+
+def _is_meta_commentary(sentence: str, first_name: str) -> bool:
+    """
+    A sentence that talks ABOUT the candidate instead of TO them.
+
+    Small local models sometimes narrate their judgement aloud ("Aisha's lack
+    of clarity leaves some concerns about her abilities"), which a real
+    interviewer would never say and which pre-empts the scored feedback.
+    """
+    if _THIRD_PERSON_GENERIC_RE.search(sentence):
+        return True
+    if first_name and len(first_name) >= 2:
+        name = re.escape(first_name)
+        # "Aisha's ...", "I think Aisha was ...", "Aisha seems ..." - but not
+        # the direct address "Thanks, Aisha." / "Aisha, can you ...".
+        if re.search(rf"\b{name}'s\b|\b{name}\s+(?:is|was|has|seems|did|didn'?t|appears|might|may)\b", sentence, re.I):
+            return True
+    return False
+
+
+def _closing_line(first_name: str) -> str:
+    who = f", {first_name}" if first_name else ""
+    return (
+        f"Thank you for your time today{who}, that's everything from my side. "
+        "We'll be in touch by email about next steps. Good luck with your preparation."
+    )
+
+
+def _scripted_stream(text: str) -> Iterator[StreamChunk]:
+    """Yield fixed text in the same shape as an LLM stream."""
+    words = text.split(" ")
+    for index, word in enumerate(words):
+        yield StreamChunk(
+            delta=word + (" " if index < len(words) - 1 else ""),
+            index=index,
+            elapsed_ms=0.0,
+            is_first=index == 0,
+            is_final=index == len(words) - 1,
+        )
+
+
+def _clean_reply(reply: str, first_name: str) -> str:
+    """Drop meta-commentary sentences; keep the reply if nothing would be left."""
+    sentences = re.split(r"(?<=[.!?])\s+", reply.strip())
+    kept = [s for s in sentences if s and not _is_meta_commentary(s, first_name)]
+    return " ".join(kept).strip() if kept else reply.strip()
 
 
 def _speak(text: str, start_index: int, reference: float):
@@ -703,11 +775,11 @@ def _system_prompt(interview: Interview, state: stage_mod.StageState) -> str:
         remaining = [t for t in plan.get("behavioural_themes", []) if t not in state.covered_topics]
         extra.append("Behavioural themes: " + "; ".join((remaining or plan.get("behavioural_themes", []))[:5]))
 
-    if plan.get("interviewer_persona"):
-        extra.append(f"Your persona: {plan['interviewer_persona']}")
+    persona = f"Your persona: {plan['interviewer_persona']}." if plan.get("interviewer_persona") else ""
 
     return INTERVIEW_SYSTEM_TEMPLATE.format(
         interviewer_name=plan.get("interviewer_name", "Alex Morgan"),
+        persona=persona.replace("..", "."),
         role_title=interview.role_title,
         difficulty=state.effective_difficulty,
         difficulty_note=DIFFICULTY_NOTES.get(state.effective_difficulty, DIFFICULTY_NOTES["medium"]),

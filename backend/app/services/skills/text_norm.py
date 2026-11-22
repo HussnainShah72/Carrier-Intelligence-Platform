@@ -446,4 +446,13 @@ def skill_similarity(fuzz, a: str, b: str) -> float:
         score = max(score, 92.0)
     if len(shorter) / len(longer) >= 0.6:
         score = max(score, fuzz.token_set_ratio(a, b))
+
+    # A shared generic word must not carry the match: "aws certification" vs
+    # "scrum certification" scored ~80 on the shared word alone. When both keys
+    # have words the other lacks, those differing words decide the ceiling.
+    tokens_a, tokens_b = set(a.split()), set(b.split())
+    if tokens_a & tokens_b:
+        only_a, only_b = " ".join(sorted(tokens_a - tokens_b)), " ".join(sorted(tokens_b - tokens_a))
+        if only_a and only_b:
+            score = min(score, float(fuzz.ratio(only_a, only_b)))
     return float(score)

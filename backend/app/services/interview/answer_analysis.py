@@ -77,6 +77,33 @@ METRIC_RE = re.compile(
     re.I,
 )
 
+# Reasoning: the candidate explains WHY, compares options, or names a cost.
+# A short answer full of reasoning is a good answer; length alone is not.
+REASONING_RE = re.compile(
+    r"\b(?:because|since|so that|which means|that means|the reason|trade-?offs?|trading|"
+    r"instead of|rather than|compared (?:to|with)|depends on|it depends|the downside|"
+    r"the upside|at the cost of|in exchange for|pros? and cons?|the risk is|"
+    r"to avoid|to prevent|to reduce|to keep|otherwise|first|then|"
+    r"so (?:a|an|the|it|we|i|that|they|each|every|any))\b",
+    re.I,
+)
+
+# Technical vocabulary that is not a "skill" (so the taxonomy misses it) but
+# is strong evidence of real understanding in a technical answer.
+TECH_TERM_RE = re.compile(
+    r"(?:\bo\([^)]{1,12}\)|\b(?:hash ?maps?|hash ?tables?|heaps?|priority queues?|queues?|stacks?|"
+    r"trees?|graphs?|index(?:es)?|indices|caching|cache|ttl|latency|throughput|complexity|big o|"
+    r"concurren\w*|threads?|locks?|deadlocks?|race conditions?|transactions?|"
+    r"idempoten\w*|pagination|sharding|replica\w*|partition\w*|load balanc\w*|"
+    r"profil\w*|benchmark\w*|bottlenecks?|memory leaks?|garbage collect\w*|invalidat\w*|"
+    r"schemas?|normali[sz]\w*|joins?|quer(?:y|ies)|endpoints?|rate limit\w*|"
+    r"retr(?:y|ies|ied)|duplicates?|headers?|consisten\w*|atomic\w*|timeouts?|rollbacks?|rolled back|migrations?|regressions?|unit tests?|"
+    r"integration tests?|mocks?|encryption|hashing|authenticat\w*|authori[sz]\w*|"
+    r"vulnerabilit\w*|overfitting|regulari[sz]\w*|cross-?validation|postmortem|"
+    r"precision|recall|baseline|p-?values?|outliers?|stakeholders?|root cause)\b)",
+    re.I,
+)
+
 NON_ANSWER_RE = re.compile(
     r"^\s*(?:i (?:don'?t|do not) know|no idea|not sure|pass|skip|next|can we move on|"
     r"i'?m not familiar|never (?:used|done) (?:that|it)|sorry,? (?:what|i)|could you repeat)\b",
@@ -97,6 +124,8 @@ class AnswerAnalysis:
     structure_hits: int = 0
     hedge_hits: int = 0
     metric_hits: int = 0
+    reasoning_hits: int = 0
+    tech_term_hits: int = 0
     first_person: bool = False
     team_only: bool = False
     is_non_answer: bool = False
@@ -115,6 +144,8 @@ class AnswerAnalysis:
             "structure_hits": self.structure_hits,
             "hedge_hits": self.hedge_hits,
             "metric_hits": self.metric_hits,
+            "reasoning_hits": self.reasoning_hits,
+            "tech_term_hits": self.tech_term_hits,
             "first_person": self.first_person,
             "team_only": self.team_only,
             "is_non_answer": self.is_non_answer,
@@ -140,6 +171,8 @@ def analyse_answer(text: str, role_skills: Sequence[str] = ()) -> AnswerAnalysis
     analysis.structure_hits = len(STRUCTURE_RE.findall(body))
     analysis.hedge_hits = len(HEDGE_RE.findall(body))
     analysis.metric_hits = len(METRIC_RE.findall(body))
+    analysis.reasoning_hits = len(REASONING_RE.findall(body))
+    analysis.tech_term_hits = len(TECH_TERM_RE.findall(body))
     analysis.first_person = bool(FIRST_PERSON_RE.search(body))
     analysis.team_only = bool(TEAM_ONLY_RE.search(body)) and not analysis.first_person
     analysis.is_non_answer = bool(NON_ANSWER_RE.match(body)) and analysis.word_count < 25
@@ -151,17 +184,26 @@ def analyse_answer(text: str, role_skills: Sequence[str] = ()) -> AnswerAnalysis
     analysis.salient_terms = _salient_terms(body, analysis.skills_mentioned)
 
     # ---- composite score -------------------------------------------------
-    length_component = min(1.0, analysis.word_count / 85)
-    specificity_component = min(1.0, analysis.specificity_hits / 3)
-    structure_component = min(1.0, analysis.structure_hits / 3)
-    technical_component = min(1.0, (len(analysis.skills_mentioned) + 2 * len(analysis.role_skills_mentioned)) / 6)
-    metric_component = min(1.0, analysis.metric_hits / 2)
+    # Length saturates early: a 45-word answer with substance is complete in a
+    # spoken interview. Weighting length heavily used to rate dense, correct
+    # technical answers ("a hash map for O(1) lookups and a heap ...") as weak,
+    # which then pushed the difficulty DOWN during a good interview.
+    length_component = min(1.0, analysis.word_count / 45)
+    specificity_component = min(1.0, analysis.specificity_hits / 2)
+    structure_component = min(1.0, analysis.structure_hits / 2)
+    technical_component = min(
+        1.0,
+        (len(analysis.skills_mentioned) + 2 * len(analysis.role_skills_mentioned) + analysis.tech_term_hits) / 4,
+    )
+    reasoning_component = min(1.0, analysis.reasoning_hits / 2)
+    metric_component = min(1.0, float(analysis.metric_hits))
 
     score = (
-        0.26 * length_component
-        + 0.26 * specificity_component
-        + 0.16 * structure_component
-        + 0.22 * technical_component
+        0.16 * length_component
+        + 0.20 * specificity_component
+        + 0.08 * structure_component
+        + 0.26 * technical_component
+        + 0.20 * reasoning_component
         + 0.10 * metric_component
     )
 
@@ -198,6 +240,8 @@ def analyse_answer(text: str, role_skills: Sequence[str] = ()) -> AnswerAnalysis
         analysis.signals.append("declined to answer")
     if analysis.structure_hits >= 2:
         analysis.signals.append("structured answer")
+    if analysis.reasoning_hits:
+        analysis.signals.append(f"explains reasoning ({analysis.reasoning_hits})")
 
     return analysis
 
